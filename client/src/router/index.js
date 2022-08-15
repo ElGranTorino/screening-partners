@@ -1,5 +1,12 @@
+// Importing vue-router environment
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+// Importing status pages
+import _404 from "@/views/status-pages/404.vue"
+import _403 from "@/views/status-pages/403.vue"
+
+// Importing route-pages
+import HomeView from "@/views/route-pages/HomeView.vue"
 
 const routes = [
   {
@@ -8,13 +15,15 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: "/403",
+    name: '_403',
+    component: _403,
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: '_404',
+    component: _404,
+  },
 ]
 
 const router = createRouter({
