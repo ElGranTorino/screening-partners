@@ -6,10 +6,11 @@
     "outDir": "./dist",
     "removeComments": false,                        
     "forceConsistentCasingInFileNames": true,            
-    "strict": true,                                      
+    "strict": false,                                      
     "skipLibCheck": true,                                
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    
   },
 }

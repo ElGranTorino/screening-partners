@@ -2,17 +2,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // Importing status pages
-import _404 from "@/views/status-pages/404.vue"
-import _403 from "@/views/status-pages/403.vue"
+import _404 from "@/views/status-pages/404.vue";
+import _403 from "@/views/status-pages/403.vue";
 
 // Importing route-pages
-import HomeView from "@/views/route-pages/HomeView.vue"
+import Search from "@/views/route-pages/Search/Search.vue";
+import SearchResults from "@/views/route-pages/Search/SearchResults.vue";
+import SearchEntity from "@/views/route-pages/Search/SearchEntity.vue";
+
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'Search',
+    component: Search
   },
   {
     path: "/403",
@@ -20,10 +23,16 @@ const routes = [
     component: _403,
   },
   {
+    path: "/search",
+    name: 'SearchResults',
+    component: SearchResults,
+  },
+  {
     path: "/:catchAll(.*)",
     name: '_404',
     component: _404,
   },
+  
 ]
 
 const router = createRouter({
