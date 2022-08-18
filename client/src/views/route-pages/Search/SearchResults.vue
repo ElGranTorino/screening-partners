@@ -2,17 +2,107 @@
 <!-- STEPS -->
 <SearchSteps></SearchSteps>
 <!-- STEPS -->  
+<div class="offcanvas hidden">
+  <div class="offcanvas__container">
+    <div class="offcanvas__backdrop"></div>
+    <div class="offcanvas__body">
+      <button class="btn">
+        <ion-icon name="chevron-back" style="vertical-align: middle; line-height: 0;"></ion-icon>
+        <span style="vertical-align: middle; margin: 0 0.5rem 0">Back</span>  
+      </button>
+      <div class="offcanvas__entity">
+        <div class="offcanvas__entity-name title mb-2">Gazprom Energo</div>
+
+        <div class="offcanvas__entity-type d-flex justify-between">
+          <span class="offcanvas__key">Type</span>
+          <span class="offcanvas__value">Organization</span>
+        </div>
+        <div class="offcanvas__entity-programm d-flex justify-between mt-1">
+          <span class="offcanvas__key">Current program</span>
+          <span class="offcanvas__value">UKRAINE-EO13662</span>
+        </div>
+        <div class="offcanvas__entity-update d-flex justify-between mt-1">
+          <span class="offcanvas__key">Latest update</span>
+          <span class="offcanvas__value">2016-09-01</span>
+        </div>
+        <div class="offcanvas__entity-authority d-flex justify-between mt-1">
+          <span class="offcanvas__key">Authority</span>
+          <span class="offcanvas__value">OFAC</span>
+        </div>
+        <div class="offcanvas__entity-authority d-flex justify-between mt-1">
+          <span class="offcanvas__key">Status</span>
+          <span class="tag tag--warning tag--entity offcanvas__value" style="margin: 0">Active</span>
+        </div>
+        <div class="offcanvas__entity-authority d-flex justify-between mt-1">
+          <span class="offcanvas__key">Date added</span>
+          <span class="offcanvas__value">2012-08-01</span>
+        </div>
+        <div class="offcanvas__entity-authority d-flex justify-between mt-1">
+          <span class="offcanvas__key">Reference</span>
+          <span class="offcanvas__value">2012-08-01</span>
+        </div>
+        <div class="delimiter mt-2 mb-2"></div>
+        <div class="offcanvas__tabs tabs">
+          <div class="tabs__container">
+            <div class="tabs__head">
+              <button class="tabs__head-item ">Alias</button>
+              <button class="tabs__head-item tabs__head-item--active">Identification</button>
+              <button class="tabs__head-item">Address</button>  
+            </div>
+            <div class="tabs__body">
+              <div class="tabs__body-item">
+                <table class="search__sanctions-table table fullwidth">
+
+                  <thead class="table__head">
+                    <tr class="table__head-row">
+                      <th class="table__head-cell search__sanctions-td">Id type</th>
+                      <th class="table__head-cell search__sanctions-td">Id number</th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody class="table__body">
+                    <tr class="table__body-row">
+                      <th class="table__body-cell search__sanctions-td">Registration Number</th>
+                      <th class="table__body-cell search__sanctions-td">1072308003063</th>
+                    </tr>
+                    <tr class="table__body-row">
+                      <th class="table__body-cell search__sanctions-td">Tax ID No.</th>
+                      <th class="table__body-cell search__sanctions-td">2308128945</th>
+                    </tr>
+                    <tr class="table__body-row">
+                      <th class="table__body-cell search__sanctions-td">Website</th>
+                      <th class="table__body-cell search__sanctions-td">Krasnodar-tr.gazprom.ru</th>
+                    </tr>
+                    <tr class="table__body-row">
+                      <th class="table__body-cell search__sanctions-td">Email Address</th>
+                      <th class="table__body-cell search__sanctions-td"><a href="#" mailto="d.matutin@tgk.gazprom.ru">d.matutin@tgk.gazprom.ru</a></th>
+                    </tr>
+                    <tr class="table__body-row">
+                      <th class="table__body-cell search__sanctions-td">Website</th>
+                      <th class="table__body-cell search__sanctions-td"><a href="http://www.treasury.gov/resource">http://www.treasury.gov/resource</a></th>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <section class="search">
   <div class="search__container">
     <div class="search__data d-flex justify-between">
 
       <div class="search__target-info d-flex align-center">
         <div class="search__target-image">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHcAAAApCAMAAAA4Y0Y/AAAAVFBMVEX///9iZGpeYGbr6+x5e4CJio9YWmFcXmXl5eb4+PhVV17Mzc709PSMjpKDhImGiIzb292XmJxqbHKsrbDU1NadnqJzdXrDxMZNT1e2t7qlpqm9vcAc2ejGAAADqElEQVRYhe2X63alKgyAMSoXRcQLWvd+//ccLgngmk6nPWd2/8ykXasCki8JSbCM/ZO/RHQbJT63W7/Jb6HazTSDlzUM5MGBi/31VO0aAU2QyDXCP0HXvhzb8QYlct/Ss30114nmxh2+h2sLFiL3gG+J84ZRBvJ3XwWI4Xwxls0ppWBTNCPd5F6fziZxO1XNqV++/YdEt7qLXDCyvYuiXoIjVY00mifH67qeuyQ7y9tpaHf5zpxmynUdpXJ3l2Nnj6MMLdvL6NiiirFfBy4EH9YpHYta8IUpZIdXLt4ejDZNY6C6Q7xZpvqSzD6x/E/+HUa2iDz27Wsc8iJ3XoXssNl4EXwKIdBGJCXALRt9ejZiY2EYJ7n0OjzPr6kJml8I99xq0XNzd2mE59pD3F4PYG1oBzxlLJDALRrtGv/+H25SW0mwpeIu6bHmimfsDJHb8xIrQCncvJjiTG+CjzNWn48wmePVaZN3HLi8MchxQasC91rcmibXxS1BHIbAc6+lxx2zk8wuHfmynCPpn0b0ooGJqY3eyc5szLnjHhqeOnCyAnoqrXYgrk/JZBRccSX5CLOfp2bzDBtSJTZHuLP1UUH54PM5XKz3uRt3phqUFRePGPq4mBaEZ7UpuGjsiaGOxdTls1kfo7bRlnzs4njY1urfcy0CwnZMrODWE6eXM8gjnSA/ay7M+ZMlc8WiS8v6kIth48/su5j844a5AjyIyGdZ+1sQxAVTYT/mIgG6cIxlvn+v/MSj4vLqPsv+juzT3B2VtsymzSK8N5G/tfDa31X+zF3V57moR5z4WZKcwjiDmSqZq7y6hRS5IWif5148ZRD2HdjLZCMupiqp7ISp8o2401e4LRZnymb0Q2LlVJGjuGJ8lne4PavlN1yFZ7lQv42asBMAqbeODvQDbuWv0ooOpNXxKtNYsvzU6YjOxE2di6N2KiSxPqW0m78SY31pry4ZNLW43c9J8lfRHNs6Q/3ZGOM/DiZDHfYwXYS0VZeDA/e1K03xwd/9kExSzpgmq0P3vN6M6B4YBlfuI38RWSbXUpkwpEZaXYehRyZ53m7fFNp079NugTY2UM1R+N1tu7218Aa5e74A66rcfgI3Vpmqn1DZ3G37AletZVuVjxvcmhZA336By0u/ETHOokwglz3oah9ujW40PFstuDnT91VRh3G+tTTiXqavxOfVMpehwajuK0pz/67W40QZ4/awpB7V7hmDUwPm7U99mcvdy8v/Zf0n/0l+ABv6MTUt8bMWAAAAAElFTkSuQmCC" alt="">
+          <img src="data:image/png;base64,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" alt="">
         </div>
         <div class="search__target-data">
-          <div class="search__target-name">Fiverr <span class="tag">Company</span></div>
-          <div class="search__target-details">Fiverr is a global online marketplace for freelance services</div>
+          <div class="search__target-name">Gazprom <span class="tag">Organization</span></div>
+          <div class="search__target-details">Gas industry company</div>
         </div>
       </div>
       <div class="search__controls d-flex">
@@ -39,12 +129,8 @@
           <!-- CARD --> 
         </div>
         <!-- HIDDEN PAGINATION --> 
-        <div class="search__pagination hidden">
-          <ul class="search__pagination-list list horizontal">
-            <li class="search__pagination-item">
-              <button class="btn small btn-pg">1</button>
-            </li>
-          </ul>
+        <div class="d-flex justify-center">
+          <button class="btn" style="margin: 1.5rem 1rem">View all</button>
         </div>
         <!-- HIDDEN PAGINATION --> 
       </div>
@@ -157,6 +243,12 @@
     </div>
     <div class="search__pagination">
       <ul class="search__pagination-list list horizontal">
+        <li class="search__pagination-item">
+          <button class="btn small btn-pg">1</button>
+        </li>
+        <li class="search__pagination-item">
+          <button class="btn small btn-pg">1</button>
+        </li>
         <li class="search__pagination-item">
           <button class="btn small btn-pg">1</button>
         </li>

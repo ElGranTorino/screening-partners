@@ -12,7 +12,6 @@
     &__container
         max-width: 80%
         min-height: 100vh
-        // background: #00c6ff
         margin: 250px auto 50px
     &__title
         font-family: 'Montserrat'
@@ -68,7 +67,6 @@
             font-style: italic
             font-weight: 400
             color: rgba(#000, .6)
-            max-width: 80%
         &-data
             margin-left: 1.5rem
         &-image
@@ -96,10 +94,56 @@
 
 
 
-
-
-
-
+.offcanvas
+    position: fixed
+    left: 0
+    top: 0
+    width: 100%
+    height: 100vh
+    z-index: 909090
+    &__container
+        width: 100%
+        height: 100%
+        background: transparent
+    &__backdrop
+        position: absolute
+        width: 100%
+        height: 100%
+        background: rgba(#000, .4)
+    &__body
+        position: absolute
+        top: 0
+        right: 0
+        width: 35%
+        height: 100%
+        min-width: 650px
+        background: #fff
+        padding: 2.5rem
+        overflow-y: auto
+    &__entity
+        margin-top: 2.2rem
+        letter-spacing: 0.04rem
+    &__key
+        font-weight: 600
+        letter-spacing: 0.03rem
+        color: #A6A7B4
+        font-size: 0.95rem
+        max-width: 45%
+        &::after 
+            content: ':'
+    &__value
+        letter-spacing: 0.03rem
+        color: #373941
+        font-size: 0.95rem
+        font-style: italic
+        max-width: 45%
+        .title
+            font-size: 1.5rem
+    .table
+        &__head-row
+            padding: 0.9rem 0
+        &__body-row
+            padding: 0.9rem 0
 
 
 
