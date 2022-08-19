@@ -1,5 +1,6 @@
 import express from "express"
 import BaseRoutes from "./API/routes/BaseRoutes.js"
+import SanctionRoutes from "./API/routes/Sanction.Routes.js"
 import Session from "./loaders/session.js";
 import bodyParser from "body-parser";
 import cors from "cors"
@@ -72,6 +73,8 @@ class App {
     }
     private setupRoutes(): void {
         this.app.use('/api', BaseRoutes);
+        this.app.use(SanctionRoutes);
+
     }
     private run(): void {
         // If application is in production mode - we need to put all traffic through https

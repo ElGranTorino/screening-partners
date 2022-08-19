@@ -94,6 +94,7 @@
         &.active
             background: #ccd0ed
             color: #373941
+            cursor: default
     &.small
         padding: 0.5rem 1.2rem
     &:hover 
@@ -150,6 +151,9 @@
             justify-content: space-between
             &:nth-child(odd)
                 background: darken(#F7FAFF, 2%)
+            &:hover
+                * a
+                    text-decoration: underline
         &-cell
             display: inline-block
             width: 100%
