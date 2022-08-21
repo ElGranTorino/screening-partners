@@ -2,31 +2,36 @@
    <!-- STEPS -->
    <SearchSteps></SearchSteps>
    <!-- STEPS -->  
-   <div class="offcanvas hidden">
+   <div class="offcanvas" v-if="activeOffcanvas">
       <div class="offcanvas__container">
-         <div class="offcanvas__backdrop"></div>
+         <div class="offcanvas__backdrop" @click="toggleOffcanvas()"></div>
          <div class="offcanvas__body">
-            <button class="btn" @click="toggleOffcanvas('hide')">
+            <button class="btn" @click="toggleOffcanvas()">
                <ion-icon name="chevron-back" style="vertical-align: middle; line-height: 0;"></ion-icon>
                <span style="vertical-align: middle; margin: 0 0.5rem 0" >Back</span>  
             </button>
             <div class="offcanvas__entity">
-               <div class="offcanvas__entity-name title mb-2">Gazprom Energo</div>
+               <div class="offcanvas__entity-name title mb-2">
+                  {{activeOffcanvas?.firstName || ''}}
+                  {{activeOffcanvas.lastName}}
+               </div>
                <div class="offcanvas__entity-type d-flex justify-between">
                   <span class="offcanvas__key">Type</span>
-                  <span class="offcanvas__value">Organization</span>
+                  <span class="offcanvas__value">{{activeOffcanvas.type}}</span>
                </div>
                <div class="offcanvas__entity-programm d-flex justify-between mt-1">
                   <span class="offcanvas__key">Current program</span>
-                  <span class="offcanvas__value">UKRAINE-EO13662</span>
+                  <span class="offcanvas__value">
+                  {{activeOffcanvas.SanctionPrograms.map(item => item.name).join(', ')}}
+                  </span>
                </div>
                <div class="offcanvas__entity-update d-flex justify-between mt-1">
                   <span class="offcanvas__key">Latest update</span>
-                  <span class="offcanvas__value">2016-09-01</span>
+                  <span class="offcanvas__value">{{getFormatTimeString(activeOffcanvas.created, 'L')}}</span>
                </div>
                <div class="offcanvas__entity-authority d-flex justify-between mt-1">
                   <span class="offcanvas__key">Authority</span>
-                  <span class="offcanvas__value">OFAC</span>
+                  <span class="offcanvas__value">{{activeOffcanvas.authority || 'OFAC'}}</span>
                </div>
                <div class="offcanvas__entity-authority d-flex justify-between mt-1">
                   <span class="offcanvas__key">Status</span>
@@ -34,25 +39,23 @@
                </div>
                <div class="offcanvas__entity-authority d-flex justify-between mt-1">
                   <span class="offcanvas__key">Date added</span>
-                  <span class="offcanvas__value">2012-08-01</span>
-               </div>
-               <div class="offcanvas__entity-authority d-flex justify-between mt-1">
-                  <span class="offcanvas__key">Reference</span>
-                  <span class="offcanvas__value">2012-08-01</span>
+                  <span class="offcanvas__value">{{getFormatTimeString(activeOffcanvas.latestUpdate, 'L')}}</span>
                </div>
                <div class="delimiter mt-2 mb-2"></div>
                <div class="offcanvas__tabs tabs">
                   <div class="tabs__container">
-                     <div class="tabs__head">
-                        <button class="tabs__head-item ">Alias</button>
-                        <button class="tabs__head-item tabs__head-item--active">Identification</button>
-                        <button class="tabs__head-item">Address</button>  
-                     </div>
+                     <!--   <div class="tabs__head hidden">
+                        <button class="tabs__head-item " v-if="activeOffcanvas.SanctionAliases">Alias</button>
+                        <button class="tabs__head-item tabs__head-item--active" v-if="activeOffcanvas.SanctionInfos">Identification</button>
+                        <button class="tabs__head-item" v-if="activeOffcanvas.SanctionAddresses"></button>  
+                        </div>
+                        -->
                      <div class="tabs__body">
-                        <div class="tabs__body-item">
-                           <table class="search__sanctions-table table fullwidth">
+                        <div class="tabs__body-item" v-if="activeOffcanvas.SanctionInfos.length">
+                           <div class="title search__header" style="margin-bottom: 20px">Generall info</div>
+                           <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
-                                 <tr class="table__head-row">
+                                 <tr class="table__head-row" >
                                     <th class="table__head-cell search__sanctions-td">Id type</th>
                                     <th class="table__head-cell search__sanctions-td">Id number</th>
                                  </tr>
@@ -62,21 +65,58 @@
                                     <th class="table__body-cell search__sanctions-td">Registration Number</th>
                                     <th class="table__body-cell search__sanctions-td">1072308003063</th>
                                  </tr>
-                                 <tr class="table__body-row">
-                                    <th class="table__body-cell search__sanctions-td">Tax ID No.</th>
-                                    <th class="table__body-cell search__sanctions-td">2308128945</th>
+                                 <tr class="table__body-row" v-for="info in activeOffcanvas.SanctionInfos" :key="info.id">
+                                    <th class="table__body-cell search__sanctions-td">{{info.key}}</th>
+                                    <th class="table__body-cell search__sanctions-td" v-if="info.key === 'Website'">
+                                       <a :href="info.value">{{info.value}}</a>
+                                    </th>
+                                    <th class="table__body-cell search__sanctions-td" v-else-if="info.key === 'Email Address'">
+                                       <a :href="'mailto:' + info.value">{{info.value}}</a>
+                                    </th>
+                                    <th class="table__body-cell search__sanctions-td" v-else>
+                                       {{info.value}}
+                                    </th>
                                  </tr>
-                                 <tr class="table__body-row">
-                                    <th class="table__body-cell search__sanctions-td">Website</th>
-                                    <th class="table__body-cell search__sanctions-td">Krasnodar-tr.gazprom.ru</th>
+                              </tbody>
+                           </table>
+                        </div>
+                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas.SanctionAddresses.length">
+                           <div class="title search__header" style="margin-bottom: 20px">Location</div>
+                           <table class="search__sanctions-table table fullwidth" >
+                              <thead class="table__head">
+                                 <tr class="table__head-row" >
+                                    <th class="table__head-cell search__sanctions-td">Address</th>
+                                    <th class="table__head-cell search__sanctions-td">City</th>
+                                    <th class="table__head-cell search__sanctions-td">Postal code</th>
+                                    <th class="table__head-cell search__sanctions-td">Country</th>
+                                    <th class="table__head-cell search__sanctions-td">State or Province</th>
                                  </tr>
-                                 <tr class="table__body-row">
-                                    <th class="table__body-cell search__sanctions-td">Email Address</th>
-                                    <th class="table__body-cell search__sanctions-td"><a href="#" mailto="d.matutin@tgk.gazprom.ru">d.matutin@tgk.gazprom.ru</a></th>
+                              </thead>
+                              <tbody class="table__body">
+                                 <tr class="table__body-row" v-for="location, i in activeOffcanvas.SanctionAddresses">
+                                    <td class="table__head-cell search__sanctions-td">{{location.address1 || '-'}}</td>
+                                    <td class="table__head-cell search__sanctions-td">{{location.city || '-'}}</td>
+                                    <td class="table__head-cell search__sanctions-td">{{location.postalCode || '-'}}</td>
+                                    <td class="table__head-cell search__sanctions-td">{{location.country || '-'}}</td>
+                                    <td class="table__head-cell search__sanctions-td">{{location.stateOrProvince || '-'}}</td>
                                  </tr>
-                                 <tr class="table__body-row">
-                                    <th class="table__body-cell search__sanctions-td">Website</th>
-                                    <th class="table__body-cell search__sanctions-td"><a href="http://www.treasury.gov/resource">http://www.treasury.gov/resource</a></th>
+                              </tbody>
+                           </table>
+                        </div>
+                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas.SanctionAliases.length">
+                           <div class="title search__header" style="margin-bottom: 20px">Alternative names</div>
+                           <table class="search__sanctions-table table fullwidth" >
+                              <thead class="table__head">
+                                 <tr class="table__head-row" >
+                                    <th class="table__head-cell search__sanctions-td">Name</th>
+                                 </tr>
+                              </thead>
+                              <tbody class="table__body">
+                                 <tr class="table__body-row" v-for="name, i in activeOffcanvas.SanctionAliases">
+                                    <td class="table__head-cell search__sanctions-td">
+                                       {{name.firstName}}
+                                       {{name.lastName}}
+                                    </td>
                                  </tr>
                               </tbody>
                            </table>
@@ -97,56 +137,61 @@
                </div>
                <div class="search__target-data">
                   <div class="search__target-name">
-                     Gazprom 
+                     {{getTargetName}} 
                      <span class="tag">
                         <ion-icon name="alert-circle-outline" style="vertical-align: middle; font-size: 1.3rem; margin-right: 0.4rem;"></ion-icon>
                         <span style="vertical-align: middle;">Report issues with data</span>
                      </span>
                   </div>
-                  <div class="search__target-details">request performed in 23.3 seconds</div>
+                  <div class="search__target-details">request performed in {{getRequestDuration}} seconds</div>
                </div>
             </div>
             <div class="search__controls d-flex">
-               <router-link to="/" class="btn ghost" style="margin: 1.5rem 1rem ">Back to search</router-link>
-               <button class="btn" style="margin: 1.5rem 1rem">Download PDF</button>
+               <router-link to="/" class="btn ghost" style="margin: 1.5rem 1rem " @click="clearBeforeRoute();">Back to search</router-link>
+               <button class="btn" style="margin: 1.5rem 1rem" @click="downloadPDF();">Download PDF</button>
             </div>
          </div>
          <div class="search__news">
-            <div class="search__news-container" v-if="getAllNews.length">
+            <div class="search__news-container" v-if="allNews.length">
                <div class="results__data hidden">
                   <div class="results__count title text-center">
-                     <span v-if="getAllNews.length > 100" >Over 100 results found</span>
-                     <span v-else>Total results: {{getAllNews.length}}</span>
+                     <span v-if="allNews.length > 100" >Over 100 results found</span>
+                     <span v-else>Total results: {{allNews.length}}</span>
                   </div>
                   <div class="results__pdf d-flex justify-center">
-                     <router-link to="/" class="btn ghost" style="margin: 1.5rem 1rem ">Back to search</router-link>
-                     <button class="btn" style="margin: 1.5rem 1rem">Download PDF</button>
+                     <router-link to="/" class="btn ghost" style="margin: 1.5rem 1rem " @click="clearBeforeRoute();">Back to search</router-link>
+                     <button class="btn" style="margin: 1.5rem 1rem" @click="downloadPDF();">Download PDF</button>
                   </div>
                </div>
-               <div class="title search__header">Relevant news <span>(100+)</span></div>
+               <div class="title search__header">
+                  Relevant news 
+                  <span v-if="allNews.length > 100" >(100+)</span>
+                  <span v-else>({{allNews.length}})</span>
+               </div>
                <div class="search__row">
                   <!-- CARD -->
-                  <NewsCard v-for="news in getAllNews" :newsData="news"></NewsCard>
+                  <NewsCard v-for="news, index in allNews.filter((item) => {
+                     return item.id < displayLimit
+                     })" :newsData="news"></NewsCard>
                   <!-- CARD --> 
                </div>
                <!-- HIDDEN PAGINATION --> 
                <div class="d-flex justify-center">
-                  <button class="btn" style="margin: 1.5rem 1rem">View all</button>
+                  <button class="btn" style="margin: 1.5rem 1rem" @click="showAllRelevantNews($event);" v-if="allNews?.length > 6">View all</button>
                </div>
                <!-- HIDDEN PAGINATION --> 
             </div>
-            <div class="search__noresults" style="padding: 0 0 200px 0" v-else>
-               <div class="title text-center">No results found</div>
-               <div class="paragraph" style="padding: 25px 0 15px 0">It seems we can’t find any results based on your search.</div>
-               <div class="results__pdf d-flex justify-center">
-                  <router-link to="/" class="btn ghost" style="margin: 1.5rem 1rem ">Back to search</router-link>
-                  <button class="btn" style="margin: 1.5rem 1rem">Download PDF</button>
-               </div>
+            <div class="search__noresults mb-10 mt-10" v-else>
+               <div class="title text-center">No news found</div>
+               <div class="paragraph" style="padding: 25px 0 15px 0">It seems we can’t find any news based on your search.</div>
             </div>
          </div>
          <div class="delimiter mt-4"></div>
-         <div class="search__sanctions">
-            <div class="title search__header">Economic sanctions <span>(863)</span></div>
+         <div class="search__sanctions" v-if="allSanctions.length">
+            <div class="title search__header">
+               Economic sanctions 
+               <span v-if="allSanctions.length">({{getTotalSanctionsCount}})</span>
+            </div>
             <table class="search__sanctions-table table fullwidth">
                <thead class="table__head">
                   <tr class="table__head-row">
@@ -159,111 +204,457 @@
                   </tr>
                </thead>
                <tbody class="table__body">
-                  <tr class="table__body-row" v-for="sanction in results">
+                  <tr class="table__body-row" v-for="sanction, indx in allSanctions">
                      <th class="table__body-cell search__sanctions-td">
-                        <a href="javascript:void(0);" @click="toggleOffcanvas('show')">
-                           {{sanction?.firstName || ''}}
-                           {{sanction.lastName}}
+                        <a href="javascript:void(0);" @click="toggleOffcanvas(indx)">
+                        {{sanction?.firstName || ''}}
+                        {{sanction.lastName}}
                         </a>
                      </th>
-                     <th class="table__body-cell search__sanctions-td">{{sanction.type}}</th>
-                     <th class="table__body-cell search__sanctions-td">{{getCountryIconByName(sanction?.SanctionAddresses[0]?.country) || `🌎 Globally`}} </th>
+                     <th class="table__body-cell search__sanctions-td">{{sanction.type == "Entity" ? "Organization" : sanction.type}}</th>
+                     <th class="table__body-cell search__sanctions-td">{{getCountryIconByName(sanction?.SanctionAddresses[0]?.country)}} </th>
                      <th class="table__body-cell search__sanctions-td">{{sanction.authority || 'OFAC'}}</th>
                      <th class="table__body-cell search__sanctions-td">{{sanction.SanctionPrograms[0].name}}</th>
                      <th class="table__body-cell search__sanctions-td">{{getFormatTimeString(sanction.latestUpdate, 'L')}}</th>
                   </tr>
-
                </tbody>
             </table>
+            <div class="search__pagination mt-1">
+               <ul class="search__pagination-list list horizontal">
+                  <li class="search__pagination-item"
+                     v-for="(pg, i) in Math.ceil(getTotalSanctionsCount / getSanctionsLimit)">
+                     <button class="btn small btn-pg" 
+                        :class="{'active': i + 1 === getSanctionsCurrentPage}" 
+                        @click="moveSanctionsTo(i + 1)" 
+                        v-if="
+                        pg <= getSanctionsCurrentPage + 2 &&
+                        pg >= getSanctionsCurrentPage - 2
+                        "
+                        >{{pg}}</button>
+                  </li>
+                  <!--
+                     <li class="search__pagination-item" v-if="Math.ceil(getTotalSanctionsCount / getSanctionsLimit) !== getSanctionsCurrentPage">
+                        <button class="btn small btn-pg active">{{Math.ceil(getTotalSanctionsCount / getSanctionsLimit)}}</button>
+                     </li>
+                     
+                     <li class="search__pagination-item">
+                        <button class="btn small btn-pg">78</button>
+                     </li>
+                     <li class="search__pagination-item">
+                        <button class="btn small btn-pg">79</button>
+                     </li>
+                     -->
+               </ul>
+            </div>
          </div>
-         <div class="search__pagination">
-            <ul class="search__pagination-list list horizontal">
-               <li class="search__pagination-item ">
-                  <button class="btn small btn-pg active">1</button>
-               </li>
-               <li class="search__pagination-item">
-                  <button class="btn small btn-pg">2</button>
-               </li>
-               <li class="search__pagination-item">
-                  <button class="btn small btn-pg">3</button>
-               </li>
-               <li class="search__pagination-item">
-                  <button class="btn small btn-pg">4</button>
-               </li>
-               <li class="search__pagination-item">
-                  <button class="btn small btn-pg active">...</button>
-               </li>
-               <li class="search__pagination-item">
-                  <button class="btn small btn-pg">78</button>
-               </li>
-               <li class="search__pagination-item">
-                  <button class="btn small btn-pg">79</button>
-               </li>
-            </ul>
+         <div class="search__noresults mb-10 mt-10" v-else>
+            <div class="title text-center">No sanctions found</div>
+            <div class="paragraph" style="padding: 25px 0 15px 0">It seems we can’t find any EU, OFAC, UN sanctions based on your search.</div>
          </div>
-         
       </div>
    </section>
    <!-- FOOTER -->
    <Footer></Footer>
    <!-- FOOTER -->
 </template>
+
 <script>
+   // Required plugins and libraries
    import moment from "moment"
    import axios from "axios";
+   import jsPDF from "jspdf";
+   import autoTable from "jspdf-autotable";
+
+   // Fonts
+   import Montserrat from "@/assets/fonts/Montserrat/Montserrat.js"
+
    // Vue environment
-   import { defineComponent } from "vue";
-   import {mapGetters, mapActions} from "vuex";
-   
+   import {
+      defineComponent
+   } from "vue";
+   import {
+      mapGetters,
+      mapActions,
+      mapMutations
+   } from "vuex";
+
    // Components
    import Footer from "@/components/Footer.vue";
    import SearchSteps from "@/components/SearchSteps.vue";
    import NewsCard from "@/components/NewsCard.vue";
-   
+   import Offcanvas from "@/components/Offcanvas";
+
    export default defineComponent({
-     name: 'SearchResultsView',
-     components: {
-       SearchSteps, Footer, NewsCard
-     },
-     data(){
-       return {
-         results: []
-       }
-     },
-     async mounted() {
-      this.fetchSanctions()
-     },
-     computed: mapGetters(["getAllNews"]),
-     methods: {
-       getFormatTimeString(date, type){
-         return moment(date).format(type)
-       },
-       toggleOffcanvas(state){
-         switch(state){
-           case 'hide':
-             document.querySelector('.offcanvas').classList.add('hidden');
-             break;
-           case 'show':
-             document.querySelector('.offcanvas').classList.remove('hidden');
-             break;
+      name: 'SearchResultsView',
+      components: {
+         SearchSteps,
+         Footer,
+         NewsCard,
+         Offcanvas
+      },
+      data() {
+         return {
+               results: [],
+               activeOffcanvas: null
          }
-       },
-       async fetchSanctions(){
-         const url = `http://localhost:3000/sanction?q=ABU`
-         
-         await axios.get(url).then((data) => {
-           this.results = data.data
-         })
-       },
-       getCountryIconByName(name){
-         
-         
-         switch(name){
-            case 'Palestinian':
-               return '🇵🇸 ' + name
+      },
+      async mounted() {
+
+      },
+      computed: mapGetters([
+         "allNews", "displayLimit", "getRequestDuration",
+         "allSanctions", "getTotalSanctionsCount", "getSanctionsLimit",
+         "getSanctionsCurrentPage", "getTargetName"
+      ]),
+      methods: {
+         ...mapActions(["fetchGoogleNews", "fetchOFACsanctions"]),
+         ...mapMutations(["UPDATE_DISPLAY_LIMIT", "UPDATE_SANCTIONS_PAGE"]),
+         showSanctionDetails() {
+               const offcanvas = document.querySelector()
+               offcanvas.classList.remove('hidden')
+         },
+         getFormatTimeString(date, type) {
+               return moment(date).format(type)
+         },
+         showAllRelevantNews(e) {
+               e.target.classList.add('hidden');
+               this.UPDATE_DISPLAY_LIMIT(100);
+         },
+         getCountryIconByName(name) {
+               switch (name) {
+                  case 'Palestinian':
+                     return '🇵🇸 ' + 'Palestine'
+                  case 'Russia':
+                     return '🇷🇺 ' + 'Russia'
+                  case 'China':
+                     return '🇨🇳 ' + 'China'
+                  case 'Iran':
+                     return '🇮🇷 ' + 'Iran'
+                  case 'Iraq':
+                     return '🇮🇶 ' + 'Iraq'
+                  default:
+                     return `🌎 Globally`
+               }
+         },
+         clearBeforeRoute() {
+            this.UPDATE_DISPLAY_LIMIT(6);
+            this.UPDATE_SANCTIONS_PAGE(1);
+         },
+         reportIssues() {
+            
+         },
+         moveSanctionsTo(pageNum) {
+               this.UPDATE_SANCTIONS_PAGE(pageNum);
+               this.fetchOFACsanctions()
+         },
+         toggleOffcanvas(id = null) {
+               if (id !== null) {
+                  document.body.classList.add('overflow-hidden')
+                  this.activeOffcanvas = this.allSanctions[id]
+               } else {
+                  this.activeOffcanvas = null
+                  document.body.classList.remove('overflow-hidden')
+               }
+         },
+         downloadPDF() {
+               const doc = new jsPDF();
+               const width = doc.internal.pageSize.getWidth(),
+                  height = doc.internal.pageSize.getHeight();
+
+               doc.setFillColor('#2653ff');
+               doc.rect(0, 0, 300, 20, 'F');
+
+               const bold = Montserrat.bold;
+               const italic = Montserrat.italic;
+               const regular = Montserrat.regular;
+
+               doc.addFileToVFS('Montserrat-Bold-normal.ttf', bold);
+               doc.addFileToVFS('Montserrat-Italic-normal.ttf', italic);
+               doc.addFileToVFS('Montserrat-Regular-normal.ttf', regular);
+
+               doc.addFont('Montserrat-Bold-normal.ttf', 'Montserrat', 'bold');
+               doc.addFont('Montserrat-Italic-normal.ttf', 'Montserrat', 'italic');
+               doc.addFont('Montserrat-Regular-normal.ttf', 'Montserrat', 'regular');
+
+               doc.setFont('Montserrat', 'bold');
+               doc.setFontSize(20);
+               doc.text('Screening Partners', width - 25, 40, {
+                  align: "right"
+               });
+
+               doc.setFontSize(10);
+               doc.text('Target:', 25, 80, {
+                  align: "left"
+               });
+               doc.text('Date:', 25, 90, {
+                  align: "left"
+               });
+               doc.text('Related news:', 25, 100, {
+                  align: "left"
+               });
+               doc.text('Sanctions:', 25, 110, {
+                  align: "left"
+               });
+
+
+               doc.setFont('Montserrat', 'bold');
+               doc.text(this.getTargetName, width - 25, 80, {
+                  align: "right"
+               });
+               doc.text(moment().format('LL'), width - 25, 90, {
+                  align: "right"
+               });
+               doc.text(`${this.allNews.length}`, width - 25, 100, {
+                  align: "right"
+               });
+               doc.text(`${this.allSanctions.length}`, width - 25, 110, {
+                  align: "right"
+               });
+
+               doc.setTextColor('#898989');
+               doc.setFont('Montserrat', 'italic');
+
+               doc.text('Our service does not guarantee the ', width - 25, 55, {
+                  align: "right"
+               });
+               doc.text('truthfulness of the results provided. ', width - 25, 60, {
+                  align: "right"
+               });
+               doc.text('All results are based on data from public sources', width - 25, 65, {
+                  align: "right"
+               });
+
+               const generateNewsTableBody = (data) => {
+                  return data.reduce((acc, nextItem, indx) => {
+                     acc.push([indx + 1, nextItem?.source, nextItem?.pubDate, nextItem?.title, nextItem?.url]);
+                     return acc;
+                  }, []);
+               };
+               const generateSanctionsTableBody = (data) => {
+                  return data.reduce((acc, nextItem, indx) => {
+                     acc.push([
+                        indx + 1,
+                        `${nextItem?.firstName || ''} ${nextItem?.lastName}`, 
+                        nextItem?.SanctionAddresses[0]?.country || 'Globally', 
+                        nextItem?.authority || 'OFAC', 
+                        nextItem.SanctionPrograms.map(item => item.name).join(', '),
+                        this.getFormatTimeString(nextItem?.latestUpdate, 'L')
+                     ]);
+                     return acc;
+                  }, []);
+               };
+               const newsTableBody = generateNewsTableBody(this.allNews);
+               const sanctionsTableBody = generateSanctionsTableBody(this.allSanctions)
+
+               if(sanctionsTableBody.length){
+                  // Sanctions table
+                  const columnSizes = {
+                     c1: width - 30 / 100 * 5.40540540541 ,
+                     c2: width - 30 / 100 * 27.027027027,
+                     c3: width - 30 / 100 * 16.2162162162,
+                     c4: width - 30 / 100 * 18.9189189189,
+                     c5: width - 30 / 100 * 18.9189189189,
+                     c6: width - 30 / 100 * 13.5135135135,
+                  };
+                  autoTable(doc, {
+                     // html: '#my-table',
+                     head: [
+                        ['#', 'Name', 'Country', 'Authority', 'Programs', 'Latest Update']
+                     ],
+                     body: sanctionsTableBody,
+                     startY: 130,
+                     columnStyles: {
+                        0: {
+                              cellWidth: 10,
+                              cellPadding: 0,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                              fontStyle: 'bold'
+                        },
+                        1: {
+                              cellWidth: 50,
+                              cellPadding: 3,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                              fontStyle: 'italic'
+                        },
+                        2: {
+                              cellWidth: 30,
+                              cellPadding: 5,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                        3: {
+                              cellWidth: 31.7793333,
+                              cellPadding: 5,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                        4: {
+                              cellWidth: 35,
+                              cellPadding: 5,
+                              textColor: '#373941',
+                              fillColor: '#F8FAFF',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                        5: {
+                              cellWidth: 25,
+                              cellPadding: 0,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                     },
+                     didParseCell: (data) => {
+                        if (data.section === 'head') {
+                              data.cell.styles.fillColor = '#2653ff';
+                              data.cell.styles.textColor = '#f8f8f8';
+                              data.cell.styles.fontStyle = 'bold';
+                              data.cell.styles.lineColor = '#2553ff';
+                              data.cell.styles.halign = 'center';
+                        }
+                     },
+                     didDrawPage: (data) => {
+
+                        const width = doc.internal.pageSize.getWidth(),
+                              height = doc.internal.pageSize.getHeight();
+                        doc.setFillColor('#2653ff')
+                        doc.rect(0, height - 10, 300, 10, 'F');
+                        doc.setTextColor('#f8f8f8')
+                        doc.setFontSize(8)
+                        doc.setFont('Montserrat', 'bold')
+                        doc.text('Screening Partners © 2022 All right reserved', width / 2, height - 4, {
+                              align: "center"
+                        })
+                     }
+                  })
+               }
+
+               if(newsTableBody.length){
+                  // // News table
+                  autoTable(doc, {
+                     // html: '#my-table',
+                     head: [
+                        ['#', 'Source', 'Date', 'Description', 'Link']
+                     ],
+                     body: newsTableBody,
+                     // startY: 130,
+                     columnStyles: {
+                        0: {
+                              cellWidth: 10,
+                              cellPadding: 0,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                              fontStyle: 'bold'
+                        },
+                        1: {
+                              cellWidth: 25,
+                              cellPadding: 3,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                              fontStyle: 'italic'
+                        },
+                        2: {
+                              cellWidth: 40,
+                              cellPadding: 5,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                        3: {
+                              cellWidth: 50,
+                              cellPadding: 5,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                        4: {
+                              cellWidth: 56.7793333333,
+                              cellPadding: 5,
+                              overflow: 'ellipsize',
+                              textColor: '#373941',
+                              fillColor: '#F8FAFF',
+                              halign: 'center',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                              fontStyle: 'bold'
+                        }
+                     },
+                     didParseCell: (data) => {
+                        if (data.section === 'head') {
+                              data.cell.styles.fillColor = '#2653ff';
+                              data.cell.styles.textColor = '#f8f8f8';
+                              data.cell.styles.fontStyle = 'bold';
+                              data.cell.styles.lineColor = '#2553ff';
+                              data.cell.styles.halign = 'center';
+                        }
+                     },
+                     willDrawCell: (data) => {
+                        doc.setFont('Montserrat', 'regular')
+                        if (data.section === 'body' && data.column.index === 4) {
+                              if (data.row.index < 0) return
+                              doc.setFont('Montserrat', 'bold')
+                              doc.textWithLink('________________________________', data.cell.x, data.cell.y + 7, {
+                                 url: newsTableBody[data.row.index][4],
+                                 overflow: 'ellipsize'
+                              })
+                        }
+                     },
+                     didDrawPage: (data) => {
+
+                        const width = doc.internal.pageSize.getWidth(),
+                              height = doc.internal.pageSize.getHeight();
+                        doc.setFillColor('#2653ff')
+                        doc.rect(0, height - 10, 300, 10, 'F');
+                        doc.setTextColor('#f8f8f8')
+                        doc.setFontSize(8)
+                        doc.setFont('Montserrat', 'bold')
+                        doc.text('Screening Partners © 2022 All right reserved', width / 2, height - 4, {
+                              align: "center"
+                        })
+                     }
+                  })
+               }
+
+               doc.save("ScreeningPartnersReport.pdf");
          }
-       }
-     }
+      }
    });
 </script>
 <style>
