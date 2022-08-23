@@ -1,16 +1,13 @@
-import BaseController from "../controllers/BaseController.js";
-import { isAuthenticated } from "../middleware/Auth.js";
+import CoreController from "../controllers/Core.Controller.js";
 import { Router } from "express";
-const c = new BaseController();
+const c = new CoreController();
 const router = Router();
 //
-router.post('/login', c.postLogin);
+router.post('/login', c.login);
 //
-router.get('/keyword', isAuthenticated, c.getAllKeyWords);
-router.delete('/keyword', isAuthenticated, c.deleteKeyWord);
-router.post('/keyword', isAuthenticated, c.postKeyWord);
-//
-router.post('/search', c.getScrape);
+router.get('/keyword', c.getAllKeyWords);
+router.delete('/keyword', c.deleteKeyWord);
+router.post('/keyword', c.postKeyWord);
 // 
 router.get('/total', c.getTotalRequests);
 router.post('/total', c.postTotalResults);

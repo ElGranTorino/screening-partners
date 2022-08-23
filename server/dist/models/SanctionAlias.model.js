@@ -18,8 +18,11 @@ SanctionAlias.init({
         allowNull: true,
     },
     lastName: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
+        validate: {
+            len: [1, 1024]
+        }
     },
 }, {
     timestamps: true,

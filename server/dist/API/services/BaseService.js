@@ -45,9 +45,10 @@ export default class BaseService {
         });
     }
     // Perform google scraping. Returns list of Promises<Articles>
-    async initSearch(reqData) {
+    async scrapeGoogleNews(reqData) {
         const keyWordsList = await this.getKeyWords();
-        const words = keyWordsList?.map((word) => word.name) || [];
+        // const words = keyWordsList?.map((word: any) => word.name) || []; 
+        const words = ['investigation', 'crime', 'corruption'];
         const promises = words.reduce((acc, word, i, arr) => {
             const promise = new Promise((resolve, reject) => {
                 search({
@@ -64,15 +65,21 @@ export default class BaseService {
         return promises;
     }
     // Login the admin
-    signIn(reqData) {
+    authenticate(reqData) {
         return new Promise((resolve, reject) => {
             if (reqData.login === process.env.ADMIN_LOGIN &&
                 reqData.password === process.env.ADMIN_PASSWORD) {
-                const token = jwt.sign({ _id: process.env.ADMIN_ID }, process.env.TOKEN);
-                resolve({ token });
+                const token = jwt.sign({
+                    _id: process.env.ADMIN_ID
+                }, process.env.TOKEN);
+                resolve({
+                    token
+                });
             }
             else {
-                reject({ success: false });
+                reject({
+                    success: false
+                });
             }
         });
     }

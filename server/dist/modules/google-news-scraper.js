@@ -51,7 +51,7 @@ export const getJsonData = (html) => {
 export const search = async (options) => {
     const { query, locale, start = 0, log } = options;
     const QUERY_STRING = query instanceof Array ? query.join('+') : query.split(' ').join('+');
-    const QUERY_URL = `https://www.google.com/search?q=${QUERY_STRING}&tbm=nws&start=${start}`;
+    const QUERY_URL = `https://www.google.com/search?q=${QUERY_STRING}&tbm=nws&start=${start}&hl=en`;
     return new Promise(async (resolve, reject) => {
         getPageContent(QUERY_URL)
             .then((html) => resolve(getJsonData(html)))

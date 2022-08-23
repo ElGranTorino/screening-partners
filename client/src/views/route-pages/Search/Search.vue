@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     ...mapMutations(["UPDATE_TARGET_NAME", "UPDATE_LAST_REQUEST_DURATION", "UPDATE_SEARCH_STEP"]),
-    ...mapActions(["fetchGoogleNews", "fetchOFACsanctions"]),
+    ...mapActions(["fetchGoogleNews", "fetchOFACsanctions", "fetchAndUpdateSanctions"]),
     onChangeTargetName(e){
       this.UPDATE_TARGET_NAME(e.target.value)
     },
@@ -91,7 +91,7 @@ export default {
       // We use this function on onSubmit event
       if(!this.isValid()) return;
       this.setFormState('disabled');
-      const promises = [this.fetchGoogleNews(), this.fetchOFACsanctions()]
+      const promises = [this.fetchGoogleNews(), this.fetchAndUpdateSanctions()]
       let requestStarted, requestEndend, requestDuration;
 
       requestStarted = Date.now()

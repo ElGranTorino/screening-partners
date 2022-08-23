@@ -14,10 +14,11 @@ export default class BaseController {
         });
     }
     getSanctions(req, res) {
+        const { target, page = 1, limit = 10 } = req.body;
         return new Promise((resolve, reject) => {
-            console.log();
-            s.SELECT_SANCTIONS(String(req.query.q))
-                .then((data) => {
+            s.SELECT_SANCTIONS({
+                target, page, limit
+            }).then((data) => {
                 res.json(data);
             }).catch((err) => {
                 res.status(400).json({ err });

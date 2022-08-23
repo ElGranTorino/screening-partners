@@ -27,8 +27,8 @@ export default class BaseController {
         });
     }
     // Get scraping results
-    getScrape(req, res) {
-        return s.initSearch(req.body.name)
+    getGoogleNews(req, res) {
+        return s.scrapeGoogleNews(req.body.name)
             .then((data) => {
             (Promise.all(data).then((resp) => {
                 res.json(resp.flat(2));
@@ -38,8 +38,8 @@ export default class BaseController {
         });
     }
     // Login Admin on the website
-    postLogin(req, res) {
-        return s.signIn(req.body)
+    login(req, res) {
+        return s.authenticate(req.body)
             .then((data) => {
             req.session.user = process.env.ADMIN_ID;
             res.json(req.session.user);

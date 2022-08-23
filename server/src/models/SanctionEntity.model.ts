@@ -19,6 +19,10 @@ SanctionEntity.init({
         primaryKey: true,
         autoIncrement: false
     },
+    authority: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     firstName: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -38,7 +42,11 @@ SanctionEntity.init({
     latestUpdate: {
         type: DataTypes.DATE,
         allowNull: false
-    }
+    },
+    // authority: {
+    //     type: DataTypes.STRING,
+    //     allowNull: false
+    // }
 }, {
     timestamps: false,
     sequelize: db,

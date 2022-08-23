@@ -18,7 +18,7 @@ SanctionInfo.init({
         allowNull: false,
     },
     value: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
     },
 }, {

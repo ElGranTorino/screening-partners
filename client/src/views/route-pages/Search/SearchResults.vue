@@ -22,7 +22,7 @@
                <div class="offcanvas__entity-programm d-flex justify-between mt-1">
                   <span class="offcanvas__key">Current program</span>
                   <span class="offcanvas__value">
-                  {{activeOffcanvas.SanctionPrograms.map(item => item.name).join(', ')}}
+                  {{parseSanctionProgram(activeOffcanvas.SanctionPrograms)}}
                   </span>
                </div>
                <div class="offcanvas__entity-update d-flex justify-between mt-1">
@@ -38,7 +38,7 @@
                   <span class="tag tag--warning tag--entity offcanvas__value" style="margin: 0">Active</span>
                </div>
                <div class="offcanvas__entity-authority d-flex justify-between mt-1">
-                  <span class="offcanvas__key">Date added</span>
+                  <span class="offcanvas__key">Sanctioned since</span>
                   <span class="offcanvas__value">{{getFormatTimeString(activeOffcanvas.latestUpdate, 'L')}}</span>
                </div>
                <div class="delimiter mt-2 mb-2"></div>
@@ -51,7 +51,7 @@
                         </div>
                         -->
                      <div class="tabs__body">
-                        <div class="tabs__body-item" v-if="activeOffcanvas.SanctionInfos.length">
+                        <div class="tabs__body-item" v-if="activeOffcanvas?.SanctionInfos?.length">
                            <div class="title search__header" style="margin-bottom: 20px">Generall info</div>
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
@@ -80,7 +80,7 @@
                               </tbody>
                            </table>
                         </div>
-                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas.SanctionAddresses.length">
+                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas?.SanctionAddresses?.length">
                            <div class="title search__header" style="margin-bottom: 20px">Location</div>
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
@@ -103,7 +103,7 @@
                               </tbody>
                            </table>
                         </div>
-                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas.SanctionAliases.length">
+                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas?.SanctionAliases?.length">
                            <div class="title search__header" style="margin-bottom: 20px">Alternative names</div>
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
@@ -138,10 +138,10 @@
                <div class="search__target-data">
                   <div class="search__target-name">
                      {{getTargetName}} 
-                     <span class="tag">
-                        <ion-icon name="alert-circle-outline" style="vertical-align: middle; font-size: 1.3rem; margin-right: 0.4rem;"></ion-icon>
-                        <span style="vertical-align: middle;">Report issues with data</span>
-                     </span>
+                     <button class="tag" @click="reportIssues($event)">
+                        <ion-icon name="alert-circle-outline" style="vertical-align: middle; font-size: 1.3rem; margin-right: 0.4rem; pointer-events: none;"></ion-icon>
+                        <span style="vertical-align: middle; pointer-events: none;">Report issues with data</span>
+                     </button>
                   </div>
                   <div class="search__target-details">request performed in {{getRequestDuration}} seconds</div>
                </div>
@@ -212,41 +212,36 @@
                         </a>
                      </th>
                      <th class="table__body-cell search__sanctions-td">{{sanction.type == "Entity" ? "Organization" : sanction.type}}</th>
-                     <th class="table__body-cell search__sanctions-td">{{getCountryIconByName(sanction?.SanctionAddresses[0]?.country)}} </th>
+                     <th class="table__body-cell search__sanctions-td">{{getCountryIconByName(sanction?.SanctionAddresses[0]?.country) || 'Globally'}} </th>
                      <th class="table__body-cell search__sanctions-td">{{sanction.authority || 'OFAC'}}</th>
-                     <th class="table__body-cell search__sanctions-td">{{sanction.SanctionPrograms[0].name}}</th>
+                     <th class="table__body-cell search__sanctions-td">{{
+                        parseSanctionProgram(sanction.SanctionPrograms)
+                     }}</th>
                      <th class="table__body-cell search__sanctions-td">{{getFormatTimeString(sanction.latestUpdate, 'L')}}</th>
                   </tr>
                </tbody>
             </table>
             <div class="search__pagination mt-1">
                <ul class="search__pagination-list list horizontal">
-                  <li class="search__pagination-item"
-                     v-for="(pg, i) in Math.ceil(getTotalSanctionsCount / getSanctionsLimit)">
-                     <button class="btn small btn-pg" 
-                        :class="{'active': i + 1 === getSanctionsCurrentPage}" 
-                        @click="moveSanctionsTo(i + 1)" 
-                        v-if="
-                        pg <= getSanctionsCurrentPage + 2 &&
-                        pg >= getSanctionsCurrentPage - 2
-                        "
-                        >{{pg}}</button>
+                  <li class="search__pagination-item">
+                     <button class="btn small btn-pg"  @click="moveSanctionsTo(getSanctionsCurrentPage - 1)" v-if="getSanctionsCurrentPage > 1">{{getSanctionsCurrentPage - 1}}</button>
                   </li>
-                  <!--
-                     <li class="search__pagination-item" v-if="Math.ceil(getTotalSanctionsCount / getSanctionsLimit) !== getSanctionsCurrentPage">
-                        <button class="btn small btn-pg active">{{Math.ceil(getTotalSanctionsCount / getSanctionsLimit)}}</button>
-                     </li>
-                     
-                     <li class="search__pagination-item">
-                        <button class="btn small btn-pg">78</button>
-                     </li>
-                     <li class="search__pagination-item">
-                        <button class="btn small btn-pg">79</button>
-                     </li>
-                     -->
+                  <li class="search__pagination-item">
+                     <button class="btn small btn-pg active"  @click="moveSanctionsTo(1)">{{getSanctionsCurrentPage}}</button>
+                  </li>
+
+                  <li class="search__pagination-item">
+                     <button class="btn small btn-pg"  
+                     @click="moveSanctionsTo(getSanctionsCurrentPage + 1)"
+                     v-if="
+                        (getSanctionsCurrentPage + 1) <= Math.ceil(getTotalSanctionsCount / getSanctionsLimit)
+                     "
+                     >{{getSanctionsCurrentPage + 1}}</button>
+                  </li>
                </ul>
             </div>
          </div>
+        
          <div class="search__noresults mb-10 mt-10" v-else>
             <div class="title text-center">No sanctions found</div>
             <div class="paragraph" style="padding: 25px 0 15px 0">It seems we can’t find any EU, OFAC, UN sanctions based on your search.</div>
@@ -260,6 +255,7 @@
 
 <script>
    // Required plugins and libraries
+   import helpers from "@/helpers";
    import moment from "moment"
    import axios from "axios";
    import jsPDF from "jspdf";
@@ -295,7 +291,8 @@
       data() {
          return {
                results: [],
-               activeOffcanvas: null
+               activeOffcanvas: null,
+               issueReported: false,
          }
       },
       async mounted() {
@@ -307,7 +304,7 @@
          "getSanctionsCurrentPage", "getTargetName"
       ]),
       methods: {
-         ...mapActions(["fetchGoogleNews", "fetchOFACsanctions"]),
+         ...mapActions(["fetchGoogleNews", "fetchOFACsanctions", "fetchAndUpdateSanctions", "commitIssuesWithData"]),
          ...mapMutations(["UPDATE_DISPLAY_LIMIT", "UPDATE_SANCTIONS_PAGE"]),
          showSanctionDetails() {
                const offcanvas = document.querySelector()
@@ -319,6 +316,19 @@
          showAllRelevantNews(e) {
                e.target.classList.add('hidden');
                this.UPDATE_DISPLAY_LIMIT(100);
+         },
+         parseSanctionProgram(data) {
+            console.log(data)
+            if(data.constructor === Object) {
+               return data.name
+            } else if (data.constructor === Array) {
+               if(!data.length) return '-'
+               return data.map(item => item.name).join(', ')
+            } else if(data.constructor === String) {
+               return data
+            } else {
+               return '-'
+            }
          },
          getCountryIconByName(name) {
                switch (name) {
@@ -332,20 +342,78 @@
                      return '🇮🇷 ' + 'Iran'
                   case 'Iraq':
                      return '🇮🇶 ' + 'Iraq'
+                  case 'Ukraine':
+                     return '🇺🇦 ' + 'Ukraine'
+                  case 'UKRAINE':
+                     return '🇺🇦 ' + 'Ukraine'
+                  case 'Belarus':
+                     return '🇧🇾 ' + 'Belarus'
+                  case 'Switzerland':
+                     return '🇨🇭 ' + 'Switzerland'
+                  case 'Cyprus':
+                     return '🇨🇾 ' + 'Cyprus'
+
+                  case 'Luxembourg':
+                     return '🇱🇺 ' + 'Luxembourg'
+                  case 'Kazakhstan':
+                     return '🇰🇿 ' + 'Kazakhstan'
+                  case 'Austria':
+                     return '🇦🇹 ' + 'Austria'
+                  case 'Armenia':
+                     return '🇦🇲 ' + 'Armenia'
+                  case 'Azerbaijan':
+                     return '🇦🇿 ' + 'Azerbaijan'
+                  case 'Angola':
+                     return '🇦🇴 ' + 'Angola'
+                  case 'Georgia':
+                     return '🇬🇪 ' + 'Georgia'
+                  case 'Serbia':
+                     return '🇷🇸 ' + 'Serbia'
+
+                  case 'Netherlands':
+                     return '🇳🇱 ' + 'Netherlands'
+                  case 'Czech Republic':
+                     return '🇨🇿 ' + 'Czech Republic'
+                  case 'Turkey':
+                     return '🇹🇷 ' + 'Turkey'
+                  case 'Cayman Islands':
+                     return '🇰🇾 ' + 'Cayman Islands'
+                  case 'Virgin Islands, British':
+                     return '🇻🇮 ' + 'Virgin Islands'
+                  case 'USA':
+                     return '🇺🇸 ' + 'USA'
+                  case 'United States of America':
+                     return '🇺🇸 ' + 'USA'
                   default:
                      return `🌎 Globally`
+
+                  // BURKINA FASO 🇧🇫
+                  // ALGERIA 🇩🇿
+                  // Bangladesh 🇧🇩
+                  // Indonesia
                }
          },
          clearBeforeRoute() {
             this.UPDATE_DISPLAY_LIMIT(6);
             this.UPDATE_SANCTIONS_PAGE(1);
          },
-         reportIssues() {
-            
+         reportIssues(e) {
+            if(this.issueReported) return;
+            this.issueReported = true;
+
+            this.commitIssuesWithData({
+               message: 'Wrong arabic nombers',
+               type: 'News issue',
+            }).then((res) => {
+               e.target.innerHTML = `Reported successfully <ion-icon name="checkmark-done" style="vertical-align: middle; font-size: 1.3rem"></ion-icon>`
+            }).catch((err) => {
+               this.issueReported = false;
+               console.log(err)
+            })
          },
          moveSanctionsTo(pageNum) {
                this.UPDATE_SANCTIONS_PAGE(pageNum);
-               this.fetchOFACsanctions()
+               this.fetchAndUpdateSanctions()
          },
          toggleOffcanvas(id = null) {
                if (id !== null) {
@@ -438,7 +506,7 @@
                         nextItem?.SanctionAddresses[0]?.country || 'Globally', 
                         nextItem?.authority || 'OFAC', 
                         nextItem.SanctionPrograms.map(item => item.name).join(', '),
-                        this.getFormatTimeString(nextItem?.latestUpdate, 'L')
+                        helpers.getFormatTimeString(nextItem?.latestUpdate, 'L')
                      ]);
                      return acc;
                   }, []);

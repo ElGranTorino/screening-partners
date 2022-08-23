@@ -1,5 +1,5 @@
 import axios from 'axios';
-import helpers from "../helpers.js"
+import helpers from "@/helpers"
 export default {
     state: {
         allSanctions: [],
@@ -33,9 +33,18 @@ export default {
                 limit
             });
 
-            commit("UPDATE_TOTAL_SANCTIONS", res.data.count)
-            commit('UPDATE_ALL_SANCTIONS', res.data.entities)
-        }
+           return res
+        },
+        async fetchAndUpdateSanctions({
+            commit, 
+            getters,
+            dispatch
+        }) {
+            await dispatch("fetchOFACsanctions").then((res) => {
+                commit("UPDATE_TOTAL_SANCTIONS", res.data.count);
+                commit("UPDATE_ALL_SANCTIONS", res.data.entities)
+            })
+        },
     },
     getters: {
         allSanctions(state) {

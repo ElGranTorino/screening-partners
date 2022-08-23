@@ -1,5 +1,5 @@
 import axios from 'axios';
-import helpers from "../helpers.js"
+import helpers from "@/helpers"
 export default {
     state: {
         allNews: [],

@@ -20,10 +20,11 @@ export default class BaseController {
     })
   }
   public getSanctions(req: Request, res: Response): Promise<any> {
+    const {target, page = 1, limit = 10} = req.body
     return new Promise((resolve, reject) => {
-      console.log()
-     s.SELECT_SANCTIONS(String(req.query.q))
-      .then((data: any) => {
+     s.SELECT_SANCTIONS({
+      target, page, limit
+      }).then((data: any) => {
         res.json(data)
       }).catch((err: any) => {
         res.status(400).json({err})

@@ -1,5 +1,6 @@
 // Importing vue-router environment
 import { createRouter, createWebHistory } from 'vue-router'
+import helpers from '@/store/helpers';
 
 // Importing status pages
 import _404 from "@/views/status-pages/404.vue";
@@ -9,6 +10,9 @@ import _403 from "@/views/status-pages/403.vue";
 import Search from "@/views/route-pages/Search/Search.vue";
 import SearchResults from "@/views/route-pages/Search/SearchResults.vue";
 import SearchEntity from "@/views/route-pages/Search/SearchEntity.vue";
+import Login from "@/views/route-pages/LoginView.vue";
+import Admin from "@/views/route-pages/AdminView.vue";
+import axios from 'axios';
 
 
 const routes = [
@@ -28,6 +32,17 @@ const routes = [
     component: SearchResults,
   },
   {
+    path: '/mazeratti',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/london',
+    name: 'Admin',
+    meta: {auth: true},
+    component: Admin
+  },
+  {
     path: "/:catchAll(.*)",
     name: '_404',
     component: _404,
@@ -39,5 +54,28 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+router.beforeEach(async (to, from, next) => {
+  const url = helpers.createUrl('/verify')
+  const requiredAuth = to.matched.some(record => record.meta.auth)
+  const access = await axios.get(url, {withCredentials: true}).catch((err) => err)
+  const hasAccess = access?.data?.verified
 
+  if(requiredAuth && !hasAccess){
+    next('/mazeratti')
+  } else {
+    next()
+  }
+
+
+
+
+
+
+
+  
+  // if(requiredAuth) {
+  //   await axios.get(url,)
+  // }
+  next()
+})
 export default router

@@ -8,7 +8,8 @@
     "test": "jest",
     "serve": "nodemon ./dist/app.js",
     "start": "node ./dist/app.js",
-    "prod": "forever start ./dist/app.js"
+    "prod": "forever start ./dist/app.js",
+    "fix": "rm -rf ./db/* && npm run serve"
   },
   "keywords": [],
   "author": "Andrew Solomon <SolomonAndrew@tutanota.com>",

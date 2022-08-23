@@ -1,6 +1,8 @@
 import express from "express";
-import BaseRoutes from "./API/routes/BaseRoutes.js";
+import CoreRoutes from "./API/routes/Core.Routes.js";
 import SanctionRoutes from "./API/routes/Sanction.Routes.js";
+import ScrapeRoutes from "./API/routes/Scrape.Routes.js";
+import AuthRoutes from "./API/routes/AuthRoutes.js";
 import Session from "./loaders/session.js";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -40,7 +42,9 @@ class App {
         // Setting up database connection 
     }
     setCors() {
-        const developmentOrigin = '*';
+        const developmentOrigin = [
+            'http://localhost:8080'
+        ];
         const productionOrigin = [
             'https://screeningpartners.net/',
             'http://screeningpartners.net/',
@@ -64,8 +68,10 @@ class App {
     setStatic() {
     }
     setupRoutes() {
-        this.app.use('/api', BaseRoutes);
+        this.app.use('/api', CoreRoutes);
         this.app.use(SanctionRoutes);
+        this.app.use('/scrape', ScrapeRoutes);
+        this.app.use(AuthRoutes);
     }
     run() {
         // If application is in production mode - we need to put all traffic through https

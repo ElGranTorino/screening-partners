@@ -1,11 +1,15 @@
 import sequelize from "../loaders/db.js"
 
-import {Sequelize, Model, DataTypes} from "sequelize";
+import {
+    Sequelize,
+    Model,
+    DataTypes
+} from "sequelize";
 import db from "../loaders/db.js";
 import SanctionEntity from "./SanctionEntity.model.js";
 
 class SanctionAlias extends Model {
-    
+
 }
 
 SanctionAlias.init({
@@ -24,8 +28,11 @@ SanctionAlias.init({
         allowNull: true,
     },
     lastName: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false,
+        validate: {
+            len: [1, 1024]
+        }
     },
 }, {
     timestamps: true,
