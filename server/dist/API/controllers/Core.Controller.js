@@ -11,7 +11,6 @@ export default class BaseController {
             .then((data) => {
             res.json(data);
         }).catch((e) => {
-            console.log(e);
             res.status(400).json(e);
         });
     }
@@ -20,7 +19,6 @@ export default class BaseController {
             .then((data) => {
             res.json(data);
         }).catch((e) => {
-            console.log(e);
             res.status(400).json(e);
         });
     }

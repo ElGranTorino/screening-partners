@@ -9,18 +9,6 @@ import SanctionProgram from "../../models/SanctionProgram.model.js";
 import { transliterate } from "transliteration";
 import path from "path";
 import fs from "fs";
-// interface IOFACSanction {
-//     uuid: string,
-//     firstName?: string,
-//     lastName: string,
-//     sdnType: string,
-//     programList: {
-//       program: Array<string> | string
-//     },
-//     akaList: {
-//       aka?: Array<any>
-//     }
-// };
 const operatorsAliases = {
     $eq: Op.eq,
     $or: Op.or,
@@ -381,91 +369,82 @@ export default class SanctionService {
                             authority: authority
                         }).then((data) => {
                             if (programList?.program) {
-                                // Sanction program might be a string or an
-                                (async () => {
-                                    if (programList.program instanceof Array) {
-                                        await SanctionProgram.bulkCreate(programList.program.map((programName) => {
-                                            return {
-                                                sanction: uid,
-                                                name: programName
-                                            };
-                                        }));
-                                    }
-                                    if (typeof programList.program === 'string') {
-                                        await SanctionProgram.create({
+                                if (programList.program instanceof Array) {
+                                    SanctionProgram.bulkCreate(programList.program.map((programName) => {
+                                        return {
                                             sanction: uid,
-                                            name: programList.program
-                                        });
-                                    }
-                                })();
+                                            name: programName
+                                        };
+                                    }));
+                                }
+                                if (typeof programList.program === 'string') {
+                                    SanctionProgram.create({
+                                        sanction: uid,
+                                        name: programList.program
+                                    });
+                                }
                             }
                         }).then((data) => {
                             if (akaList?.aka) {
-                                (async () => {
-                                    if (akaList.aka instanceof Array) {
-                                        await SanctionAlias.bulkCreate(akaList.aka.map((alias) => {
-                                            return {
-                                                sanction: uid,
-                                                firstName: alias.firstName || null,
-                                                lastName: alias.lastName
-                                            };
-                                        }));
-                                    }
-                                    ;
-                                })();
+                                if (akaList.aka instanceof Array) {
+                                    SanctionAlias.bulkCreate(akaList.aka.map((alias) => {
+                                        return {
+                                            sanction: uid,
+                                            firstName: alias.firstName || null,
+                                            lastName: alias.lastName
+                                        };
+                                    }));
+                                }
+                                ;
                             }
                         }).then((data) => {
                             if (addressList?.address) {
-                                (async () => {
-                                    if (addressList.address.constructor === Array) {
-                                        await SanctionAddress.bulkCreate(addressList.address.map((location) => {
-                                            return {
-                                                sanction: uid,
-                                                address1: location.address1 || null,
-                                                address2: location.address2 || null,
-                                                stateOrProvince: location.stateOrProvince || null,
-                                                city: location.city || null,
-                                                postalCode: location.postalCode || null,
-                                                country: location.country || null,
-                                            };
-                                        }));
-                                    }
-                                    if (addressList.address.constructor === Object) {
-                                        await SanctionAddress.create({
+                                if (addressList.address.constructor === Array) {
+                                    SanctionAddress.bulkCreate(addressList.address.map((location) => {
+                                        return {
                                             sanction: uid,
-                                            address1: addressList?.address?.address1 || null,
-                                            address2: addressList?.address?.address2 || null,
-                                            stateOrProvince: addressList?.address?.stateOrProvince || null,
-                                            city: addressList?.address?.city || null,
-                                            postalCode: addressList?.address?.postalCode || null,
-                                            country: addressList?.address?.country || null,
-                                        });
-                                    }
-                                })();
+                                            address1: location.address1 || null,
+                                            address2: location.address2 || null,
+                                            stateOrProvince: location.stateOrProvince || null,
+                                            city: location.city || null,
+                                            postalCode: location.postalCode || null,
+                                            country: location.country || null,
+                                        };
+                                    }));
+                                }
+                                if (addressList.address.constructor === Object) {
+                                    SanctionAddress.create({
+                                        sanction: uid,
+                                        address1: addressList?.address?.address1 || null,
+                                        address2: addressList?.address?.address2 || null,
+                                        stateOrProvince: addressList?.address?.stateOrProvince || null,
+                                        city: addressList?.address?.city || null,
+                                        postalCode: addressList?.address?.postalCode || null,
+                                        country: addressList?.address?.country || null,
+                                    });
+                                }
                             }
                         }).then((data) => {
-                            (async () => {
-                                if (idList?.id) {
-                                    if (idList?.id.constructor === Array) {
-                                        await SanctionInfo.bulkCreate(idList.id.map((detail) => {
-                                            return {
-                                                sanction: uid,
-                                                key: detail?.idType,
-                                                value: detail?.idNumber,
-                                            };
-                                        }));
-                                    }
-                                    else if (idList.id.constuctor === Object) {
-                                        await SanctionInfo.create({
+                            if (idList?.id) {
+                                if (idList?.id.constructor === Array) {
+                                    SanctionInfo.bulkCreate(idList.id.map((detail) => {
+                                        return {
                                             sanction: uid,
-                                            key: idList?.id?.idType,
-                                            value: idList?.id?.idNumber,
-                                        });
-                                    }
+                                            key: detail?.idType,
+                                            value: detail?.idNumber,
+                                        };
+                                    }));
                                 }
-                                else {
+                                else if (idList.id.constuctor === Object) {
+                                    SanctionInfo.create({
+                                        sanction: uid,
+                                        key: idList?.id?.idType,
+                                        value: idList?.id?.idNumber,
+                                    });
                                 }
-                            })();
+                            }
+                            else {
+                            }
                         }).catch((err) => {
                             rejecct(err);
                         });
@@ -521,7 +500,16 @@ export default class SanctionService {
                 .catch((err) => reject(err));
         });
     }
-    removeAllSanctions() {
-        return {};
+    async updateSanctions() {
+        await SanctionEntity.destroy({
+            where: {},
+            truncate: true
+        })
+            .then(() => {
+            console.log('All sancations have been destroyed');
+            return this.INSERT_SANCTIONS();
+        }).then((data) => {
+            console.log('All sanctions are up to date');
+        });
     }
 }

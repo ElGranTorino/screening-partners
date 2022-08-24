@@ -10,7 +10,7 @@ const c = new CoreController();
 
 const router = Router();
 
-router.get('/init', s.postSanctions)
+// router.get('/init', s.postSanctions)
 router.post('/sanctions', s.getSanctions)
 router.post('/news', c.getGoogleNews) // Scrape google news
 

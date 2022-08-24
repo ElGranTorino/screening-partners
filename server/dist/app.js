@@ -10,7 +10,9 @@ import path from "path";
 import https from "https";
 import fs from 'fs';
 import dotenv from "dotenv";
+import SanctionService from "./API/services/Sanction.service.js";
 const __dirname = path.resolve();
+const s = new SanctionService();
 class App {
     app;
     PORT;
@@ -28,6 +30,7 @@ class App {
         this.setCors();
         this.setupRoutes();
         this.run();
+        this.dbUpdateLoop();
     }
     setupEnvironment() {
         // Providing path to .env file
@@ -55,7 +58,6 @@ class App {
             origin: this.NODE_ENV === 'development' ? developmentOrigin : productionOrigin,
             credentials: true,
             methods: ['POST', 'GET', 'DELETE', 'PUT', 'PATCH']
-            // exposedHeaders: ['set-cookie']
         }));
     }
     initSession() {
@@ -73,8 +75,14 @@ class App {
         this.app.use('/scrape', ScrapeRoutes);
         this.app.use(AuthRoutes);
     }
+    dbUpdateLoop() {
+        console.log('Sanctions will be updated in 24 hours');
+        setInterval(() => {
+            s.updateSanctions();
+            console.log('Sanctions will be updated in 24 hours');
+        }, 1000 * 3600 * 24);
+    }
     run() {
-        // If application is in production mode - we need to put all traffic through https
         try {
             if (this.NODE_ENV === 'development') {
                 this.app.listen(this.PORT, () => {

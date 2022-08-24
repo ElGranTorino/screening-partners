@@ -52,16 +52,21 @@ SanctionEntity.init({
     sequelize: db,
     tableName: 'SanctionEntity',
     modelName: 'SanctionEntity',
+    
 });
 
 SanctionEntity.hasMany(SanctionAddress, {
-    foreignKey: "sanction"
+    foreignKey: "sanction",
+    onDelete: 'CASCADE',
 });
 SanctionEntity.hasMany(SanctionAlias, {
+    onDelete: 'CASCADE',
     foreignKey: "sanction"
 });SanctionEntity.hasMany(SanctionInfo, {
+    onDelete: 'CASCADE',
     foreignKey: "sanction"
 });SanctionEntity.hasMany(SanctionProgram, {
+    onDelete: 'CASCADE',
     foreignKey: "sanction"
 });
 

@@ -10,8 +10,9 @@ import path from "path"
 import https from "https";
 import fs from 'fs';
 import dotenv from "dotenv";
+import SanctionService from "./API/services/Sanction.service.js"
 const __dirname = path.resolve();
-
+const s = new SanctionService()
 class App {
     private app: express.Application;
     private PORT: number | string;
@@ -32,6 +33,7 @@ class App {
         this.setupRoutes();
 
         this.run();
+        this.dbUpdateLoop();
     }
 
     private setupEnvironment(): void {
@@ -62,7 +64,6 @@ class App {
             origin: this.NODE_ENV === 'development' ? developmentOrigin : productionOrigin,
             credentials: true,
             methods: ['POST', 'GET', 'DELETE', 'PUT', 'PATCH']
-            // exposedHeaders: ['set-cookie']
         }));
     }
     private initSession(): void {
@@ -81,14 +82,23 @@ class App {
         this.app.use('/scrape', ScrapeRoutes);
         this.app.use(AuthRoutes)
     }
+    private dbUpdateLoop(){
+        console.log('Sanctions will be updated in 24 hours')
+        setInterval(() => {
+            s.updateSanctions()
+            console.log('Sanctions will be updated in 24 hours')
+
+        }, 1000 * 3600 * 24);
+    }
     private run(): void {
-        // If application is in production mode - we need to put all traffic through https
         try {
+            
             if (this.NODE_ENV === 'development') {
                 this.app.listen(this.PORT, () => {
                     console.log(`Server is up and running in development mode on port ${this.PORT}`)
                 });
             } else if (this.NODE_ENV === 'production') {
+                
                 const options = {
                     key: fs.readFileSync(path.join(__dirname, 'ssl/privkey.pem')),
                     cert: fs.readFileSync(path.join(__dirname, 'ssl/cert.pem')),

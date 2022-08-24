@@ -1,7 +1,6 @@
 import { Router } from "express";
 const router = Router();
 router.get('/verify', (req, res) => {
-    console.log(req.session);
     if (req.session.user) {
         res.json({ verified: true });
     }
