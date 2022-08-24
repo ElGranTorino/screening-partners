@@ -400,8 +400,8 @@
             this.issueReported = true;
 
             this.commitIssuesWithData({
-               message: 'Wrong arabic nombers',
-               type: 'News issue',
+               message: 'Sanctions data issue',
+               type: 'Sanctions data issue',
             }).then((res) => {
                e.target.innerHTML = `Reported successfully <ion-icon name="checkmark-done" style="vertical-align: middle; font-size: 1.3rem"></ion-icon>`
             }).catch((err) => {
