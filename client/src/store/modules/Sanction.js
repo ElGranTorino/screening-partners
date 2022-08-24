@@ -21,11 +21,11 @@ export default {
     actions: {
         async fetchOFACsanctions({
             commit,
-            getters
-        }) {
-            const target = getters.getTargetName;
-            const page = getters.getSanctionsCurrentPage;
-            const limit = getters.getSanctionsLimit;
+            getters,    
+        }, options = {}) {
+            const target = options.target || getters.getTargetName;
+            const page = options.page || getters.getSanctionsCurrentPage;
+            const limit = options.limit || getters.getSanctionsLimit;
             const url = helpers.createUrl(`/scrape/sanctions`);
             const res = await axios.post(url, {
                 target,

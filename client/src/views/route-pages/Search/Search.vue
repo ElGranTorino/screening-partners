@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     ...mapMutations(["UPDATE_TARGET_NAME", "UPDATE_LAST_REQUEST_DURATION", "UPDATE_SEARCH_STEP"]),
-    ...mapActions(["fetchGoogleNews", "fetchOFACsanctions", "fetchAndUpdateSanctions"]),
+    ...mapActions(["fetchGoogleNews", "fetchOFACsanctions", "fetchAndUpdateSanctions", "incrementRequestCount"]),
     onChangeTargetName(e){
       this.UPDATE_TARGET_NAME(e.target.value)
     },
@@ -98,6 +98,7 @@ export default {
       this.UPDATE_SEARCH_STEP(1)
       Promise.all(promises).then(() => {
         this.UPDATE_SEARCH_STEP(2)
+        this.incrementRequestCount()
         this.$router.push({name: 'SearchResults'});
 
         requestEndend = Date.now();

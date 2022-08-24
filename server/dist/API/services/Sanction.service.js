@@ -37,6 +37,7 @@ export default class SanctionService {
                 (async () => {
                     const json = await xmljs.parseStringPromise(xml, options);
                     const results = {};
+                    results.pubDate = json.export.$.generationDate;
                     const entitiesJson = json.export.sanctionEntity;
                     results.entries = entitiesJson.map((entity, i) => {
                         let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList;
@@ -359,12 +360,24 @@ export default class SanctionService {
                     const rows = await Promise.all(allSanctions.map(async (sanction, i) => {
                         const uid = i;
                         const { firstName, lastName, sdnType, addressList, programList, akaList, idList, authority } = sanction;
+                        let pubDate;
+                        switch (authority) {
+                            case 'OFAC':
+                                pubDate = Date.parse(OFACsanctions.pubDate);
+                                break;
+                            case 'UN':
+                                pubDate = Date.parse(UNSanctions.pubDate);
+                                break;
+                            case 'EU':
+                                pubDate = Date.parse(EUSanctions.pubDate);
+                                break;
+                        }
                         return await SanctionEntity.create({
                             uid: uid,
-                            firstName: firstName ? firstName : null,
-                            lastName: lastName,
+                            firstName: firstName ? firstName.toUpperCase() : null,
+                            lastName: lastName.toUpperCase(),
                             type: sdnType ? sdnType : null,
-                            latestUpdate: Date.parse(UNSanctions.pubDate),
+                            latestUpdate: pubDate,
                             authority: authority
                         }).then((data) => {
                             if (programList?.program) {

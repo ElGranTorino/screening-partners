@@ -56,7 +56,11 @@ import { defineComponent } from 'vue';
 import {mapGetters, mapActions} from 'vuex'
 export default defineComponent({
     name: 'Footer-component',
+    mounted(){
+        this.fetchRequestsCount()
+    },
     methods: {
+        ...mapActions(["fetchRequestsCount"]),
         getCurrentYear() {
             const date = new Date();
             return date.getFullYear()

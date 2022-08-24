@@ -4,10 +4,11 @@ import helpers from "@/helpers"
 export default {
     state: {
         HOST: process.env.HOST,
-        searchesPerfomed: 10312343,
+        searchesPerfomed: 0,
         searchStep: 0,
         target: '',
         lastRequestDuration: null,
+
     },
     mutations: {
         UPDATE_SEARCH_COUNT(state, count) {
@@ -17,7 +18,7 @@ export default {
             state.searchStep = newValue
         },
         UPDATE_TARGET_NAME(state, newTargetName) {
-            state.target = newTargetName
+            state.target = newTargetName.toUpperCase();
         },
         UPDATE_LAST_REQUEST_DURATION(state, duration) {
             state.lastRequestDuration = duration
@@ -41,7 +42,17 @@ export default {
             const req = await axios.post(url, {
                 login, password
             }, {withCredentials: true});
+        },
 
+        async fetchRequestsCount({commit}){
+            const url = helpers.createUrl('/api/total');
+            const res = await axios.get(url)
+
+            commit("UPDATE_SEARCH_COUNT", res.data)
+        },
+        async incrementRequestCount({commit}){
+            const url = helpers.createUrl('/api/total');
+            await axios.post(url)
         }
     },
     getters: {

@@ -65,17 +65,5 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next()
   }
-
-
-
-
-
-
-
-  
-  // if(requiredAuth) {
-  //   await axios.get(url,)
-  // }
-  next()
 })
 export default router
