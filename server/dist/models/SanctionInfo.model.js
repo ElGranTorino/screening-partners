@@ -28,4 +28,5 @@ SanctionInfo.init({
     modelName: 'SanctionInfo',
 });
 await SanctionInfo.sync();
+// Info.belongsTo(SanctionEntity)
 export default SanctionInfo;

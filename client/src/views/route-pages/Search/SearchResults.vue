@@ -51,7 +51,7 @@
                         </div>
                         -->
                      <div class="tabs__body">
-                        <div class="tabs__body-item" v-if="activeOffcanvas?.SanctionInfos?.length">
+                        <div class="tabs__body-item" v-if="activeOffcanvas?.SanctionInfos.length">
                            <div class="title search__header" style="margin-bottom: 20px">Generall info</div>
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
@@ -61,10 +61,6 @@
                                  </tr>
                               </thead>
                               <tbody class="table__body">
-                                 <tr class="table__body-row">
-                                    <th class="table__body-cell search__sanctions-td">Registration Number</th>
-                                    <th class="table__body-cell search__sanctions-td">1072308003063</th>
-                                 </tr>
                                  <tr class="table__body-row" v-for="info in activeOffcanvas.SanctionInfos" :key="info.id">
                                     <th class="table__body-cell search__sanctions-td">{{info.key}}</th>
                                     <th class="table__body-cell search__sanctions-td" v-if="info.key === 'Website'">
@@ -80,7 +76,7 @@
                               </tbody>
                            </table>
                         </div>
-                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas?.SanctionAddresses?.length">
+                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas?.SanctionAddresses.length">
                            <div class="title search__header" style="margin-bottom: 20px">Location</div>
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
@@ -103,7 +99,7 @@
                               </tbody>
                            </table>
                         </div>
-                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas?.SanctionAliases?.length">
+                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas?.SanctionAliases.length">
                            <div class="title search__header" style="margin-bottom: 20px">Alternative names</div>
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
@@ -223,6 +219,15 @@
             <div class="search__pagination mt-1">
                <ul class="search__pagination-list list horizontal">
                   <li class="search__pagination-item">
+                     <!-- Shows only if current active page is the last-->
+                     <button class="btn small btn-pg"  
+                     @click="moveSanctionsTo(getSanctionsCurrentPage - 2)" 
+                     v-if="
+                        getSanctionsCurrentPage === Math.ceil(getTotalSanctionsCount / getSanctionsLimit) && 
+                        Math.ceil(getTotalSanctionsCount / getSanctionsLimit) > 2
+                     ">{{getSanctionsCurrentPage - 2}}</button>
+                  </li>
+                  <li class="search__pagination-item">
                      <button class="btn small btn-pg"  @click="moveSanctionsTo(getSanctionsCurrentPage - 1)" v-if="getSanctionsCurrentPage > 1">{{getSanctionsCurrentPage - 1}}</button>
                   </li>
                   <li class="search__pagination-item">
@@ -236,6 +241,15 @@
                         (getSanctionsCurrentPage + 1) <= Math.ceil(getTotalSanctionsCount / getSanctionsLimit)
                      "
                      >{{getSanctionsCurrentPage + 1}}</button>
+                  </li>
+                   <li class="search__pagination-item">
+                     <!-- Shows only if current active page is first and there are more then 2 pages total-->
+                     <button class="btn small btn-pg"  
+                     @click="moveSanctionsTo(getSanctionsCurrentPage + 2)" 
+                     v-if="
+                        getSanctionsCurrentPage === 1 && 
+                        Math.ceil(getTotalSanctionsCount / getSanctionsLimit) > 2
+                     ">{{getSanctionsCurrentPage + 2}}</button>
                   </li>
                </ul>
             </div>

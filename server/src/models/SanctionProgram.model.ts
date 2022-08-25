@@ -30,7 +30,6 @@ SanctionProgram.init({
     modelName: 'SanctionProgram',
 });
 
-
 await SanctionProgram.sync();
 export default SanctionProgram;
 

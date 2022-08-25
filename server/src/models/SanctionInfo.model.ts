@@ -38,4 +38,6 @@ SanctionInfo.init({
 
 
 await SanctionInfo.sync();
+// Info.belongsTo(SanctionEntity)
+
 export default SanctionInfo;

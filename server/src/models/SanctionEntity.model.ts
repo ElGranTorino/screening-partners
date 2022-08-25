@@ -31,6 +31,10 @@ SanctionEntity.init({
         type: DataTypes.STRING,
         allowNull: false,
     },
+    fullName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     type: {
         type: DataTypes.STRING,
         allowNull: true
@@ -58,17 +62,25 @@ SanctionEntity.init({
 SanctionEntity.hasMany(SanctionAddress, {
     foreignKey: "sanction",
     onDelete: 'CASCADE',
+    hooks: true
+
 });
 SanctionEntity.hasMany(SanctionAlias, {
     onDelete: 'CASCADE',
-    foreignKey: "sanction"
+    foreignKey: "sanction",
+    hooks: true
+
 });SanctionEntity.hasMany(SanctionInfo, {
     onDelete: 'CASCADE',
-    foreignKey: "sanction"
+    foreignKey: "sanction",
+    hooks: true
+
 });SanctionEntity.hasMany(SanctionProgram, {
     onDelete: 'CASCADE',
-    foreignKey: "sanction"
+    foreignKey: "sanction",
+    hooks: true
 });
+
 
 await SanctionEntity.sync();
 export default SanctionEntity;

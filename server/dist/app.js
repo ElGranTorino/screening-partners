@@ -25,12 +25,17 @@ class App {
         this.app = express();
         this.setupEnvironment();
         this.initSession();
-        this.setupDB();
         this.setStatic();
         this.setCors();
         this.setupRoutes();
         this.run();
-        this.dbUpdateLoop();
+        // if(this.NODE_ENV === 'production') {
+        //      this.setupDB();
+        // }
+        // this.setupDB();
+        // this.dbUpdateLoop();
+        // this.setupDB();
+        // this.dbUpdateLoop();
     }
     setupEnvironment() {
         // Providing path to .env file
@@ -43,6 +48,12 @@ class App {
     }
     setupDB() {
         // Setting up database connection 
+        console.log('Updating database...');
+        s.updateSanctions().then((data) => {
+            console.log('Sanctions Updated');
+        }).catch((err) => {
+            console.log('An error occured while filling the database ' + err);
+        });
     }
     setCors() {
         const developmentOrigin = [
