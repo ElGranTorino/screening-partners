@@ -5,7 +5,7 @@ router.get('/verify', (req, res) => {
         res.json({ verified: true });
     }
     else {
-        res.status(403).json({ verified: false });
+        res.json({ verified: false });
     }
 });
 export default router;

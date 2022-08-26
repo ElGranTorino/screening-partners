@@ -38,7 +38,7 @@
                   <span class="tag tag--warning tag--entity offcanvas__value" style="margin: 0">Active</span>
                </div>
                <div class="offcanvas__entity-authority d-flex justify-between mt-1">
-                  <span class="offcanvas__key">Sanctioned since</span>
+                  <span class="offcanvas__key">Date added</span>
                   <span class="offcanvas__value">{{getFormatTimeString(activeOffcanvas.latestUpdate, 'L')}}</span>
                </div>
                <div class="delimiter mt-2 mb-2"></div>
@@ -51,7 +51,7 @@
                         </div>
                         -->
                      <div class="tabs__body">
-                        <div class="tabs__body-item" v-if="activeOffcanvas?.SanctionInfos.length">
+                        <div class="tabs__body-item" v-if="activeOffcanvas?.SanctionInfos">
                            <div class="title search__header" style="margin-bottom: 20px">Generall info</div>
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
@@ -309,7 +309,7 @@
          }
       },
       async mounted() {
-
+         document.body.style.overflow = 'auto'
       },
       computed: mapGetters([
          "allNews", "displayLimit", "getRequestDuration",
@@ -343,67 +343,295 @@
             }
          },
          getCountryIconByName(name) {
-               switch (name) {
-                  case 'Palestinian':
-                     return '🇵🇸 ' + 'Palestine'
-                  case 'Russia':
-                     return '🇷🇺 ' + 'Russia'
-                  case 'China':
-                     return '🇨🇳 ' + 'China'
-                  case 'Iran':
-                     return '🇮🇷 ' + 'Iran'
-                  case 'Iraq':
-                     return '🇮🇶 ' + 'Iraq'
-                  case 'Ukraine':
-                     return '🇺🇦 ' + 'Ukraine'
-                  case 'UKRAINE':
-                     return '🇺🇦 ' + 'Ukraine'
-                  case 'Belarus':
-                     return '🇧🇾 ' + 'Belarus'
-                  case 'Switzerland':
-                     return '🇨🇭 ' + 'Switzerland'
-                  case 'Cyprus':
-                     return '🇨🇾 ' + 'Cyprus'
+              const flags = new Map();
+               flags.set('United Arab Emirates',  '🇦🇪 United Arab Emirates')
+               flags.set('Afghanistan',  '🇦🇫 Afghanistan')
+               flags.set('AFGHANISTAN',  '🇦🇫 Afghanistan')
+               flags.set('Albania',  '🇦🇱 Albania')
+               flags.set('Armenia',  '🇦🇲 Armenia')
+               flags.set('Australia',  '🇦🇺 Australia')
+               flags.set('Bosnia and Herzegovina',  '🇧🇦 Bosnia & Herzegovina')
+               flags.set('Barbados',  '🇧🇧 Barbados')
+               flags.set('Bangladesh',  '🇧🇩 Bangladesh')
+               flags.set('Benin',  '🇧🇯 Benin')
+               flags.set('BELARUS',  '🇧🇾 Belarus')
+               flags.set('Belarus',  '🇧🇾 Belarus')
+               flags.set(' Belarus',  '🇧🇾 Belarus')
+               flags.set('BANGLADESH',  '🇧🇩 Bangladesh')
+               flags.set('Belgium',  '🇧🇪 Belgium')
+               flags.set('Canada',  '🇨🇦 Canada')
+               flags.set('Congo (Democratic Republic)',  '🇨🇫 Central African Republic')
+               flags.set('Democratic Republic of the Congo',  '🇨🇫 Central African Republic')
+               flags.set('Sweden',  '🇸🇪 Sweden')
+               flags.set('SWEDEN',  '🇸🇪 Sweden')
+               flags.set('Singapore',  '🇸🇬 Singapore')
+               flags.set('Slovenia',  '🇸🇮 Slovenia')
+               flags.set('Slovakia',  '🇸🇰 Slovakia')
+               flags.set('San Marino',  '🇸🇲 San Marino')
+               flags.set('Somalia',  '🇸🇴 Somalia')
+               
+               flags.set('El Salvador',  '🇸🇻 El Salvador')
+               flags.set('Syrian Arab Republic',  '🇸🇾 Syria')
+               flags.set('Syria',  '🇸🇾 Syria')
+               
+               flags.set('Thailand',  '🇹🇭 Thailand')
+               flags.set('Tajikistan',  '🇹🇯 Tajikistan')
+               flags.set('Tunisia',  '🇹🇳 Tunisia')
+               flags.set('Turkey',  '🇹🇷 Turkey')
+              
+               flags.set('TANZANIA, UNITED REPUBLIC OF',  '🇹🇿 Tanzania')
+               flags.set('Ukraine',  '🇺🇦 Ukraine')
+               
+               flags.set('Uruguay',  '🇺🇾 Uruguay')
+               
+               flags.set('Saint Vincent and the Grenadines',  '🇻🇨 St. Vincent & Grenadines')
+               flags.set('Venezuela',  '🇻🇪 Venezuela')
+               flags.set('VENEZUELA',  '🇻🇪 Venezuela')
+               flags.set('VIRGIN ISLANDS (BRITISH)',  '🇻🇬 British Virgin Islands')
+               flags.set('Vanuatu',  '🇻🇺 Vanuatu')
+               flags.set('YEMEN',  '🇾🇪 Yemen')
+               flags.set('Zambia',  '🇿🇲 Zambia')
+               flags.set('SWITZERLAND',  '🇨🇭 Switzerland')
+               flags.set('Colombia',  '🇨🇴 Colombia')
+               flags.set('Cape Verde',  '🇨🇻 Cape Verde')
+               flags.set('Cyprus',  '🇨🇾 Cyprus')
+               flags.set('Czech Republic',  '🇨🇿 Czechia')
+               flags.set('Czechia',  '🇨🇿 Czechia')
+               flags.set('Dominica',  '🇩🇲 Dominica')
+               flags.set('Dominican Republic',  '🇩🇴 Dominican Republic')
+               flags.set('China',  '🇨🇳 China')
+               flags.set('ALGERIA',  '🇩🇿 Algeria')
+               flags.set('Algeria',  '🇩🇿 Algeria')
+               flags.set('Germany',  '🇩🇪 Germany')
+               flags.set('Eritrea',  '🇪🇷 Eritrea')
+               flags.set('France',  '🇫🇷 France')
+               flags.set('United Kingdom of Great Britain and Northern Ireland',  '🇬🇧 United Kingdom')
+               flags.set('United Kingdom',  '🇬🇧 United Kingdom')
+               flags.set('Georgia',  '🇬🇪 Georgia')
+               flags.set('Guernsey',  '🇬🇬 Guernsey')
+               flags.set('The Gambia',  '🇬🇲 Gambia')
+               flags.set('Hong Kong Special Administrative Region',  '🇭🇰 Hong Kong SAR China')
+               flags.set('Ireland',  '🇮🇪 Ireland')
+               flags.set('Israel',  '🇮🇱 Israel')
+               flags.set('Iraq',  '🇮🇶 Iraq')
+               flags.set('IRAQ',  '🇮🇶 Iraq')
+               flags.set('Iran',  '🇮🇷 Iran')
+               flags.set(' Iran',  '🇮🇷 Iran')
+               flags.set('JORDAN',  '🇯🇴 Jordan')
+               flags.set('Kenya',  '🇰🇪 Kenya')
+               flags.set('Cambodia',  '🇰🇭 Cambodia')
+               flags.set('COMOROS',  '🇰🇲 Comoros')
+               flags.set('North Korea',  '🇰🇵 North Korea')
+               flags.set('Democratic People`s Republic of Korea',  '🇰🇷 South Korea')
+               flags.set('Kuwait',  '🇰🇼 Kuwait')
+               flags.set('Laos',  '🇱🇦 Laos')
+               flags.set('LEBANON',  '🇱🇧 Lebanon')
+               flags.set('Liberia',  '🇱🇷 Liberia')
+               flags.set('Luxembourg',  '🇱🇺 Luxembourg')
+               flags.set('LUXEMBOURG',  '🇱🇺 Luxembourg')
+               flags.set('Latvia',  '🇱🇻 Latvia')
+               flags.set('Libya',  '🇱🇾 Libya')
+               flags.set('MOROCCO',  '🇲🇦 Morocco')
+               flags.set('Monaco',  '🇲🇨 Monaco')
+               flags.set('Marshall Islands',  '🇲🇭 Marshall Islands')
+               flags.set('MALI',  '🇲🇱 Mali')
+               flags.set('Burma',  '🇲🇲 Myanmar (Burma)')
+               flags.set('Malta',  '🇲🇹 Malta')
+               flags.set('Maldives',  '🇲🇻 Maldives')
+               flags.set('Malaysia',  '🇲🇾 Malaysia')
+               flags.set('Namibia',  '🇳🇦 Namibia')
+               flags.set('NIGER',  '🇳🇪 Niger')
+               flags.set('Niger',  '🇳🇪 Niger')
+               flags.set('Nigeria',  '🇳🇬 Nigeria')
+               flags.set('NIGERIA',  '🇳🇬 Nigeria')
+               flags.set('Nicaragua',  '🇳🇮 Nicaragua')
+               flags.set('NICARAGUA',  '🇳🇮 Nicaragua')
+               flags.set('The Netherlands',  '🇳🇱 Netherlands')
+               flags.set('Netherlands',  '🇳🇱 Netherlands')
+               flags.set('Serbia',  '🇷🇸 Serbia')
+               flags.set('Russian',  '🇷🇺 Russia')
+               flags.set('PAKISTAN',  '🇵🇰 Pakistan')
+               flags.set('Palestinian',  '🇵🇸 Palestinian Territories')
+               flags.set('Russian Federation',  '🇷🇺 Russia')
+               flags.set('Qatar',  '🇶🇦 Qatar')
+               flags.set('RF',  '🇷🇺 Russia')
+               flags.set('Россия',  '🇷🇺 Russia')
+               flags.set('OMAN',  '🇴🇲 Oman')
+               flags.set('PANAMA',  '🇵🇦 Panama')
 
-                  case 'Luxembourg':
-                     return '🇱🇺 ' + 'Luxembourg'
-                  case 'Kazakhstan':
-                     return '🇰🇿 ' + 'Kazakhstan'
-                  case 'Austria':
-                     return '🇦🇹 ' + 'Austria'
-                  case 'Armenia':
-                     return '🇦🇲 ' + 'Armenia'
-                  case 'Azerbaijan':
-                     return '🇦🇿 ' + 'Azerbaijan'
-                  case 'Angola':
-                     return '🇦🇴 ' + 'Angola'
-                  case 'Georgia':
-                     return '🇬🇪 ' + 'Georgia'
-                  case 'Serbia':
-                     return '🇷🇸 ' + 'Serbia'
+               // flags.set(' ',  '🇦🇨 Ascension Island')
+               // flags.set(' ',  '🇦🇩 Andorra')
+               // flags.set(' ',  '🇭🇲 Heard & McDonald Islands')
+               // flags.set(' ',  '🇭🇳 Honduras')
+               // flags.set(' ',  '🇭🇷 Croatia')
+               // flags.set(' ',  '🇭🇹 Haiti')
+               // flags.set(' ',  '🇭🇺 Hungary')
+               // flags.set(' ',  '🇮🇨 Canary Islands')
+               // flags.set(' ',  '🇮🇩 Indonesia')
+               // flags.set(' ',  '🇮🇲 Isle of Man')
+               // flags.set(' ',  '🇮🇳 India')
+               // flags.set(' ',  '🇮🇴 British Indian Ocean Territory')
+               // flags.set(' ',  '🇮🇸 Iceland')
+               // flags.set(' ',  '🇮🇹 Italy')
+               // flags.set(' ',  '🇯🇪 Jersey')
+               // flags.set(' ',  '🇯🇲 Jamaica')
+               // flags.set(' ',  '🇯🇵 Japan')
+               // flags.set(' ',  '🇰🇬 Kyrgyzstan')
+               // flags.set(' ',  '🇰🇮 Kiribati')
+               // flags.set(' ',  '🇰🇳 St. Kitts & Nevis')
+               // flags.set(' ',  '🇰🇾 Cayman Islands')
+               // flags.set(' ',  '🇰🇿 Kazakhstan')
+               // flags.set(' ',  '🇱🇨 St. Lucia')
+               // flags.set(' ',  '🇱🇮 Liechtenstein')
+               // flags.set(' ',  '🇱🇰 Sri Lanka')
+               // flags.set(' ',  '🇱🇸 Lesotho')
+               // flags.set(' ',  '🇱🇹 Lithuania')
+               // flags.set(' ',  '🇲🇩 Moldova')
+               // flags.set(' ',  '🇲🇪 Montenegro')
+               // flags.set(' ',  '🇲🇫 St. Martin')
+               // flags.set(' ',  '🇲🇬 Madagascar')
+               // flags.set(' ',  '🇲🇰 North Macedonia')
+               // flags.set(' ',  '🇲🇳 Mongolia')
+               // flags.set(' ',  '🇲🇴 Macao Sar China')
+               // flags.set(' ',  '🇲🇵 Northern Mariana Islands')
+               // flags.set(' ',  '🇲🇶 Martinique')
+               // flags.set(' ',  '🇲🇷 Mauritania')
+               // flags.set(' ',  '🇲🇸 Montserrat')
+               // flags.set(' ',  '🇲🇺 Mauritius')
+               // flags.set(' ',  '🇲🇼 Malawi')
+               // flags.set(' ',  '🇲🇽 Mexico')
+               // flags.set(' ',  '🇲🇿 Mozambique')
+               // flags.set(' ',  '🇳🇨 New Caledonia')
+               // flags.set(' ',  '🇳🇫 Norfolk Island')
+               // flags.set(' ',  '🇳🇴 Norway')
+               // flags.set(' ',  '🇳🇵 Nepal')
+               // flags.set(' ',  '🇳🇷 Nauru')
+               // flags.set(' ',  '🇳🇺 Niue')
+               // flags.set(' ',  '🇳🇿 New Zealand')
+               // flags.set(' ',  '🇵🇪 Peru')
+               // flags.set(' ',  '🇵🇫 French Polynesia')
+               // flags.set(' ',  '🇵🇬 Papua New Guinea')
+               // flags.set(' ',  '🇵🇭 Philippines')
+               // flags.set(' ',  '🇵🇱 Poland')
+               // flags.set(' ',  '🇵🇲 St. Pierre & Miquelon')
+               // flags.set(' ',  '🇵🇳 Pitcairn Islands')
+               // flags.set(' ',  '🇵🇷 Puerto Rico')
+               // flags.set(' ',  '🇵🇹 Portugal')
+               // flags.set(' ',  '🇵🇼 Palau')
+               // flags.set(' ',  '🇵🇾 Paraguay')
+               // flags.set(' ',  '🇷🇪 Réunion')
+               // flags.set(' ',  '🇷🇴 Romania')
+               // flags.set(' ',  '🇷🇼 Rwanda')
+               // flags.set('Saudi Arabia',  '🇸🇦 Saudi Arabia')
+               // flags.set(' ',  '🇸🇧 Solomon Islands')
+               // flags.set(' ',  '🇸🇨 Seychelles')
+               // flags.set(' ',  '🇸🇩 Sudan')
+               // flags.set(' ',  '🇻🇮 U.S. Virgin Islands')
+               // flags.set(' ',  '🇻🇳 Vietnam')
+               // flags.set(' ',  '🇼🇸 Samoa')
+               // flags.set('',  '🇼🇫 Wallis & Futuna')
+               // flags.set(' ',  '🇽🇰 Kosovo')
+               // flags.set(' ',  '🇾🇹 Mayotte')
+               // flags.set(' ',  '🇿🇦 South Africa')
+               // flags.set(' ',  '🇺🇿 Uzbekistan')
+               // flags.set(' ',  '🇻🇦 Vatican City')
+               // flags.set(' ',  '🇺🇬 Uganda')
+               // flags.set(' ',  '🇺🇲 U.S. Outlying Islands')
+               // flags.set(' ',  '🇺🇳 United Nations')
+               // flags.set(' ',  '🇺🇸 United States')
+               // flags.set(' ',  '🇹🇹 Trinidad & Tobago')
+               // flags.set(' ',  '🇹🇻 Tuvalu')
+               // flags.set(' ',  '🇹🇼 Taiwan')
+               // flags.set(' ',  '🇸🇿 Eswatini')
+               // flags.set(' ',  '🇹🇦 Tristan Da Cunha')
+               // flags.set(' ',  '🇹🇨 Turks & Caicos Islands')
+               // flags.set(' ',  '🇹🇩 Chad')
+               // flags.set(' ',  '🇹🇫 French Southern Territories')
+               // flags.set(' ',  '🇹🇬 Togo')
+               // flags.set(' ',  '🇹🇰 Tokelau')
+               // flags.set(' ',  '🇹🇱 Timor-Leste')
+               // flags.set(' ',  '🇹🇲 Turkmenistan')
+               // flags.set(' ',  '🇹🇴 Tonga')
+               // flags.set(' ',  '🇸🇭 St. Helena')
+               // flags.set(' ',  '🇸🇯 Svalbard & Jan Mayen')
+               // flags.set(' ',  '🇸🇱 Sierra Leone')
+               // flags.set(' ',  '🇸🇳 Senegal')
+               // flags.set(' ',  '🇸🇷 Suriname')
+               // flags.set(' ',  '🇸🇸 South Sudan')
+               // flags.set(' ',  '🇸🇹 São Tomé & Príncipe')
+               // flags.set(' ',  '🇸🇽 Sint Maarten')
+               // flags.set(' ',  '🇦🇬 Antigua & Barbuda')
+               // flags.set(' ',  '🇦🇮 Anguilla')
+               // flags.set(' ',  '🇦🇴 Angola')
+               // flags.set(' ',  '🇦🇶 Antarctica')
+               // flags.set(' ',  '🇦🇷 Argentina')
+               // flags.set(' ',  '🇦🇸 American Samoa')
+               // flags.set(' ',  '🇦🇹 Austria')
+               // flags.set(' ',  '🇦🇼 Aruba')
+               // flags.set(' ',  '🇦🇽 Åland Islands')
+               // flags.set(' ',  '🇦🇿 Azerbaijan')
+               // flags.set(' ',  '🇧🇫 Burkina Faso')
+               // flags.set(' ',  '🇧🇬 Bulgaria')
+               // flags.set(' ',  '🇧🇭 Bahrain')
+               // flags.set(' ',  '🇧🇮 Burundi')
+               // flags.set(' ',  '🇧🇱 St. Barthélemy')
+               // flags.set(' ',  '🇧🇲 Bermuda')
+               // flags.set(' ',  '🇧🇳 Brunei')
+               // flags.set(' ',  '🇧🇴 Bolivia')
+               // flags.set(' ',  '🇧🇶 Caribbean Netherlands')
+               // flags.set(' ',  '🇧🇷 Brazil')
+               // flags.set(' ',  '🇧🇸 Bahamas')
+               // flags.set(' ',  '🇧🇹 Bhutan')
+               // flags.set(' ',  '🇧🇻 Bouvet Island')
+               // flags.set(' ',  '🇧🇼 Botswana')
+               // flags.set(' ',  '🇪🇸 Spain')
+               // flags.set(' ',  '🇪🇹 Ethiopia')
+               // flags.set(' ',  '🇪🇺 European Union')
+               // flags.set(' ',  '🇫🇮 Finland')
+               // flags.set(' ',  '🇫🇯 Fiji')
+               // flags.set(' ',  '🇫🇰 Falkland Islands')
+               // flags.set(' ',  '🇫🇲 Micronesia')
+               // flags.set(' ',  '🇫🇴 Faroe Islands')
+               // flags.set(' ',  '🇬🇦 Gabon')
+               // flags.set(' ',  '🇬🇩 Grenada')
+               // flags.set(' ',  '🇬🇫 French Guiana')
+               // flags.set(' ',  '🇬🇭 Ghana')
+               // flags.set(' ',  '🇬🇮 Gibraltar')
+               // flags.set(' ',  '🇬🇱 Greenland')
+               // flags.set(' ',  '🇬🇳 Guinea')
+               // flags.set(' ',  '🇬🇵 Guadeloupe')
+               // flags.set(' ',  '🇬🇶 Equatorial Guinea')
+               // flags.set(' ',  '🇬🇷 Greece')
+               // flags.set(' ',  '🇬🇸 South Georgia & South Sandwich Islands')
+               // flags.set(' ',  '🇬🇹 Guatemala')
+               // flags.set(' ',  '🇬🇺 Guam')
+               // flags.set(' ',  '🇬🇼 Guinea-Bissau')
+               // flags.set(' ',  '🇬🇾 Guyana')
 
-                  case 'Netherlands':
-                     return '🇳🇱 ' + 'Netherlands'
-                  case 'Czech Republic':
-                     return '🇨🇿 ' + 'Czech Republic'
-                  case 'Turkey':
-                     return '🇹🇷 ' + 'Turkey'
-                  case 'Cayman Islands':
-                     return '🇰🇾 ' + 'Cayman Islands'
-                  case 'Virgin Islands, British':
-                     return '🇻🇮 ' + 'Virgin Islands'
-                  case 'USA':
-                     return '🇺🇸 ' + 'USA'
-                  case 'United States of America':
-                     return '🇺🇸 ' + 'USA'
-                  default:
-                     return `🌎 Globally`
+               // flags.set(' ',  '🇨🇩 Congo - Kinshasa')
+               // flags.set(' ',  '🇨🇨 Cocos (Keeling) Islands')
+               // flags.set(' ',  '🇧🇿 Belize')
+               // flags.set(' ',  '🇨🇬 Congo - Brazzaville')
+               // flags.set(' ',  '🇨🇮 Côte d’Ivoire')
+               // flags.set(' ',  '🇨🇰 Cook Islands')
+               // flags.set(' ',  '🇨🇱 Chile')
+               // flags.set(' ',  '🇨🇲 Cameroon')
+               // flags.set(' ',  '🇨🇵 Clipperton Island')
+               // flags.set(' ',  '🇨🇷 Costa Rica')
+               // flags.set(' ',  '🇨🇺 Cuba')
+               // flags.set(' ',  '🇨🇼 Curaçao')
+               // flags.set(' ',  '🇨🇽 Christmas Island')
+               // flags.set(' ',  '🇩🇬 Diego Garcia')
+               // flags.set(' ',  '🇩🇯 Djibouti')
+               // flags.set(' ',  '🇩🇰 Denmark')
 
-                  // BURKINA FASO 🇧🇫
-                  // ALGERIA 🇩🇿
-                  // Bangladesh 🇧🇩
-                  // Indonesia
-               }
+
+               // flags.set(' ',  '🇪🇦 Ceuta & Melilla')
+               // flags.set(' ',  '🇪🇨 Ecuador')
+               // flags.set(' ',  '🇪🇪 Estonia')
+               // flags.set(' ',  '🇪🇬 Egypt')
+               // flags.set(' ',  '🇪🇭 Western Sahara')
+               return flags.get(name) || '🌎 Globally'
          },
          clearBeforeRoute() {
             this.UPDATE_DISPLAY_LIMIT(6);

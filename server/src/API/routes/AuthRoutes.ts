@@ -8,7 +8,7 @@ router.get('/verify', (req, res)=> {
     if(req.session.user) {
         res.json({verified: true})
     } else {
-        res.status(403).json({verified: false})
+        res.json({verified: false})
     }
 })
 

@@ -22,14 +22,14 @@ export default class SanctionService {
                 const results = {};
                 try {
                     results.entries = json.map((entity, i) => {
-                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList;
+                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList, updated;
                         const name = {
                             name1: typeof entity.Name6 === 'string' ? entity.Name6 : '',
                             name2: typeof entity.name1 === 'string' ? entity.name1 : '',
                             name3: typeof entity.name2 === 'string' ? entity.name2 : '',
                             name4: typeof entity.name3 === 'string' ? entity.name3 : '',
                             name5: typeof entity.name4 === 'string' ? entity.name4 : '',
-                            name6: typeof entity.name5 === 'string' ? entity.name5 : '',
+                            name6: typeof entity.name5 === 'string' ? entity.name5 : ''
                         };
                         const addresses = {
                             address1: typeof entity.Address6 === 'string' ? entity.Address6 : '',
@@ -37,14 +37,9 @@ export default class SanctionService {
                             address3: typeof entity.Address2 === 'string' ? entity.Address2 : '',
                             address4: typeof entity.Address3 === 'string' ? entity.Address3 : '',
                             address5: typeof entity.Address4 === 'string' ? entity.Address4 : '',
-                            address6: typeof entity.Address5 === 'string' ? entity.Address5 : '',
+                            address6: typeof entity.Address5 === 'string' ? entity.Address5 : ''
                         };
-                        const address1 = addresses.address1 + ' ' +
-                            addresses.address2 + ' ' +
-                            addresses.address3 + ' ' +
-                            addresses.address4 + ' ' +
-                            addresses.address5 + ' ' +
-                            addresses.address6;
+                        const address1 = addresses.address1 + ' ' + addresses.address2 + ' ' + addresses.address3 + ' ' + addresses.address4 + ' ' + addresses.address5 + ' ' + addresses.address6;
                         const postalCode = typeof entity.PostCode === 'string' ? entity.PostCode : '';
                         const country = typeof entity.Country === 'string' ? entity.Country : '';
                         const PhoneNumber = typeof entity.PhoneNumber === 'string' ? entity.PhoneNumber : '';
@@ -60,14 +55,11 @@ export default class SanctionService {
                         const Individual_NIDetails = typeof entity?.Individual_NIDetails === 'string' ? entity.Individual_NIDetails : '';
                         const Individual_Position = typeof entity?.Individual_Position === 'string' ? entity.Individual_Position : '';
                         const Individual_Gender = typeof entity?.Individual_Gender === 'string' ? entity.Individual_Gender : '';
-                        //  const stateOrProvince = typeof entity.Country === 'string' ? entity.Country : '';
-                        lastName =
-                            name.name1 + ' ' +
-                                name.name2 + ' ' +
-                                name.name3 + ' ' +
-                                name.name4 + ' ' +
-                                name.name5 + ' ' +
-                                name.name6;
+                        const Entity_ParentCompany = typeof entity?.Entity_ParentCompany === 'string' ? entity.Entity_ParentCompany : '';
+                        const Entity_Subsidiaries = typeof entity?.Entity_Subsidiaries === 'string' ? entity.Entity_Subsidiaries : '';
+                        const Entity_BusinessRegNumber = typeof entity?.Entity_BusinessRegNumber === 'string' ? entity.Entity_BusinessRegNumber : '';
+                        const LastUpdated = typeof entity?.LastUpdated === 'string' ? entity.LastUpdated : '';
+                        lastName = name.name1 + ' ' + name.name2 + ' ' + name.name3 + ' ' + name.name4 + ' ' + name.name5 + ' ' + name.name6;
                         authority = 'UK';
                         sdnType = entity.GroupTypeDescription || 'Unknown';
                         idList = {
@@ -168,6 +160,28 @@ export default class SanctionService {
                                 idNumber: Individual_Gender
                             });
                         }
+                        if (Entity_ParentCompany) {
+                            idList.id.push({
+                                idType: 'Parent company',
+                                idNumber: Entity_ParentCompany
+                            });
+                        }
+                        if (Entity_Subsidiaries) {
+                            idList.id.push({
+                                idType: 'Sub sidiaries',
+                                idNumber: Entity_Subsidiaries
+                            });
+                        }
+                        if (Entity_BusinessRegNumber) {
+                            idList.id.push({
+                                idType: 'Reg number',
+                                idNumber: Entity_BusinessRegNumber
+                            });
+                        }
+                        if (LastUpdated) {
+                            updated = LastUpdated;
+                        }
+                        Entity_BusinessRegNumber;
                         return {
                             authority,
                             firstName,
@@ -178,7 +192,8 @@ export default class SanctionService {
                             akaList,
                             idList,
                             dateOfBirthList,
-                            placeOfBirthList
+                            placeOfBirthList,
+                            updated
                         };
                     });
                     resolve(results);
@@ -190,9 +205,10 @@ export default class SanctionService {
             });
         });
     }
+    ;
     parseEUData() {
         const options = {
-            explicitArray: false // Preventing xml2js from wraping every string into array
+            explicitArray: false
         };
         const filePath = '/static/xml/EU.xml';
         return new Promise((resolve, reject) => {
@@ -216,18 +232,18 @@ export default class SanctionService {
                                 id: []
                             };
                             if (Array.isArray(entity.nameAlias)) {
-                                lastName = entity.nameAlias[0].$.wholeName; // In database lastName must always be specified
+                                lastName = entity.nameAlias[0].$.wholeName;
                                 akaList.aka = entity.nameAlias.reduce((acc, alias) => {
                                     if (alias.$.wholeName) {
                                         acc.push({
-                                            lastName: alias.$.wholeName,
+                                            lastName: alias.$.wholeName
                                         });
                                     }
                                     return acc;
                                 }, []);
                             }
                             if (entity.nameAlias.constructor === Object) {
-                                lastName = entity.nameAlias.$.wholeName; // In database lastName must always be specified
+                                lastName = entity.nameAlias.$.wholeName;
                             }
                             if (entity?.address) {
                                 if (Array.isArray(entity.address)) {
@@ -237,7 +253,7 @@ export default class SanctionService {
                                             city: location.$.city,
                                             stateOrProvince: location.$.region,
                                             country: location.$.countryDescription,
-                                            postalCode: location.$.zipCode,
+                                            postalCode: location.$.zipCode
                                         });
                                         return acc;
                                     }, []);
@@ -248,7 +264,7 @@ export default class SanctionService {
                                         city: entity.address.$.city,
                                         stateOrProvince: entity.address.$.region,
                                         country: entity.address.$.countryDescription,
-                                        postalCode: entity.address.$.zipCode,
+                                        postalCode: entity.address.$.zipCode
                                     };
                                 }
                             }
@@ -382,7 +398,6 @@ export default class SanctionService {
                                     idNumber: entity.birthdate.$.birthdate
                                 });
                             }
-                            // Entiry country
                             if (entity?.birthdate?.$?.countryDescription) {
                                 idList.id.push({
                                     idType: 'Country of birth',
@@ -399,7 +414,7 @@ export default class SanctionService {
                                 akaList,
                                 idList,
                                 dateOfBirthList,
-                                placeOfBirthList,
+                                placeOfBirthList
                             };
                         });
                         resolve(results);
@@ -411,13 +426,14 @@ export default class SanctionService {
             });
         });
     }
+    ;
     parseUNData() {
         const url = 'https://scsanctions.un.org/resources/xml/en/consolidated.xml';
         return new Promise((resolve, reject) => {
             (async function () {
                 try {
                     const options = {
-                        explicitArray: false // Preventing xml2js from wraping every string into array
+                        explicitArray: false
                     };
                     const xml = await axios.get(url);
                     const json = await xmljs.parseStringPromise(xml.data, options);
@@ -426,7 +442,7 @@ export default class SanctionService {
                     const entitiesJson = json.CONSOLIDATED_LIST.ENTITIES.ENTITY;
                     const entitiesResult = entitiesJson.map((entity, i) => {
                         let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList;
-                        lastName = entity.FIRST_NAME; // In database lastName must always be specified
+                        lastName = entity.FIRST_NAME;
                         authority = 'UN';
                         sdnType = 'Entity';
                         if (entity.UN_LIST_TYPE) {
@@ -451,7 +467,7 @@ export default class SanctionService {
                                         address1: location.STREET,
                                         city: location.CITY,
                                         stateOrProvince: location.STATE_PROVINCE,
-                                        country: location.COUNTRY,
+                                        country: location.COUNTRY
                                     });
                                     return acc;
                                 }, []);
@@ -461,7 +477,7 @@ export default class SanctionService {
                                     address1: entity.ENTITY_ADDRESS.STREET,
                                     city: entity.ENTITY_ADDRESS.CITY,
                                     stateOrProvince: entity.ENTITY_ADDRESS.STATE_PROVINCE,
-                                    country: entity.ENTITY_ADDRESS.COUNTRY,
+                                    country: entity.ENTITY_ADDRESS.COUNTRY
                                 });
                             }
                         }
@@ -506,7 +522,7 @@ export default class SanctionService {
                     });
                     const individualsResult = individualsJson.map((individual, i) => {
                         let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList;
-                        firstName = individual.FIRST_NAME; // In database lastName must always be specified
+                        firstName = individual.FIRST_NAME;
                         lastName = individual.SECOND_NAME || individual.THIRD_NAME || individual.FIRST_NAME;
                         programList = {};
                         authority = 'UN';
@@ -533,7 +549,7 @@ export default class SanctionService {
                                         address1: location.STREET,
                                         city: location.CITY,
                                         stateOrProvince: location.STATE_PROVINCE,
-                                        country: location.COUNTRY,
+                                        country: location.COUNTRY
                                     });
                                     return acc;
                                 }, []);
@@ -544,7 +560,7 @@ export default class SanctionService {
                                         address1: individual.INDIVIDUAL_ADDRESS.STREET,
                                         city: individual.INDIVIDUAL_ADDRESS.CITY,
                                         stateOrProvince: individual.INDIVIDUAL_ADDRESS.STATE_PROVINCE,
-                                        country: individual.INDIVIDUAL_ADDRESS.COUNTRY,
+                                        country: individual.INDIVIDUAL_ADDRESS.COUNTRY
                                     }
                                 };
                             }
@@ -588,7 +604,6 @@ export default class SanctionService {
                             }
                         }
                         ;
-                        // 
                         if (individual.COMMENTS1) {
                             idList.id.push({
                                 idType: 'Comment',
@@ -676,10 +691,7 @@ export default class SanctionService {
                         };
                     });
                     results.pubDate = json.CONSOLIDATED_LIST.$.dateGenerated;
-                    results.entries = [
-                        ...individualsResult,
-                        ...entitiesResult
-                    ];
+                    results.entries = [...individualsResult, ...entitiesResult];
                     resolve(results);
                 }
                 catch (err) {
@@ -688,30 +700,22 @@ export default class SanctionService {
             })();
         });
     }
+    ;
     parseOFACData() {
         const SDN = 'https://www.treasury.gov/ofac/downloads/sdn.xml';
         const NONSDN = 'https://www.treasury.gov/ofac/downloads/consolidated/consolidated.xml';
-        const EU = 'https://data.europa.eu/data/datasets/consolidated-list-of-persons-groups-and-entities-subject-to-eu-financial-sanctions?locale=en';
-        // const EU = 'https://webgate.ec.europa.eu/fsd/fsf/public/files/xmlFullSanctionsList_1_1/content?token=dG9rZW4tMjAxNw'
         return new Promise((resolve, reject) => {
-            axios.all([
-                axios.get(NONSDN),
-                axios.get(SDN), //SDN list
-            ])
-                .then(axios.spread((nonSdnDataXml, sdnDataXml) => {
+            axios.all([axios.get(NONSDN), axios.get(SDN),]).then(axios.spread((nonSdnDataXml, sdnDataXml) => {
                 (async () => {
                     const options = {
-                        explicitArray: false // Preventing xml2js from wraping every string into array
+                        explicitArray: false
                     };
-                    // Parsing json from xml data
                     const nonSdnJson = await xmljs.parseStringPromise(nonSdnDataXml.data, options);
                     const sdnJson = await xmljs.parseStringPromise(sdnDataXml.data, options);
-                    const data = {}; // Result object
-                    // Getting total length of SDN and NonSDN sanctions lists
+                    const data = {};
                     const nonSdnCount = parseInt(nonSdnJson?.sdnList?.publshInformation?.Record_Count) || 0;
                     data.entitiesCount = nonSdnCount;
                     data.pubDate = nonSdnJson?.sdnList?.publshInformation?.Publish_Date;
-                    // Pushing all SDN and NonSDN sanctions data into one array
                     nonSdnJson?.sdnList?.sdnEntry?.map((item) => {
                         item.authority = 'OFAC';
                         return item;
@@ -720,10 +724,7 @@ export default class SanctionService {
                         item.authority = 'OFAC';
                         return item;
                     });
-                    data.entries = [
-                        ...nonSdnJson.sdnList.sdnEntry,
-                        ...sdnJson.sdnList.sdnEntry
-                    ];
+                    data.entries = [...nonSdnJson.sdnList.sdnEntry, ...sdnJson.sdnList.sdnEntry];
                     resolve(data);
                 })();
             })).catch(err => {
@@ -731,11 +732,12 @@ export default class SanctionService {
             });
         });
     }
+    ;
     INSERT_SANCTIONS() {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
-                    const OFACsanctions = await this.parseOFACData(); // Getting OFAC`s JSON data
+                    const OFACsanctions = await this.parseOFACData();
                     const UNSanctions = await this.parseUNData();
                     const EUSanctions = await this.parseEUData();
                     const UKSanctions = await this.parseUKData();
@@ -743,11 +745,11 @@ export default class SanctionService {
                         ...OFACsanctions.entries,
                         ...UNSanctions.entries,
                         ...EUSanctions.entries,
-                        ...UKSanctions.entries,
+                        ...UKSanctions.entries
                     ];
                     const rows = await Promise.all(allSanctions.map(async (sanction, i) => {
                         const uid = i;
-                        const { firstName = '', lastName, sdnType, addressList, programList, akaList, idList, authority, dateOfBirthList, placeOfBirthList } = sanction;
+                        const { firstName = '', lastName, sdnType, addressList, programList, akaList, idList, authority, dateOfBirthList, placeOfBirthList, citizenshipList = {}, LastUpdated } = sanction;
                         let pubDate;
                         switch (authority) {
                             case 'OFAC':
@@ -769,7 +771,7 @@ export default class SanctionService {
                             lastName: lastName.toUpperCase(),
                             fullName: `${firstName || ''} ${lastName}`.toUpperCase(),
                             type: sdnType ? sdnType : null,
-                            latestUpdate: pubDate,
+                            latestUpdate: LastUpdated || pubDate,
                             authority: authority
                         }).then((data) => {
                             if (dateOfBirthList?.dateOfBirthItem) {
@@ -778,7 +780,7 @@ export default class SanctionService {
                                         return {
                                             sanction: uid,
                                             key: 'Date of birth',
-                                            value: detail?.dateOfBirth,
+                                            value: detail?.dateOfBirth
                                         };
                                     }));
                                 }
@@ -786,7 +788,7 @@ export default class SanctionService {
                                     SanctionInfo.create({
                                         sanction: uid,
                                         key: 'Date of birth',
-                                        value: dateOfBirthList?.dateOfBirthItem?.dateOfBirth,
+                                        value: dateOfBirthList?.dateOfBirthItem?.dateOfBirth
                                     });
                                 }
                             }
@@ -797,7 +799,7 @@ export default class SanctionService {
                                         return {
                                             sanction: uid,
                                             key: 'Place of birth',
-                                            value: detail?.placeOfBirth,
+                                            value: detail?.placeOfBirth
                                         };
                                     }));
                                 }
@@ -805,7 +807,7 @@ export default class SanctionService {
                                     SanctionInfo.create({
                                         sanction: uid,
                                         key: 'Place of birth',
-                                        value: placeOfBirthList?.placeOfBirthItem?.placeOfBirth,
+                                        value: placeOfBirthList?.placeOfBirthItem?.placeOfBirth
                                     });
                                 }
                             }
@@ -856,7 +858,7 @@ export default class SanctionService {
                                             stateOrProvince: location.stateOrProvince || null,
                                             city: location.city || null,
                                             postalCode: location.postalCode || null,
-                                            country: location.country || null,
+                                            country: location.country || null
                                         };
                                     }));
                                 }
@@ -868,28 +870,33 @@ export default class SanctionService {
                                         stateOrProvince: addressList?.address?.stateOrProvince || null,
                                         city: addressList?.address?.city || null,
                                         postalCode: addressList?.address?.postalCode || null,
-                                        country: addressList?.address?.country || null,
+                                        country: addressList?.address?.country || null
                                     });
                                 }
                             }
                         }).then((data) => {
-                            if (idList?.id) {
-                                if (Array.isArray(idList?.id)) {
-                                    SanctionInfo.bulkCreate(idList.id.map((detail) => {
-                                        return {
-                                            sanction: uid,
-                                            key: detail?.idType,
-                                            value: detail?.idNumber,
-                                        };
-                                    }));
-                                }
-                                else if (idList.id.constuctor === Object) {
-                                    SanctionInfo.create({
+                            if (Array.isArray(idList?.id)) {
+                                SanctionInfo.bulkCreate(idList.id.map((detail) => {
+                                    return {
                                         sanction: uid,
-                                        key: idList?.id?.idType,
-                                        value: idList?.id?.idNumber,
-                                    });
-                                }
+                                        key: detail?.idType,
+                                        value: detail?.idNumber
+                                    };
+                                }));
+                            }
+                            else if (idList?.id?.idType && idList?.id?.idNumber) {
+                                SanctionInfo.create({
+                                    sanction: uid,
+                                    key: idList?.id?.idType,
+                                    value: idList?.id?.idNumber
+                                });
+                            }
+                            else if (idList?.id?.idType && idList?.id?.idCountry) {
+                                SanctionInfo.create({
+                                    sanction: uid,
+                                    key: 'Document Country',
+                                    value: idList?.id?.idCountry
+                                });
                             }
                         }).catch((err) => {
                             reject(err);
@@ -906,37 +913,22 @@ export default class SanctionService {
     }
     async SELECT_SANCTIONS(query) {
         return new Promise((resolve, reject) => {
-            // const target = transliterate(query.target)
             const target = query.target;
             SanctionEntity.findAll({
                 limit: query.limit,
                 offset: ((query.page - 1) * query.limit),
-                // where: {lastName: "JOINT STOCK COMMERCIAL BANK NOVIKOMBANK"},
                 where: {
-                    [Op.or]: [{
-                            lastName: {
-                                [Op.like]: `%${target}%`
-                            }
-                        }, {
-                            firstName: {
-                                [Op.like]: `%${target}%`
-                            }
-                        }]
+                    fullName: {
+                        [Op.like]: `%${target}%`
+                    }
                 },
                 include: [SanctionProgram, SanctionAddress, SanctionInfo, SanctionAlias]
-            })
-                .then(async (data) => {
+            }).then(async (data) => {
                 const count = await SanctionEntity.count({
                     where: {
-                        [Op.or]: [{
-                                lastName: {
-                                    [Op.like]: `%${target}%`
-                                }
-                            }, {
-                                firstName: {
-                                    [Op.like]: `%${target}%`
-                                }
-                            }]
+                        fullName: {
+                            [Op.like]: `%${target}%`
+                        }
                     }
                 });
                 const response = {
@@ -944,16 +936,15 @@ export default class SanctionService {
                     count: count
                 };
                 resolve(response);
-            })
-                .catch((err) => reject(err));
+            }).catch((err) => reject(err));
         });
     }
+    ;
     async updateSanctions() {
         console.log('Deleting Addresses table');
         await SanctionAddress.destroy({
             where: {}
-        })
-            .then((data) => {
+        }).then((data) => {
             console.log('Deleting aliases table');
             return SanctionAlias.destroy({
                 where: {}

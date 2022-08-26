@@ -54,16 +54,13 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
   const url = helpers.createUrl('/verify')
-  const requiredAuth = to.matched.some(record => record.meta.auth)
-  const access = await axios.get(url, {withCredentials: true}).catch((err) => err)
-  const hasAccess = access?.data?.verified
+  
 
-  if(requiredAuth && !hasAccess){
-    next('/mazeratti')
-  } else {
-    next()
+  if(to.name === 'Admin'){
+    const access = await axios.get(url, {withCredentials: true})
+    if(!access?.data?.verified) router.push({name: 'Login'})
   }
 })
 export default router
