@@ -729,41 +729,40 @@ export default class SanctionService {
             })
         })
     };
-    public INSERT_SANCTIONS(): any {
+    public INSERT_SANCTIONS(data, count = 0): any {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
-                    const OFACsanctions = await this.parseOFACData();
-                    const UNSanctions = await this.parseUNData();
-                    const EUSanctions = await this.parseEUData();
-                    const UKSanctions = await this.parseUKData();
-
+                    // const OFACsanctions = await this.parseOFACData();
+                    // const UNSanctions = await this.parseUNData();
+                    // const EUSanctions = await this.parseEUData();
+                    // const UKSanctions = await this.parseUKData();
                     const allSanctions = [
-						...OFACsanctions.entries, 
-						...UNSanctions.entries, 
-						...EUSanctions.entries, 
-						...UKSanctions.entries
+						...data.entries, 
+						// ...UNSanctions.entries, 
+						// ...EUSanctions.entries, 
+						// ...UKSanctions.entries
 					];
-                    const rows = await Promise.all(allSanctions.map(async (sanction, i: number) => {
-                        const uid = i;
+                    Promise.all(allSanctions.map(async (sanction, i: number) => {
+                        const uid = i + count;
                         const {
                             firstName = '', lastName, sdnType, addressList, programList, akaList, idList, authority, dateOfBirthList, placeOfBirthList, citizenshipList = {}, LastUpdated
                         } = sanction;
-                        let pubDate;
-                        switch (authority) {
-                            case 'OFAC':
-                                pubDate = Date.parse(OFACsanctions.pubDate);
-                                break;
-                            case 'UN':
-                                pubDate = Date.parse(UNSanctions.pubDate);
-                                break;
-                            case 'EU':
-                                pubDate = Date.parse(EUSanctions.pubDate);
-                                break;
-                            case 'UK':
-                                pubDate = Date.parse(EUSanctions.pubDate);
-                                break
-                        }
+                        let pubDate = Date.parse(data.pubDate)
+                        // switch (authority) {
+                        //     case 'OFAC':
+                        //         pubDate = Date.parse(OFACsanctions.pubDate);
+                        //         break;
+                        //     case 'UN':
+                        //         pubDate = Date.parse(UNSanctions.pubDate);
+                        //         break;
+                        //     case 'EU':
+                        //         pubDate = Date.parse(EUSanctions.pubDate);
+                        //         break;
+                        //     case 'UK':
+                        //         pubDate = Date.parse(EUSanctions.pubDate);
+                        //         break
+                        // }
                         return await SanctionEntity.create({
                             uid: uid,
                             firstName: firstName ? firstName.toUpperCase() : '',
@@ -894,9 +893,7 @@ export default class SanctionService {
                             reject(err)
                         })
                     }));
-                    resolve(rows)
                 } catch (err) {
-                    console.log(err);
                     reject(err)
                 }
             })()
@@ -956,7 +953,28 @@ export default class SanctionService {
             })
         }).then((data) => {
             console.log('Filling database with new data');
-            return this.INSERT_SANCTIONS()
+			return (async() => {
+				const OFACsanctions = await this.parseOFACData();
+				const UNSanctions = await this.parseUNData();
+				const EUSanctions = await this.parseEUData();
+				const UKSanctions = await this.parseUKData();
+
+				return this.INSERT_SANCTIONS(OFACsanctions, 0)
+					.then((data) => {
+						const count = OFACsanctions.entries.length
+						return this.INSERT_SANCTIONS(OFACsanctions, count)
+					}).then((data) => {
+						const count = UNSanctions.entries.length
+						return this.INSERT_SANCTIONS(UNSanctions, count)
+					}).then((data) => {
+						const count = EUSanctions.entries.length
+						return this.INSERT_SANCTIONS(EUSanctions, count)
+					}).then((data) => {
+						const count = UKSanctions.entries.length
+						return this.INSERT_SANCTIONS(UKSanctions, count)
+					})
+			})();
+            
         }).catch((err) => {
             console.log(err);
             console.log('An error occured while cleaning the database')

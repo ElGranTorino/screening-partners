@@ -35,7 +35,7 @@ class App {
         //      this.setupDB();
             
         // }
-        // this.setupDB();
+        this.setupDB();
 
         // this.dbUpdateLoop();
         // this.setupDB();

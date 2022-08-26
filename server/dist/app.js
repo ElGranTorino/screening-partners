@@ -32,7 +32,7 @@ class App {
         // if(this.NODE_ENV === 'production') {
         //      this.setupDB();
         // }
-        // this.setupDB();
+        this.setupDB();
         // this.dbUpdateLoop();
         // this.setupDB();
         // this.dbUpdateLoop();
