@@ -26,23 +26,18 @@ if(process.env.NODE_ENV === 'development'){
 
       });
 } else if (process.env.NODE_ENV === 'production') {
-    // connection = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_LOGIN}`, `${process.env.DB_PASSWORD}`, {
-    //     host: 'localhost',
-    //     dialect: 'postgres',
-    //     pool: {
-    //         max: 5,
-    //         min: 0,
-    //         idle: 10000
-    //     }
-    //   });
-    // const [database, username, password] = [process.env.DB_NAME || '', 
-    //                                         process.env.DB_LOGIN || '', 
-    //                                         process.env.DB_PASSWORD || '']
-    // connection = new Sequelize(database, username, password, {
-    //     host: process.env.DB_HOST,
-    //     dialect: "postgres",
-    //     logging: false,
-    // });
+    connection = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_LOGIN}`, `${process.env.DB_PASSWORD}`, {
+        host: 'localhost',
+        dialect: 'postgres',
+        // logging: true,
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 300000,
+            idle: 5000
+        }
+
+      });
 }
 
 (async function () {

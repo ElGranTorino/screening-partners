@@ -729,40 +729,41 @@ export default class SanctionService {
             })
         })
     };
-    public INSERT_SANCTIONS(data, count = 0): any {
+    public INSERT_SANCTIONS(): any {
         return new Promise((resolve, reject) => {
             (async () => {
                 try {
-                    // const OFACsanctions = await this.parseOFACData();
-                    // const UNSanctions = await this.parseUNData();
-                    // const EUSanctions = await this.parseEUData();
-                    // const UKSanctions = await this.parseUKData();
+                    const OFACsanctions = await this.parseOFACData();
+                    const UNSanctions = await this.parseUNData();
+                    const EUSanctions = await this.parseEUData();
+                    const UKSanctions = await this.parseUKData();
+
                     const allSanctions = [
-						...data.entries, 
-						// ...UNSanctions.entries, 
-						// ...EUSanctions.entries, 
-						// ...UKSanctions.entries
+						...OFACsanctions.entries, 
+						...UNSanctions.entries, 
+						...EUSanctions.entries, 
+						...UKSanctions.entries
 					];
                     Promise.all(allSanctions.map(async (sanction, i: number) => {
-                        const uid = i + count;
+                        const uid = i;
                         const {
                             firstName = '', lastName, sdnType, addressList, programList, akaList, idList, authority, dateOfBirthList, placeOfBirthList, citizenshipList = {}, LastUpdated
                         } = sanction;
-                        let pubDate = Date.parse(data.pubDate)
-                        // switch (authority) {
-                        //     case 'OFAC':
-                        //         pubDate = Date.parse(OFACsanctions.pubDate);
-                        //         break;
-                        //     case 'UN':
-                        //         pubDate = Date.parse(UNSanctions.pubDate);
-                        //         break;
-                        //     case 'EU':
-                        //         pubDate = Date.parse(EUSanctions.pubDate);
-                        //         break;
-                        //     case 'UK':
-                        //         pubDate = Date.parse(EUSanctions.pubDate);
-                        //         break
-                        // }
+                        let pubDate;
+                        switch (authority) {
+                            case 'OFAC':
+                                pubDate = Date.parse(OFACsanctions.pubDate);
+                                break;
+                            case 'UN':
+                                pubDate = Date.parse(UNSanctions.pubDate);
+                                break;
+                            case 'EU':
+                                pubDate = Date.parse(EUSanctions.pubDate);
+                                break;
+                            case 'UK':
+                                pubDate = Date.parse(EUSanctions.pubDate);
+                                break
+                        }
                         return await SanctionEntity.create({
                             uid: uid,
                             firstName: firstName ? firstName.toUpperCase() : '',
@@ -771,10 +772,10 @@ export default class SanctionService {
                             type: sdnType ? sdnType : null,
                             latestUpdate: LastUpdated || pubDate,
                             authority: authority
-                        }).then((data) => {
+                        }).then((data: any): Promise<any> => {
                             if (dateOfBirthList?.dateOfBirthItem) {
                                 if (Array.isArray(dateOfBirthList.dateOfBirthItem)) {
-                                    SanctionInfo.bulkCreate(dateOfBirthList.dateOfBirthItem.map((detail) => {
+                                    return SanctionInfo.bulkCreate(dateOfBirthList.dateOfBirthItem.map((detail) => {
                                         return {
                                             sanction: uid,
                                             key: 'Date of birth',
@@ -782,17 +783,17 @@ export default class SanctionService {
                                         }
                                     }))
                                 } else if (dateOfBirthList.dateOfBirthItem.constructor === Object) {
-                                    SanctionInfo.create({
+                                    return SanctionInfo.create({
                                         sanction: uid,
                                         key: 'Date of birth',
                                         value: dateOfBirthList?.dateOfBirthItem?.dateOfBirth
                                     })
                                 }
                             }
-                        }).then((data) => {
+                        }).then((data: any): Promise<any> => {
                             if (placeOfBirthList?.placeOfBirthItem) {
                                 if (Array.isArray(placeOfBirthList.placeOfBirthItem)) {
-                                    SanctionInfo.bulkCreate(placeOfBirthList.placeOfBirthItem.map((detail) => {
+                                    return SanctionInfo.bulkCreate(placeOfBirthList.placeOfBirthItem.map((detail) => {
                                         return {
                                             sanction: uid,
                                             key: 'Place of birth',
@@ -800,33 +801,33 @@ export default class SanctionService {
                                         }
                                     }))
                                 } else if (placeOfBirthList.placeOfBirthItem.constructor === Object) {
-                                    SanctionInfo.create({
+                                    return SanctionInfo.create({
                                         sanction: uid,
                                         key: 'Place of birth',
                                         value: placeOfBirthList?.placeOfBirthItem?.placeOfBirth
                                     })
                                 }
                             }
-                        }).then((data) => {
+                        }).then((data: any): Promise<any>=> {
                             if (programList?.program) {
                                 if (Array.isArray(programList.program)) {
-                                    SanctionProgram.bulkCreate(programList.program.map((programName) => {
+                                    return SanctionProgram.bulkCreate(programList.program.map((programName) => {
                                         return {
                                             sanction: uid,
                                             name: programName
                                         }
                                     }))
                                 } else if (typeof programList.program === 'string') {
-                                    SanctionProgram.create({
+                                    return SanctionProgram.create({
                                         sanction: uid,
                                         name: programList.program
                                     })
                                 }
                             }
-                        }).then((data) => {
+                        }).then((data: any): Promise<any> => {
                             if (akaList?.aka) {
                                 if (Array.isArray(akaList.aka)) {
-                                    SanctionAlias.bulkCreate(akaList.aka.map((alias) => {
+                                    return SanctionAlias.bulkCreate(akaList.aka.map((alias) => {
                                         return {
                                             sanction: uid,
                                             firstName: alias.firstName || null,
@@ -834,17 +835,17 @@ export default class SanctionService {
                                         }
                                     }))
                                 } else if (akaList.aka.constructor === Object) {
-                                    SanctionAlias.create({
+                                    return SanctionAlias.create({
                                         sanction: uid,
                                         firstName: akaList.aka.firstName || null,
                                         lastName: akaList.aka.lastName
                                     })
                                 }
                             }
-                        }).then((data) => {
+                        }).then((data: any): Promise<any> => {
                             if (addressList?.address) {
                                 if (Array.isArray(addressList.address)) {
-                                    SanctionAddress.bulkCreate(addressList.address.map((location) => {
+                                    return SanctionAddress.bulkCreate(addressList.address.map((location) => {
                                         return {
                                             sanction: uid,
                                             address1: location.address1 || null,
@@ -856,7 +857,7 @@ export default class SanctionService {
                                         }
                                     }))
                                 } else if (addressList.address.constructor === Object) {
-                                    SanctionAddress.create({
+                                    return SanctionAddress.create({
                                         sanction: uid,
                                         address1: addressList?.address?.address1 || null,
                                         address2: addressList?.address?.address2 || null,
@@ -867,9 +868,9 @@ export default class SanctionService {
                                     })
                                 }
                             }
-                        }).then((data) => {
+                        }).then((data: any): Promise<any> => {
                             if (Array.isArray(idList?.id)) {
-								SanctionInfo.bulkCreate(idList.id.map((detail) => {
+								return SanctionInfo.bulkCreate(idList.id.map((detail) => {
 									return {
 										sanction: uid,
 										key: detail?.idType,
@@ -877,13 +878,13 @@ export default class SanctionService {
 									}
 								}))
 							} else if (idList?.id?.idType && idList?.id?.idNumber) {
-								SanctionInfo.create({
+								return SanctionInfo.create({
 									sanction: uid,
 									key: idList?.id?.idType,
 									value: idList?.id?.idNumber
 								})
 							} else if (idList?.id?.idType && idList?.id?.idCountry) {
-								SanctionInfo.create({
+								return SanctionInfo.create({
 									sanction: uid,
 									key: 'Document Country',
 									value: idList?.id?.idCountry
@@ -953,28 +954,7 @@ export default class SanctionService {
             })
         }).then((data) => {
             console.log('Filling database with new data');
-			return (async() => {
-				const OFACsanctions = await this.parseOFACData();
-				const UNSanctions = await this.parseUNData();
-				const EUSanctions = await this.parseEUData();
-				const UKSanctions = await this.parseUKData();
-
-				return this.INSERT_SANCTIONS(OFACsanctions, 0)
-					.then((data) => {
-						const count = OFACsanctions.entries.length
-						return this.INSERT_SANCTIONS(OFACsanctions, count)
-					}).then((data) => {
-						const count = UNSanctions.entries.length
-						return this.INSERT_SANCTIONS(UNSanctions, count)
-					}).then((data) => {
-						const count = EUSanctions.entries.length
-						return this.INSERT_SANCTIONS(EUSanctions, count)
-					}).then((data) => {
-						const count = UKSanctions.entries.length
-						return this.INSERT_SANCTIONS(UKSanctions, count)
-					})
-			})();
-            
+            return this.INSERT_SANCTIONS()
         }).catch((err) => {
             console.log(err);
             console.log('An error occured while cleaning the database')
