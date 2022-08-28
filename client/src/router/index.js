@@ -56,6 +56,7 @@ const router = createRouter({
 })
 router.beforeEach(async (to, from) => {
   const url = helpers.createUrl('/verify')
+  // const url = helpers.createUrl('https://www.screeningpartners.net/verify')
   
 
   if(to.name === 'Admin'){

@@ -14,6 +14,13 @@ declare module "express-session" {
 const s =  new BaseService();
 const i = new IssueService();
 export default class BaseController {
+  public isVerified(req: Request, res: Response): any {
+    if(req.session.user) {
+      res.json({verified: true})
+    } else {
+        res.json({verified: false})
+    }
+  }
   public findAllDataIssues(req: Request, res: Response): Promise<any> {
     return i.selectIssues(req.body)
                   .then((data) => {

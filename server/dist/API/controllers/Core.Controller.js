@@ -6,6 +6,14 @@ import Total from "../../models/TotalResults.js";
 const s = new BaseService();
 const i = new IssueService();
 export default class BaseController {
+    isVerified(req, res) {
+        if (req.session.user) {
+            res.json({ verified: true });
+        }
+        else {
+            res.json({ verified: false });
+        }
+    }
     findAllDataIssues(req, res) {
         return i.selectIssues(req.body)
             .then((data) => {

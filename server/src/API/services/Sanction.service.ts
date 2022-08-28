@@ -744,7 +744,7 @@ export default class SanctionService {
 						...EUSanctions.entries, 
 						...UKSanctions.entries
 					];
-                    Promise.all(allSanctions.map(async (sanction, i: number) => {
+                    const rows = await Promise.all(allSanctions.map(async (sanction, i: number) => {
                         const uid = i;
                         const {
                             firstName = '', lastName, sdnType, addressList, programList, akaList, idList, authority, dateOfBirthList, placeOfBirthList, citizenshipList = {}, LastUpdated
@@ -772,10 +772,10 @@ export default class SanctionService {
                             type: sdnType ? sdnType : null,
                             latestUpdate: LastUpdated || pubDate,
                             authority: authority
-                        }).then((data: any): Promise<any> => {
+                        }).then((data) => {
                             if (dateOfBirthList?.dateOfBirthItem) {
                                 if (Array.isArray(dateOfBirthList.dateOfBirthItem)) {
-                                    return SanctionInfo.bulkCreate(dateOfBirthList.dateOfBirthItem.map((detail) => {
+                                    SanctionInfo.bulkCreate(dateOfBirthList.dateOfBirthItem.map((detail) => {
                                         return {
                                             sanction: uid,
                                             key: 'Date of birth',
@@ -783,17 +783,17 @@ export default class SanctionService {
                                         }
                                     }))
                                 } else if (dateOfBirthList.dateOfBirthItem.constructor === Object) {
-                                    return SanctionInfo.create({
+                                    SanctionInfo.create({
                                         sanction: uid,
                                         key: 'Date of birth',
                                         value: dateOfBirthList?.dateOfBirthItem?.dateOfBirth
                                     })
                                 }
                             }
-                        }).then((data: any): Promise<any> => {
+                        }).then((data) => {
                             if (placeOfBirthList?.placeOfBirthItem) {
                                 if (Array.isArray(placeOfBirthList.placeOfBirthItem)) {
-                                    return SanctionInfo.bulkCreate(placeOfBirthList.placeOfBirthItem.map((detail) => {
+                                    SanctionInfo.bulkCreate(placeOfBirthList.placeOfBirthItem.map((detail) => {
                                         return {
                                             sanction: uid,
                                             key: 'Place of birth',
@@ -801,33 +801,33 @@ export default class SanctionService {
                                         }
                                     }))
                                 } else if (placeOfBirthList.placeOfBirthItem.constructor === Object) {
-                                    return SanctionInfo.create({
+                                    SanctionInfo.create({
                                         sanction: uid,
                                         key: 'Place of birth',
                                         value: placeOfBirthList?.placeOfBirthItem?.placeOfBirth
                                     })
                                 }
                             }
-                        }).then((data: any): Promise<any>=> {
+                        }).then((data) => {
                             if (programList?.program) {
                                 if (Array.isArray(programList.program)) {
-                                    return SanctionProgram.bulkCreate(programList.program.map((programName) => {
+                                    SanctionProgram.bulkCreate(programList.program.map((programName) => {
                                         return {
                                             sanction: uid,
                                             name: programName
                                         }
                                     }))
                                 } else if (typeof programList.program === 'string') {
-                                    return SanctionProgram.create({
+                                    SanctionProgram.create({
                                         sanction: uid,
                                         name: programList.program
                                     })
                                 }
                             }
-                        }).then((data: any): Promise<any> => {
+                        }).then((data) => {
                             if (akaList?.aka) {
                                 if (Array.isArray(akaList.aka)) {
-                                    return SanctionAlias.bulkCreate(akaList.aka.map((alias) => {
+                                    SanctionAlias.bulkCreate(akaList.aka.map((alias) => {
                                         return {
                                             sanction: uid,
                                             firstName: alias.firstName || null,
@@ -835,17 +835,17 @@ export default class SanctionService {
                                         }
                                     }))
                                 } else if (akaList.aka.constructor === Object) {
-                                    return SanctionAlias.create({
+                                    SanctionAlias.create({
                                         sanction: uid,
                                         firstName: akaList.aka.firstName || null,
                                         lastName: akaList.aka.lastName
                                     })
                                 }
                             }
-                        }).then((data: any): Promise<any> => {
+                        }).then((data) => {
                             if (addressList?.address) {
                                 if (Array.isArray(addressList.address)) {
-                                    return SanctionAddress.bulkCreate(addressList.address.map((location) => {
+                                    SanctionAddress.bulkCreate(addressList.address.map((location) => {
                                         return {
                                             sanction: uid,
                                             address1: location.address1 || null,
@@ -857,7 +857,7 @@ export default class SanctionService {
                                         }
                                     }))
                                 } else if (addressList.address.constructor === Object) {
-                                    return SanctionAddress.create({
+                                    SanctionAddress.create({
                                         sanction: uid,
                                         address1: addressList?.address?.address1 || null,
                                         address2: addressList?.address?.address2 || null,
@@ -868,9 +868,9 @@ export default class SanctionService {
                                     })
                                 }
                             }
-                        }).then((data: any): Promise<any> => {
+                        }).then((data) => {
                             if (Array.isArray(idList?.id)) {
-								return SanctionInfo.bulkCreate(idList.id.map((detail) => {
+								SanctionInfo.bulkCreate(idList.id.map((detail) => {
 									return {
 										sanction: uid,
 										key: detail?.idType,
@@ -878,13 +878,13 @@ export default class SanctionService {
 									}
 								}))
 							} else if (idList?.id?.idType && idList?.id?.idNumber) {
-								return SanctionInfo.create({
+								SanctionInfo.create({
 									sanction: uid,
 									key: idList?.id?.idType,
 									value: idList?.id?.idNumber
 								})
 							} else if (idList?.id?.idType && idList?.id?.idCountry) {
-								return SanctionInfo.create({
+								SanctionInfo.create({
 									sanction: uid,
 									key: 'Document Country',
 									value: idList?.id?.idCountry
@@ -894,7 +894,9 @@ export default class SanctionService {
                             reject(err)
                         })
                     }));
+                    resolve(rows)
                 } catch (err) {
+                    console.log(err);
                     reject(err)
                 }
             })()

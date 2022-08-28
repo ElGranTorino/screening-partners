@@ -1,11 +1,6 @@
 import { Router } from "express";
+import BaseController from "../controllers/Core.Controller.js";
 const router = Router();
-router.get('/verify', (req, res) => {
-    if (req.session.user) {
-        res.json({ verified: true });
-    }
-    else {
-        res.json({ verified: false });
-    }
-});
+const c = new BaseController();
+router.get('/verify', c.isVerified);
 export default router;

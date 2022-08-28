@@ -20,7 +20,7 @@ class App {
     NODE_ENV;
     constructor() {
         this.PORT = process.env.PORT || 3000;
-        this.NODE_ENV = process.env.environment || 'development';
+        this.NODE_ENV = process.env.NODE_ENV || 'development';
         this.session_secret = process.env.SESSION_SECRET || 'session_secret';
         this.app = express();
         this.setupEnvironment();
@@ -32,7 +32,7 @@ class App {
         // if(this.NODE_ENV === 'production') {
         //      this.setupDB();
         // }
-        this.setupDB();
+        // this.setupDB();
         // this.dbUpdateLoop();
         // this.setupDB();
         // this.dbUpdateLoop();
@@ -56,15 +56,8 @@ class App {
         });
     }
     setCors() {
-        const developmentOrigin = [
-            'http://localhost:8080'
-        ];
-        const productionOrigin = [
-            'https://screeningpartners.net/',
-            'http://screeningpartners.net/',
-            'https://www.screeningpartners.net/',
-            'http://www.screeningpartners.net/'
-        ];
+        const developmentOrigin = 'http://localhost:8080';
+        const productionOrigin = 'https://www.screeningpartners.net/';
         this.app.use(cors({
             origin: this.NODE_ENV === 'development' ? developmentOrigin : productionOrigin,
             credentials: true,

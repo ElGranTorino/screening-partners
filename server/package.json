@@ -5,11 +5,9 @@
   "type": "module",
   "main": "./dist/app.js",
   "scripts": {
-    "test": "jest",
     "serve": "nodemon ./dist/app.js",
     "start": "node ./dist/app.js",
-    "prod": "forever start ./dist/app.js",
-    "fix": "rm -rf ./db/* && npm run serve"
+    "prod": "pm2 start ./dist/app.js"
   },
   "keywords": [],
   "author": "Andrew Solomon <SolomonAndrew@tutanota.com>",
