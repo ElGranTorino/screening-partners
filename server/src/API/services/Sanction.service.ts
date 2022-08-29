@@ -17,6 +17,8 @@ import {
 } from "transliteration";
 import path from "path";
 import fs from "fs";
+import csv from 'csvtojson'
+
 const operatorsAliases = {
     $eq: Op.eq,
     $or: Op.or,
@@ -32,6 +34,119 @@ interface ISelectSanctionsResponse {
     entities: object
 }
 export default class SanctionService {
+    parseBISData(): Promise < any > {
+        return new Promise((resolve, reject) => {
+            (async ()=> {
+                const filePath='/static/xml/BIS.csv'
+                await csv()
+                .fromFile(path.join(path.resolve(), filePath))
+                .then((jsonObj)=>{
+                    const results: any = {};
+                    results.entries = jsonObj.map((entry, i) => {
+                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList, pubDate;
+                        const postalCodeVar = "Postal Code",
+                            entityNumberVar = "Entity Number",
+                            sdnTypeVar = "SDN Type",
+                            stateOrProvinceVar = "State/Province",
+                            federalRegisterNoticeVar = "Federal Register Notice",
+                            effectiveDateVar = "Effective Date",
+                            licenceRequirementVar = "License Requirement",
+                            pubDateVar = "Effective Date",
+                            licencePolicyVar = "License Policy",
+                            remarksVar = "Remarks/Notes",
+                            alernativeNamesVar = "Alternate Name";
+                        
+                        lastName = entry.Name.slice(0, 254);
+                        programList = {};
+                        authority = 'BIS';
+                        sdnType = 'Individual';
+                        pubDate = Date.parse(entry[pubDateVar]) || Date.now()
+                        programList = {
+                            program: ["-"]
+                        };
+                        // akalist.aka entity alwait have a lastname
+                        akaList = {};
+                        idList = {
+                            id: []
+                        };
+                        addressList = {};
+                        dateOfBirthList = {};
+                        placeOfBirthList = {};
+                        
+                        if(entry[alernativeNamesVar].length){
+                            akaList.aka = [];
+                            let names =  entry[alernativeNamesVar].split(',');
+                            names = names.reduce((acc, name) => {
+                                if(name.length) acc.push({lastName: name})
+                                return acc
+                            }, [])
+                            akaList.aka.push(...names)
+                        }
+
+                        if(
+                            entry.Address ||
+                            entry.City ||
+                            entry.Country ||
+                            entry.Address ||
+                            entry[postalCodeVar] ||
+                            entry[stateOrProvinceVar]
+                        ) {
+                            addressList.address = []
+                            const location: any  = {}
+                            if(entry.Address) location.address1 = entry.Address.split(';')[0];
+                            if(entry.City) location.city = entry.City;
+                            if(entry.Country) location.country = entry.Country;
+                            if(entry[postalCodeVar]) location.postalCode = entry[postalCodeVar];
+                            if(entry[stateOrProvinceVar]) location.stateOrProvince = entry[stateOrProvinceVar];
+                           
+                           
+                            addressList.address.push(location)
+                        }
+                        
+                        if(entry[federalRegisterNoticeVar]){
+                            idList.id.push({
+                                idType: federalRegisterNoticeVar,
+                                idNumber: entry[federalRegisterNoticeVar]
+                            })
+                        }
+                        if(entry[licenceRequirementVar]){
+                            idList.id.push({
+                                idType: licenceRequirementVar,
+                                idNumber: entry[licenceRequirementVar]
+                            })
+                        }
+                        if(entry[licencePolicyVar]){
+                            idList.id.push({
+                                idType: licencePolicyVar,
+                                idNumber: entry[licencePolicyVar]
+                            })
+                        }
+                        if(entry[remarksVar]){
+                            idList.id.push({
+                                idType: remarksVar,
+                                idNumber: entry[remarksVar]
+                            })
+                        }
+                        
+                        return {
+                            authority,
+                            firstName,
+                            lastName,
+                            sdnType,
+                            addressList,
+                            programList,
+                            akaList,
+                            idList,
+                            dateOfBirthList,
+                            placeOfBirthList,
+                            pubDate
+                        }
+                    });
+                    resolve(results)
+                })
+            })();
+        })
+    }
     public parseUKData(): Promise < any > {
         return new Promise((resolve, reject) => {
             const filePath = '/static/xml//UK.json';
@@ -40,7 +155,7 @@ export default class SanctionService {
                 const results: any = {};
                 try {
                     results.entries = json.map((entity, i) => {
-                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList, updated;
+                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList, pubDate;
                         const name = {
                             name1: typeof entity.Name6 === 'string' ? entity.Name6 : '',
                             name2: typeof entity.name1 === 'string' ? entity.name1 : '',
@@ -76,7 +191,7 @@ export default class SanctionService {
                         const Entity_ParentCompany = typeof entity?.Entity_ParentCompany === 'string' ? entity.Entity_ParentCompany : '';
                         const Entity_Subsidiaries = typeof entity?.Entity_Subsidiaries === 'string' ? entity.Entity_Subsidiaries : '';
                         const Entity_BusinessRegNumber = typeof entity?.Entity_BusinessRegNumber === 'string' ? entity.Entity_BusinessRegNumber : '';
-                        const LastUpdated = typeof entity?.LastUpdated === 'string' ? entity.LastUpdated : '';
+                        pubDate = Date.parse(entity?.LastUpdated) || Date.now
                         lastName = name.name1 + ' ' + name.name2 + ' ' + name.name3 + ' ' + name.name4 + ' ' + name.name5 + ' ' + name.name6;
                         authority = 'UK';
                         sdnType = entity.GroupTypeDescription || 'Unknown';
@@ -196,9 +311,7 @@ export default class SanctionService {
                                 idNumber: Entity_BusinessRegNumber
                             })
                         }
-						if (LastUpdated) {
-                            updated = LastUpdated
-                        }
+			
 						
                         Entity_BusinessRegNumber;
                         return {
@@ -212,7 +325,7 @@ export default class SanctionService {
                             idList,
                             dateOfBirthList,
                             placeOfBirthList,
-							updated
+							pubDate
                         }
                     });
                     resolve(results)
@@ -223,6 +336,7 @@ export default class SanctionService {
             })
         })
     };
+
     private parseEUData(): Promise < any > {
         const options = {
             explicitArray: false
@@ -237,7 +351,7 @@ export default class SanctionService {
                         results.pubDate = json.export.$.generationDate;
                         const entitiesJson = json.export.sanctionEntity;
                         results.entries = entitiesJson.map((entity, i) => {
-                            let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList;
+                            let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList, pubDate;
                             akaList = {};
                             authority = 'EU';
                             sdnType = entity?.subjectType?.$?.code;
@@ -245,6 +359,7 @@ export default class SanctionService {
                             programList = {};
                             dateOfBirthList = {};
                             placeOfBirthList = {};
+                            pubDate = Date.parse(entity?.$.designationDate) || results.pubDate;
                             idList = {
                                 id: []
                             };
@@ -428,7 +543,8 @@ export default class SanctionService {
                                 akaList,
                                 idList,
                                 dateOfBirthList,
-                                placeOfBirthList
+                                placeOfBirthList,
+                                pubDate
                             }
                         });
                         resolve(results)
@@ -453,10 +569,11 @@ export default class SanctionService {
                     const individualsJson = json.CONSOLIDATED_LIST.INDIVIDUALS.INDIVIDUAL;
                     const entitiesJson = json.CONSOLIDATED_LIST.ENTITIES.ENTITY;
                     const entitiesResult = entitiesJson.map((entity, i) => {
-                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList;
+                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList, pubDate;
                         lastName = entity.FIRST_NAME;
                         authority = 'UN';
                         sdnType = 'Entity';
+                        pubDate = entity.LISTED_ON || Date.now();
                         if (entity.UN_LIST_TYPE) {
                             programList = {
                                 program: [entity.UN_LIST_TYPE]
@@ -525,15 +642,17 @@ export default class SanctionService {
                             akaList,
                             idList,
                             dateOfBirthList,
-                            placeOfBirthList
+                            placeOfBirthList,
+                            pubDate,
                         }
                     });
                     const individualsResult = individualsJson.map((individual, i) => {
-                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList;
+                        let authority, firstName, lastName, sdnType, addressList, programList, akaList, idList, dateOfBirthList, placeOfBirthList, pubDate;
                         firstName = individual.FIRST_NAME;
                         lastName = individual.SECOND_NAME || individual.THIRD_NAME || individual.FIRST_NAME;
                         programList = {};
                         authority = 'UN';
+                        pubDate = individual.LISTED_ON || Date.now();
                         sdnType = 'Individual';
                         programList = {};
                         akaList = {};
@@ -686,7 +805,8 @@ export default class SanctionService {
                             akaList,
                             idList,
                             dateOfBirthList,
-                            placeOfBirthList
+                            placeOfBirthList,
+                            pubDate
                         }
                     });
                     results.pubDate = json.CONSOLIDATED_LIST.$.dateGenerated;
@@ -698,6 +818,7 @@ export default class SanctionService {
             })()
         })
     };
+
     private parseOFACData(): Promise < any > {
         const SDN = 'https://www.treasury.gov/ofac/downloads/sdn.xml';
         const NONSDN = 'https://www.treasury.gov/ofac/downloads/consolidated/consolidated.xml';
@@ -715,10 +836,12 @@ export default class SanctionService {
                     data.pubDate = nonSdnJson?.sdnList?.publshInformation?.Publish_Date;
                     nonSdnJson?.sdnList?.sdnEntry?.map((item) => {
                         item.authority = 'OFAC';
+                        item.pubDate = data.pubDate;
                         return item
                     });
                     sdnJson?.sdnList?.sdnEntry?.map((item) => {
                         item.authority = 'OFAC';
+                        item.pubDate = data.pubDate;
                         return item
                     });
                     data.entries = [...nonSdnJson.sdnList.sdnEntry, ...sdnJson.sdnList.sdnEntry];
@@ -737,40 +860,41 @@ export default class SanctionService {
                     const UNSanctions = await this.parseUNData();
                     const EUSanctions = await this.parseEUData();
                     const UKSanctions = await this.parseUKData();
+                    const BISSanctions = await this.parseBISData();
 
                     const allSanctions = [
 						...OFACsanctions.entries, 
 						...UNSanctions.entries, 
 						...EUSanctions.entries, 
-						...UKSanctions.entries
+						...UKSanctions.entries,
+                        ...BISSanctions.entries
 					];
                     const rows = await Promise.all(allSanctions.map(async (sanction, i: number) => {
                         const uid = i;
                         const {
-                            firstName = '', lastName, sdnType, addressList, programList, akaList, idList, authority, dateOfBirthList, placeOfBirthList, citizenshipList = {}, LastUpdated
+                            firstName = '', lastName, sdnType, addressList, programList, akaList, idList, authority, dateOfBirthList, placeOfBirthList, citizenshipList = {}, pubDate
                         } = sanction;
-                        let pubDate;
-                        switch (authority) {
-                            case 'OFAC':
-                                pubDate = Date.parse(OFACsanctions.pubDate);
-                                break;
-                            case 'UN':
-                                pubDate = Date.parse(UNSanctions.pubDate);
-                                break;
-                            case 'EU':
-                                pubDate = Date.parse(EUSanctions.pubDate);
-                                break;
-                            case 'UK':
-                                pubDate = Date.parse(EUSanctions.pubDate);
-                                break
-                        }
+                        // switch (authority) {
+                        //     case 'OFAC':
+                        //         pubDate = Date.parse(OFACsanctions.pubDate);
+                        //         break;
+                        //     case 'UN':
+                        //         pubDate = Date.parse(UNSanctions.pubDate);
+                        //         break;
+                        //     case 'EU':
+                        //         pubDate = Date.parse(EUSanctions.pubDate);
+                        //         break;
+                        //     case 'UK':
+                        //         pubDate = Date.parse(EUSanctions.pubDate);
+                        //         break
+                        // }
                         return await SanctionEntity.create({
                             uid: uid,
                             firstName: firstName ? firstName.toUpperCase() : '',
                             lastName: lastName.toUpperCase(),
                             fullName: `${firstName||''} ${lastName}`.toUpperCase(),
                             type: sdnType ? sdnType : null,
-                            latestUpdate: LastUpdated || pubDate,
+                            latestUpdate: pubDate || '08/02/2022',
                             authority: authority
                         }).then((data) => {
                             if (dateOfBirthList?.dateOfBirthItem) {
@@ -827,13 +951,16 @@ export default class SanctionService {
                         }).then((data) => {
                             if (akaList?.aka) {
                                 if (Array.isArray(akaList.aka)) {
-                                    SanctionAlias.bulkCreate(akaList.aka.map((alias) => {
-                                        return {
-                                            sanction: uid,
-                                            firstName: alias.firstName || null,
-                                            lastName: alias.lastName
-                                        }
-                                    }))
+                                    if(akaList.aka.length) {
+                                        SanctionAlias.bulkCreate(akaList.aka.map((alias) => {
+                                            return {
+                                                sanction: uid,
+                                                firstName: alias.firstName || null,
+                                                lastName: alias.lastName
+                                            }
+                                        }))
+                                    }
+                                   
                                 } else if (akaList.aka.constructor === Object) {
                                     SanctionAlias.create({
                                         sanction: uid,

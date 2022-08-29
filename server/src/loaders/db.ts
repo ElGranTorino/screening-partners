@@ -16,14 +16,13 @@ if(process.env.NODE_ENV === 'development'){
     connection = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_LOGIN}`, `${process.env.DB_PASSWORD}`, {
         host: 'localhost',
         dialect: 'postgres',
-        // logging: true,
+        logging: true,
         pool: {
             max: 5,
             min: 0,
             acquire: 300000,
             idle: 5000
         }
-
       });
 } else if (process.env.NODE_ENV === 'production') {
     connection = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_LOGIN}`, `${process.env.DB_PASSWORD}`, {
@@ -36,7 +35,6 @@ if(process.env.NODE_ENV === 'development'){
             acquire: 300000,
             idle: 5000
         }
-
       });
 }
 
