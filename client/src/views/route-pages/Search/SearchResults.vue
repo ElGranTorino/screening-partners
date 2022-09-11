@@ -12,8 +12,7 @@
             </button>
             <div class="offcanvas__entity">
                <div class="offcanvas__entity-name title mb-2">
-                  {{activeOffcanvas?.firstName || ''}}
-                  {{activeOffcanvas.lastName}}
+                  {{activeOffcanvas.fullName}}
                </div>
                <div class="offcanvas__entity-type d-flex justify-between">
                   <span class="offcanvas__key">Type</span>
@@ -21,43 +20,49 @@
                </div>
                <div class="offcanvas__entity-programm d-flex justify-between mt-1">
                   <span class="offcanvas__key">Current program</span>
-                  <span class="offcanvas__value">
+                  <span class="offcanvas__value" style="text-align: right">
                   {{parseSanctionProgram(activeOffcanvas.SanctionPrograms)}}
                   </span>
                </div>
                <div class="offcanvas__entity-update d-flex justify-between mt-1">
-                  <span class="offcanvas__key">Latest update</span>
-                  <span class="offcanvas__value">{{getFormatTimeString(activeOffcanvas.created, 'L')}}</span>
+                  <span class="offcanvas__key">Sanctioned since</span>
+                  <span class="offcanvas__value">{{getFormatTimeString(activeOffcanvas.pubDate, 'L')}}</span>
                </div>
                <div class="offcanvas__entity-authority d-flex justify-between mt-1">
                   <span class="offcanvas__key">Authority</span>
-                  <span class="offcanvas__value">{{activeOffcanvas.authority || 'OFAC'}}</span>
+                  <span class="offcanvas__value">{{activeOffcanvas.authority}}</span>
                </div>
-               <div class="offcanvas__entity-authority d-flex justify-between mt-1">
+              <div class="offcanvas__entity-authority d-flex justify-between mt-1">
                   <span class="offcanvas__key">Status</span>
                   <span class="tag tag--warning tag--entity offcanvas__value" style="margin: 0">Active</span>
                </div>
+               <div class="offcanvas__entity-authority d-flex justify-between mt-1" v-if="activeOffcanvas.list">
+                  <span class="offcanvas__key">List</span>
+                  <span class="offcanvas__value">{{activeOffcanvas.list}}</span>
+               </div>
+               <div class="offcanvas__entity-authority d-flex justify-between mt-1" v-if="activeOffcanvas.website">
+                  <span class="offcanvas__key">Source</span>
+                  <span class="offcanvas__value"><a :href="activeOffcanvas.website" style="text-decoration: underline" target="_blank">{{getOriginFromURL(activeOffcanvas.website)}}</a></span>
+               </div>
                <div class="offcanvas__entity-authority d-flex justify-between mt-1">
-                  <span class="offcanvas__key">Date added</span>
-                  <span class="offcanvas__value">{{getFormatTimeString(activeOffcanvas.latestUpdate, 'L')}}</span>
+                  <span class="offcanvas__key">Latest updated</span>
+                  <span class="offcanvas__value">{{getFormatTimeString(activeOffcanvas.created, 'L')}}</span>
+               </div>
+               <div class="offcanvas__entity-authority d-flex justify-between mt-1" v-if="activeOffcanvas.remarks">
+                  <span class="offcanvas__key">Remarks</span>
+                  <span class="offcanvas__value" style="text-align: right">{{activeOffcanvas.remarks}}</span>
                </div>
                <div class="delimiter mt-2 mb-2"></div>
                <div class="offcanvas__tabs tabs">
                   <div class="tabs__container">
-                     <!--   <div class="tabs__head hidden">
-                        <button class="tabs__head-item " v-if="activeOffcanvas.SanctionAliases">Alias</button>
-                        <button class="tabs__head-item tabs__head-item--active" v-if="activeOffcanvas.SanctionInfos">Identification</button>
-                        <button class="tabs__head-item" v-if="activeOffcanvas.SanctionAddresses"></button>  
-                        </div>
-                        -->
                      <div class="tabs__body">
-                        <div class="tabs__body-item" v-if="activeOffcanvas?.SanctionInfos">
+                        <div class="tabs__body-item" v-if="activeOffcanvas?.SanctionInfos.length">
                            <div class="title search__header" style="margin-bottom: 20px">Generall info</div>
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
                                  <tr class="table__head-row" >
-                                    <th class="table__head-cell search__sanctions-td">Id type</th>
-                                    <th class="table__head-cell search__sanctions-td">Id number</th>
+                                    <th class="table__head-cell search__sanctions-td">Key</th>
+                                    <th class="table__head-cell search__sanctions-td">Value</th>
                                  </tr>
                               </thead>
                               <tbody class="table__body">
@@ -69,6 +74,14 @@
                                     <th class="table__body-cell search__sanctions-td" v-else-if="info.key === 'Email Address'">
                                        <a :href="'mailto:' + info.value">{{info.value}}</a>
                                     </th>
+                                    <th class="table__body-cell search__sanctions-td" v-else-if="info.key === 'Date of birth' || info.key === 'Year of birth'">
+                                       {{
+                                          getFormatTimeString(
+                                             new Date(info.value.replace(/ \+00:00$/gi,"")),
+                                             "L"
+                                          )
+                                       }}
+                                    </th>
                                     <th class="table__body-cell search__sanctions-td" v-else>
                                        {{info.value}}
                                     </th>
@@ -76,25 +89,29 @@
                               </tbody>
                            </table>
                         </div>
-                        <div class="tabs__body-item mt-2" v-if="activeOffcanvas?.SanctionAddresses.length">
-                           <div class="title search__header" style="margin-bottom: 20px">Location</div>
+                        <div class="title search__header" style="margin-bottom: 20px; margin-top: 20px" v-if="activeOffcanvas?.SanctionAddresses.length">Address</div>
+                        <div class="tabs__body-item mt-2" v-for="location in activeOffcanvas?.SanctionAddresses">
                            <table class="search__sanctions-table table fullwidth" >
                               <thead class="table__head">
                                  <tr class="table__head-row" >
-                                    <th class="table__head-cell search__sanctions-td">Address</th>
-                                    <th class="table__head-cell search__sanctions-td">City</th>
-                                    <th class="table__head-cell search__sanctions-td">Postal code</th>
-                                    <th class="table__head-cell search__sanctions-td">Country</th>
-                                    <th class="table__head-cell search__sanctions-td">State or Province</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="location.address">Street</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="location.city">City</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="location.postalCode">Postal code</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="location.country">Country</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="location.stateOrProvince">State or Province</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="location.zipCode && location.zipCode !== '0'">Zip Code</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="location.note">Note</th>
                                  </tr>
                               </thead>
                               <tbody class="table__body">
-                                 <tr class="table__body-row" v-for="location, i in activeOffcanvas.SanctionAddresses">
-                                    <td class="table__head-cell search__sanctions-td">{{location.address1 || '-'}}</td>
-                                    <td class="table__head-cell search__sanctions-td">{{location.city || '-'}}</td>
-                                    <td class="table__head-cell search__sanctions-td">{{location.postalCode || '-'}}</td>
-                                    <td class="table__head-cell search__sanctions-td">{{location.country || '-'}}</td>
-                                    <td class="table__head-cell search__sanctions-td">{{location.stateOrProvince || '-'}}</td>
+                                 <tr class="table__body-row">
+                                    <td class="table__head-cell search__sanctions-td" v-if="location.address">{{location.address}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="location.city">{{location.city}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="location.postalCode">{{location.postalCode}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="location.country">{{location.country}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="location.stateOrProvince">{{location.stateOrProvince}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="location.zipCode && location.zipCode !== '0'">{{location.zipCode}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="location.note">{{location.note}}</td>
                                  </tr>
                               </tbody>
                            </table>
@@ -110,13 +127,67 @@
                               <tbody class="table__body">
                                  <tr class="table__body-row" v-for="name, i in activeOffcanvas.SanctionAliases">
                                     <td class="table__head-cell search__sanctions-td">
-                                       {{name.firstName}}
-                                       {{name.lastName}}
+                                       {{name.fullName}}
                                     </td>
                                  </tr>
                               </tbody>
                            </table>
                         </div>
+
+
+
+                        <div class="title search__header" style="margin-bottom: 20px; margin-top: 40px" v-if="activeOffcanvas.SanctionDocuments.length">Identification</div>
+                        <div class="tabs__body-item mt-2" v-for="doc, i in activeOffcanvas.SanctionDocuments">
+                           <table class="search__sanctions-table table fullwidth" >
+                              <thead class="table__head">
+                                 <tr class="table__head-row" >
+                                    <th class="table__head-cell search__sanctions-td" v-if="doc.type">Type</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="doc.number">ID</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="doc.country">Country</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="doc.city">City</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="doc.date">Date</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="doc.note">Note</th>
+                                 </tr>
+                              </thead>
+                              <tbody class="table__body">
+                                 <tr class="table__body-row">
+                                    <td class="table__head-cell search__sanctions-td" v-if="doc.type">{{doc.type}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="doc.number">{{doc.number}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="doc.country">{{doc.country}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="doc.city">{{doc.city}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="doc.date">{{getFormatTimeString(doc.date, "L")}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="doc.note">{{doc.note}}</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+
+                        <div class="tabs__body-item mt-2" v-for="ethnos, i in activeOffcanvas.SanctionNationalities">
+                           <div class="title search__header" style="margin-bottom: 20px">Nationality/Citizenship</div>
+                           <table class="search__sanctions-table table fullwidth" >
+                              <thead class="table__head">
+                                 <tr class="table__head-row" >
+                                    <th class="table__head-cell search__sanctions-td" v-if="ethnos.type">Type</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="ethnos.country">Country</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="ethnos.address">Address</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="ethnos.city">City</th>
+                                    <th class="table__head-cell search__sanctions-td" v-if="ethnos.stateOrProvince">State or Province</th>
+                                 </tr>
+                              </thead>
+                              <tbody class="table__body">
+                                 <tr class="table__body-row">
+                                    <td class="table__head-cell search__sanctions-td" v-if="ethnos.type">{{ethnos.type}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="ethnos.country">{{ethnos.country}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="ethnos.address">{{ethnos.address}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="ethnos.city">{{ethnos.city}}</td>
+                                    <td class="table__head-cell search__sanctions-td" v-if="ethnos.stateOrProvince">{{ethnos.stateOrProvince}}</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+
+
+
                      </div>
                   </div>
                </div>
@@ -158,8 +229,8 @@
                      <button class="btn" style="margin: 1.5rem 1rem" @click="downloadPDF();">Download PDF</button>
                   </div>
                </div>
-               <div class="title search__header">
-                  Relevant news 
+               <div class="title search__header fullwidth text-center">
+                  Adverse Media Search 
                   <span v-if="allNews.length > 100" >(100+)</span>
                   <span v-else>({{allNews.length}})</span>
                </div>
@@ -183,36 +254,71 @@
          </div>
          <div class="delimiter mt-4"></div>
          <div class="search__sanctions" v-if="allSanctions.length">
-            <div class="title search__header">
-               Economic sanctions 
+            <div class="title search__header fullwidth text-center">
+               Potential Sanctions Matches
                <span v-if="allSanctions.length">({{getTotalSanctionsCount}})</span>
             </div>
             <table class="search__sanctions-table table fullwidth">
                <thead class="table__head">
                   <tr class="table__head-row">
-                     <th class="table__head-cell search__sanctions-td">Entity name</th>
-                     <th class="table__head-cell search__sanctions-td">Type</th>
-                     <th class="table__head-cell search__sanctions-td">Country</th>
-                     <th class="table__head-cell search__sanctions-td">Authority</th>
-                     <th class="table__head-cell search__sanctions-td">Current Program</th>
-                     <th class="table__head-cell search__sanctions-td">Last Update</th>
+                     <th class="table__head-cell search__sanctions-td">
+                        <button @click="sortSanctionsTable($event, 'name')" data-sort-type="ascending" style="width: 100%; height: 100%; display: inline-block; background: transparent; border: none; outline: none;">
+                           Entity name 
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'name' && getSorting.type === 'descending' }" name="caret-up"></ion-icon>
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'name' && getSorting.type === 'ascending' }" name="caret-down"></ion-icon>
+                        </button>
+                        </th>
+                     <th class="table__head-cell search__sanctions-td">
+                        <button @click="sortSanctionsTable($event, 'type')" data-sort-type="ascending" style="width: 100%; height: 100%; display: inline-block; background: transparent; border: none; outline: none;">
+                           Type 
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'type' && getSorting.type === 'descending' }" name="caret-up"></ion-icon>
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'type' && getSorting.type === 'ascending' }" name="caret-down"></ion-icon>
+                        </button>
+                        </th>
+                     <th class="table__head-cell search__sanctions-td">
+                        <button @click="sortSanctionsTable($event, 'country')" data-sort-type="ascending" style="width: 100%; height: 100%; display: inline-block; background: transparent; border: none; outline: none;">
+                           Country 
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'country' && getSorting.type === 'descending' }" name="caret-up"></ion-icon>
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'country' && getSorting.type === 'ascending' }" name="caret-down"></ion-icon>
+                        </button>
+                        </th>
+                     <th class="table__head-cell search__sanctions-td">
+                        <button @click="sortSanctionsTable($event, 'authority')" data-sort-type="ascending" style="width: 100%; height: 100%; display: inline-block; background: transparent; border: none; outline: none;">
+                           Authority 
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'authority' && getSorting.type === 'descending' }" name="caret-up"></ion-icon>
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'authority' && getSorting.type === 'ascending' }" name="caret-down"></ion-icon>
+                        </button>
+                        </th>
+                     <th class="table__head-cell search__sanctions-td">
+                        <button @click="sortSanctionsTable($event, 'program')" data-sort-type="ascending" style="width: 100%; height: 100%; display: inline-block; background: transparent; border: none; outline: none;">
+                           Current Program 
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'program' && getSorting.type === 'descending' }" name="caret-up"></ion-icon>
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'program' && getSorting.type === 'ascending' }" name="caret-down"></ion-icon>
+                        </button>
+                        </th>
+                     <th class="table__head-cell search__sanctions-td">
+                        <button @click="sortSanctionsTable($event, 'date')" data-sort-type="ascending" style="width: 100%; height: 100%; display: inline-block; background: transparent; border: none; outline: none;">
+                           Last Update 
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'date' && getSorting.type === 'descending' }" name="caret-up"></ion-icon>
+                           <ion-icon class="table-arrow" :class="{'active': getSorting.by === 'date' && getSorting.type === 'ascending' }" name="caret-down"></ion-icon>
+                        </button>
+                        </th>
                   </tr>
                </thead>
                <tbody class="table__body">
                   <tr class="table__body-row" v-for="sanction, indx in allSanctions">
                      <th class="table__body-cell search__sanctions-td">
                         <a href="javascript:void(0);" @click="toggleOffcanvas(indx)">
-                        {{sanction?.firstName || ''}}
-                        {{sanction.lastName}}
+                        {{sanction?.fullName}}
                         </a>
                      </th>
                      <th class="table__body-cell search__sanctions-td">{{sanction.type == "Entity" ? "Organization" : sanction.type}}</th>
                      <th class="table__body-cell search__sanctions-td">{{getCountryIconByName(sanction?.SanctionAddresses[0]?.country) || 'Globally'}} </th>
-                     <th class="table__body-cell search__sanctions-td">{{sanction.authority || 'OFAC'}}</th>
+                     <th class="table__body-cell search__sanctions-td">{{sanction.authority}}</th>
                      <th class="table__body-cell search__sanctions-td">{{
                         parseSanctionProgram(sanction.SanctionPrograms)
                      }}</th>
-                     <th class="table__body-cell search__sanctions-td">{{getFormatTimeString(sanction.latestUpdate, 'L')}}</th>
+                     <th class="table__body-cell search__sanctions-td">{{getFormatTimeString(sanction.pubDate, 'L')}}</th>
                   </tr>
                </tbody>
             </table>
@@ -314,11 +420,11 @@
       computed: mapGetters([
          "allNews", "displayLimit", "getRequestDuration",
          "allSanctions", "getTotalSanctionsCount", "getSanctionsLimit",
-         "getSanctionsCurrentPage", "getTargetName"
+         "getSanctionsCurrentPage", "getTargetName", "getSorting"
       ]),
       methods: {
-         ...mapActions(["fetchGoogleNews", "fetchOFACsanctions", "fetchAndUpdateSanctions", "commitIssuesWithData"]),
-         ...mapMutations(["UPDATE_DISPLAY_LIMIT", "UPDATE_SANCTIONS_PAGE"]),
+         ...mapActions(["fetchGoogleNews", "fetchOFACsanctions", "fetchAndUpdateSanctions", "commitIssuesWithData", "sortSanctions"]),
+         ...mapMutations(["UPDATE_DISPLAY_LIMIT", "UPDATE_SANCTIONS_PAGE", "UPDATE_ALL_SANCTIONS", "SORT_SANCTIONS"]),
          showSanctionDetails() {
                const offcanvas = document.querySelector()
                offcanvas.classList.remove('hidden')
@@ -329,6 +435,19 @@
          showAllRelevantNews(e) {
                e.target.classList.add('hidden');
                this.UPDATE_DISPLAY_LIMIT(100);
+         },
+         sortSanctionsTable(e, sortBy){
+            const type =  e.target.getAttribute("data-sort-type");
+
+            this.sortSanctions({sortBy, type})
+            switch(type){
+               case 'ascending':
+                  e.target.setAttribute("data-sort-type", "descending")
+                  break;
+               case 'descending':
+                  e.target.setAttribute("data-sort-type", "ascending")
+                  break;
+            }
          },
          parseSanctionProgram(data) {
             if(data.constructor === Object) {
@@ -672,6 +791,10 @@
                   document.body.classList.remove('overflow-hidden')
                }
          },
+         getOriginFromURL(url) {
+            url = new URL(url);
+            return url.origin;
+         },
          downloadPDF() {
             (async () => {
                const tableDataList = await this.fetchOFACsanctions({limit: 50});
@@ -709,10 +832,10 @@
                doc.text('Date:', 25, 90, {
                   align: "left"
                });
-               doc.text('Related news:', 25, 100, {
+               doc.text('Potential Adverse Media:', 25, 100, {
                   align: "left"
                });
-               doc.text('Sanctions:', 25, 110, {
+               doc.text('Potential Sanctions Matches:', 25, 110, {
                   align: "left"
                });
 
@@ -733,14 +856,13 @@
 
                doc.setTextColor('#898989');
                doc.setFont('Montserrat', 'italic');
-
-               doc.text('Our service does not guarantee the ', width - 25, 55, {
+               doc.text('Our service does not guarantee the truthfulness', width - 25, 55, {
                   align: "right"
                });
-               doc.text('truthfulness of the results provided. ', width - 25, 60, {
+               doc.text('correctness of  and completeness the results provided. ', width - 25, 60, {
                   align: "right"
                });
-               doc.text('All results are based on data from public sources', width - 25, 65, {
+               doc.text('All results are based on automatic search of data from public sources.', width - 25, 65, {
                   align: "right"
                });
 
@@ -760,7 +882,7 @@
                         nextItem?.SanctionAddresses[0]?.country || 'Globally', 
                         nextItem?.authority || 'OFAC', 
                         nextItem.SanctionPrograms.map(item => item.name).join(', '),
-                        helpers.getFormatTimeString(nextItem?.latestUpdate, 'L')
+                        helpers.getFormatTimeString(nextItem?.pubDate, 'L')
                      ]);
                      return acc;
                   }, []);
@@ -876,7 +998,7 @@
                   })
                }
 
-               if(newsTableBody.length){
+               if(newsTableBody){
                   // // News table
                   autoTable(doc, {
                      // html: '#my-table',
@@ -983,4 +1105,13 @@
    });
 </script>
 <style>
+.table-arrow {
+   pointer-events: none !important;
+   vertical-align: middle;
+   color: #fff;
+   visibility: visible !important;
+}
+.table-arrow.active {
+   color: #ee6c4d !important;
+}
 </style>

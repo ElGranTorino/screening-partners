@@ -10,30 +10,22 @@ class SanctionAddress extends Model {
 
 SanctionAddress.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        defaultValue: DataTypes.UUIDV4,
     },
-    address1: {
+    sanction: {
+        type: DataTypes.UUID,
+        allowNull: false
+    },
+    address: {
         type: DataTypes.STRING,
         allowNull: true,
-    },
-    address2: {
-        type: DataTypes.STRING,
-        allowNull: true
-    },
-    stateOrProvince: {
-        type: DataTypes.STRING,
-        allowNull: true
     },
     city: {
         type: DataTypes.STRING,
         allowNull: true,
-    },
-    sanction: {
-        type: DataTypes.INTEGER,
-        allowNull: false
     },
     postalCode: {
         type: DataTypes.STRING,
@@ -43,6 +35,18 @@ SanctionAddress.init({
         type: DataTypes.STRING,
         allowNull: true,
     },
+    stateOrProvince: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    zipCode: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    note: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    }
 }, {
     timestamps: true,
     sequelize: db,

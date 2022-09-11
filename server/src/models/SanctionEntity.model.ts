@@ -7,14 +7,15 @@ import SanctionAddress from "../models/SanctionAddress.model.js"
 import SanctionAlias from "../models/SanctionAlias.model.js"
 import SanctionInfo from "../models/SanctionInfo.model.js"
 import SanctionProgram from "../models/SanctionProgram.model.js"
-
+import SanctionDocument from "./SanctionDocument.model.js";
+import SanctionNationality from "./SanctionNationality.model.js";
 class SanctionEntity extends Model {
     
 }
 
 SanctionEntity.init({
-    uid: {
-        type: DataTypes.INTEGER,
+    id: {
+        type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
         autoIncrement: false
@@ -29,21 +30,33 @@ SanctionEntity.init({
     },
     lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     fullName: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1024),
         allowNull: false,
     },
     type: {
         type: DataTypes.STRING,
+        allowNull: false
+    },
+    remarks: {
+        type: DataTypes.TEXT,
         allowNull: true
     },
     created: {
         type: DataTypes.DATE,
         defaultValue: Date.now,
     },
-    latestUpdate: {
+    list: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    website: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    pubDate: {
         type: DataTypes.DATE,
         allowNull: false
     },
@@ -76,6 +89,14 @@ SanctionEntity.hasMany(SanctionAlias, {
     hooks: true
 
 });SanctionEntity.hasMany(SanctionProgram, {
+    onDelete: 'CASCADE',
+    foreignKey: "sanction",
+    hooks: true
+});SanctionEntity.hasMany(SanctionDocument, {
+    onDelete: 'CASCADE',
+    foreignKey: "sanction",
+    hooks: true
+});SanctionEntity.hasMany(SanctionNationality, {
     onDelete: 'CASCADE',
     foreignKey: "sanction",
     hooks: true

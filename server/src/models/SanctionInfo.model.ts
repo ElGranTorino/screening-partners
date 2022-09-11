@@ -10,13 +10,14 @@ class SanctionInfo extends Model {
 
 SanctionInfo.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: false,
+        defaultValue: DataTypes.UUIDV4
     },
     sanction: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false
     },
     key: {

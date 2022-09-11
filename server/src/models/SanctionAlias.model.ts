@@ -14,13 +14,14 @@ class SanctionAlias extends Model {
 
 SanctionAlias.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: false,
+        defaultValue: DataTypes.UUIDV4,
     },
     sanction: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false
     },
     firstName: {
@@ -28,11 +29,12 @@ SanctionAlias.init({
         allowNull: true,
     },
     lastName: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
+        allowNull: true, 
+    },
+    fullName: {
+        type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-            len: [1, 1024]
-        }
     },
 }, {
     timestamps: true,

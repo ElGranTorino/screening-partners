@@ -49,8 +49,12 @@ export default class BaseController {
     })
   }
 
-  // Update total results count. Every time user perform a search
-  // total counts increments by two
+  /**
+   * Update total results count. Every time user perform a search total counts increments by two
+   * @param req 
+   * @param res 
+   * @returns Promise
+   */
   public postTotalResults(req: Request, res: Response): Promise<any> {
     return new Promise((resolve, reject) => {
       Total.create({}).then((data) => {

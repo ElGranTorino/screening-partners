@@ -1,40 +1,16 @@
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
-dotenv.config({
-    path: './config/.env'
+import env from "../config/env.js";
+const connection = new Sequelize(`${env.db.name}`, `${env.db.login}`, `${env.db.pass}`, {
+    host: 'localhost',
+    dialect: 'postgres',
+    logging: env.env === 'production' ? false : false,
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 300000,
+        idle: 5000
+    }
 });
-let connection;
-if (process.env.NODE_ENV === 'development') {
-    // connection = new Sequelize({
-    //     dialect: 'sqlite',
-    //     storage: './db/euphoria.sqlite3',
-    //     logging: false,
-    // });
-    connection = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_LOGIN}`, `${process.env.DB_PASSWORD}`, {
-        host: 'localhost',
-        dialect: 'postgres',
-        logging: true,
-        pool: {
-            max: 5,
-            min: 0,
-            acquire: 300000,
-            idle: 5000
-        }
-    });
-}
-else if (process.env.NODE_ENV === 'production') {
-    connection = new Sequelize(`${process.env.DB_NAME}`, `${process.env.DB_LOGIN}`, `${process.env.DB_PASSWORD}`, {
-        host: 'localhost',
-        dialect: 'postgres',
-        // logging: true,
-        pool: {
-            max: 5,
-            min: 0,
-            acquire: 300000,
-            idle: 5000
-        }
-    });
-}
 (async function () {
     try {
         if (connection)
