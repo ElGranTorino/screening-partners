@@ -24,6 +24,9 @@ const hasLength = (target) => {
     if (typeof target === "string" || isArray(target)) {
         return target.length > 0;
     }
+    else if (target === null || target === undefined) {
+        return false;
+    }
     else if (typeof target === 'number') {
         return target > 0;
     }
@@ -122,20 +125,13 @@ export default class Parser {
                 arr.push({
                     firstName: '',
                     lastName: '',
-                    fullName: fullName,
+                    fullName: fullName.slice(0, 254),
                 });
             }
         };
         const pushUNDocument = (document, arr) => {
             const { type, additionalType, number, country, city, date, note } = document;
             const result = {};
-            // type: document.TYPE_OF_DOCUMENT || '',
-            // additionalType: document.TYPE_OF_DOCUMENT || '',
-            // number: document.NUMBER || '',
-            // country: document.ISSUING_COUNTRY || '',
-            // city: document.CITY_OF_ISSUE || '',
-            // date: new Date(document.DATE_OF_ISSUE) || '',
-            // note: document.TYPE_OF_DOCUMENT || '',
             if (hasLength(type)) {
                 result.type = type;
             }
@@ -184,7 +180,7 @@ export default class Parser {
                 result.stateOrProvince = stateOrProvince;
             if (hasLength(note))
                 result.note = note;
-            if (!isUndefined(zipCode))
+            if (hasLength(zipCode))
                 result.zipCode = zipCode;
             if (hasLength(result))
                 arr.push(result);
@@ -198,20 +194,20 @@ export default class Parser {
             const fourthName = sanction.FOURTH_NAME || '';
             const program = sanction.UN_LIST_TYPE;
             const refNumber = sanction.REFERENCE_NUMBER;
-            const pubDate = new Date(Date.parse(sanction.LISTED_ON)) || listPubDate;
+            const pubDate = createValidDateOrFalse(sanction.LISTED_ON) || listPubDate;
             const comment = sanction.COMMENTS1;
             const nationality = sanction?.NATIONALITY?.VALUE;
             const alias = sanction.INDIVIDUAL_ALIAS || sanction.ENTITY_ALIAS;
             const address = sanction.INDIVIDUAL_ADDRESS || sanction.ENTITY_ADDRESS;
-            const dateOfBirth = sanction.INDIVIDUAL_DATE_OF_BIRTH;
-            const placeOfBirth = sanction.INDIVIDUAL_PLACE_OF_BIRTH;
+            const dateOfBirth = sanction?.INDIVIDUAL_DATE_OF_BIRTH;
+            const placeOfBirth = sanction?.INDIVIDUAL_PLACE_OF_BIRTH;
             const document = sanction.INDIVIDUAL_DOCUMENT;
             const designation = sanction.DESIGNATION;
             formattedSanction.id = uuid();
             formattedSanction.website = 'https://scsanctions.un.org/resources/xml/en/consolidated.xml';
-            formattedSanction.firstName = firstName;
-            formattedSanction.lastName = `${secondName} ${thirdName} ${fourthName}`;
-            formattedSanction.fullName = `${firstName} ${formattedSanction.lastName}`;
+            formattedSanction.firstName = firstName ? firstName.slice(0, 254) : '';
+            formattedSanction.lastName = `${secondName} ${thirdName} ${fourthName}`.slice(0, 254);
+            formattedSanction.fullName = `${firstName} ${formattedSanction.lastName}`.slice(0, 254);
             formattedSanction.remarks = comment || '';
             formattedSanction.authority = 'UN';
             formattedSanction.pubDate = pubDate;
@@ -255,7 +251,7 @@ export default class Parser {
                 hasLength(address)) {
                 address.forEach((location) => {
                     pushUNAddress({
-                        address: location.STREET || '',
+                        address: location.STREET ? location.STREET.slice(0, 254) : '',
                         postalCode: location.POSTAL_CODE || '',
                         city: location.CITY || '',
                         country: location.COUNTRY || '',
@@ -267,7 +263,7 @@ export default class Parser {
             }
             else if (isObject(address) && !isArray(address)) {
                 pushUNAddress({
-                    address: address.STREET || '',
+                    address: address.STREET ? address.STREET.slice(0, 254) : '',
                     city: address.CITY || '',
                     country: address.COUNTRY || '',
                     postalCode: address.POSTAL_CODE || '',
@@ -287,7 +283,7 @@ export default class Parser {
                         number: id.NUMBER || '',
                         country: id.ISSUING_COUNTRY || id.COUNTRY_OF_ISSUE || '',
                         city: id.CITY_OF_ISSUE || '',
-                        date: createValidDateOrFalse(id.DATE_OF_ISSUE) || '',
+                        date: createValidDateOrFalse(id.DATE_OF_ISSUE) || null,
                         note: id.NOTE || '',
                     }, formattedSanction.documents);
                 });
@@ -299,7 +295,7 @@ export default class Parser {
                     number: document.NUMBER || '',
                     country: document.ISSUING_COUNTRY || document.COUNTRY_OF_ISSUE || '',
                     city: document.CITY_OF_ISSUE || '',
-                    date: createValidDateOrFalse(document.DATE_OF_ISSUE) || '',
+                    date: createValidDateOrFalse(document.DATE_OF_ISSUE) || null,
                     note: document.NOTE || '',
                 }, formattedSanction.documents);
             }
@@ -347,19 +343,19 @@ export default class Parser {
                     }, formattedSanction.details);
                     pushUNDetail({
                         key: 'Date of birth',
-                        value: createValidDateOrFalse(date.DATE) || ''
+                        value: createValidDateOrFalse(date.DATE) || null
                     }, formattedSanction.details);
                     pushUNDetail({
                         key: 'Year of birth',
-                        value: createValidDateOrFalse(date.YEAR) || ''
+                        value: createValidDateOrFalse(date.YEAR) || null
                     }, formattedSanction.details);
                     pushUNDetail({
                         key: 'Date of birth from',
-                        value: createValidDateOrFalse(date.FROM_YEAR) || ''
+                        value: createValidDateOrFalse(date.FROM_YEAR) || null
                     }, formattedSanction.details);
                     pushUNDetail({
                         key: 'Date of birth to',
-                        value: createValidDateOrFalse(date.TO_YEAR) || ''
+                        value: createValidDateOrFalse(date.TO_YEAR) || null
                     }, formattedSanction.details);
                 });
             }
@@ -370,23 +366,23 @@ export default class Parser {
                 }, formattedSanction.details);
                 pushUNDetail({
                     key: 'Date of birth',
-                    value: createValidDateOrFalse(dateOfBirth.DATE) || ''
+                    value: createValidDateOrFalse(dateOfBirth.DATE) || null
                 }, formattedSanction.details);
                 pushUNDetail({
                     key: 'Year of birth',
-                    value: createValidDateOrFalse(dateOfBirth.YEAR) || ''
+                    value: createValidDateOrFalse(dateOfBirth.YEAR) || null
                 }, formattedSanction.details);
                 pushUNDetail({
                     key: 'Date of birth from',
-                    value: createValidDateOrFalse(dateOfBirth.FROM_YEAR) || ''
+                    value: createValidDateOrFalse(dateOfBirth.FROM_YEAR) || null
                 }, formattedSanction.details);
                 pushUNDetail({
                     key: 'Date of birth to',
-                    value: createValidDateOrFalse(dateOfBirth.TO_YEAR) || ''
+                    value: createValidDateOrFalse(dateOfBirth.TO_YEAR) || null
                 }, formattedSanction.details);
             }
             ;
-            // Nationality
+            // // Nationality
             if (isArray(nationality) &&
                 hasLength(nationality)) {
                 nationality.forEach((ethnos) => {
@@ -1451,8 +1447,10 @@ export default class Parser {
         });
     }
 }
-// const p = new Parser();
-// p.getBISData()
+const p = new Parser();
+// p.getUNData()
 //     .then((data) => {
-//         console.log(data.entries)
+//         data.entries.forEach((enty) => {
+//             console.log(enty.documents)
+//         })
 //     })
