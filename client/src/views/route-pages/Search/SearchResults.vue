@@ -357,6 +357,20 @@
                         Math.ceil(getTotalSanctionsCount / getSanctionsLimit) > 2
                      ">{{getSanctionsCurrentPage + 2}}</button>
                   </li>
+                  <li class="search__pagination-item" 
+                     v-if="Math.ceil(getTotalSanctionsCount / getSanctionsLimit) > 4 && Math.ceil(getTotalSanctionsCount / getSanctionsLimit) - 1 > getSanctionsCurrentPage">
+                     <!-- Shows only if current active page is first and there are more then 2 pages total-->
+                     <button class="btn small btn-pg disabled">...</button>
+                  </li>
+                  <li class="search__pagination-item">
+                     <button class="btn small btn-pg"  
+                     @click="moveSanctionsTo(Math.ceil(getTotalSanctionsCount / getSanctionsLimit))"
+                     v-if="
+                        Math.ceil(getTotalSanctionsCount / getSanctionsLimit) > 4 &&
+                        Math.ceil(getTotalSanctionsCount / getSanctionsLimit) - 1 > getSanctionsCurrentPage
+                     "
+                     >{{Math.ceil(getTotalSanctionsCount / getSanctionsLimit)}}</button>
+                  </li>
                </ul>
             </div>
          </div>
@@ -826,33 +840,25 @@
                });
 
                doc.setFontSize(10);
-               doc.text('Target:', 25, 80, {
+               doc.text('Target:', 25, 90, {
                   align: "left"
                });
-               doc.text('Date:', 25, 90, {
+               doc.text('Date:', 25, 100, {
                   align: "left"
                });
-               doc.text('Potential Adverse Media:', 25, 100, {
-                  align: "left"
-               });
-               doc.text('Potential Sanctions Matches:', 25, 110, {
-                  align: "left"
-               });
+               
+               
 
 
                doc.setFont('Montserrat', 'bold');
-               doc.text(this.getTargetName, width - 25, 80, {
+               doc.text(this.getTargetName, width - 25, 90, {
                   align: "right"
                });
-               doc.text(moment().format('LL'), width - 25, 90, {
+               doc.text(moment().format('LL'), width - 25, 100, {
                   align: "right"
                });
-               doc.text(`${this.allNews.length}`, width - 25, 100, {
-                  align: "right"
-               });
-               doc.text(`${tableSanctions.length}`, width - 25, 110, {
-                  align: "right"
-               });
+
+              
 
                doc.setTextColor('#898989');
                doc.setFont('Montserrat', 'italic');
@@ -878,7 +884,7 @@
                   return data.reduce((acc, nextItem, indx) => {
                      acc.push([
                         indx + 1,
-                        `${nextItem?.firstName || ''} ${nextItem?.lastName}`, 
+                        `${nextItem?.fullName}`, 
                         nextItem?.SanctionAddresses[0]?.country || 'Globally', 
                         nextItem?.authority || 'OFAC', 
                         nextItem.SanctionPrograms.map(item => item.name).join(', '),
@@ -887,118 +893,19 @@
                      return acc;
                   }, []);
                };
+               
                const newsTableBody = generateNewsTableBody(this.allNews);
                let sanctionsTableBody = await (async() => {
                   return generateSanctionsTableBody(tableSanctions);
                })();
                
-               if(sanctionsTableBody.length){
-                  // Sanctions table
-                  const columnSizes = {
-                     c1: width - 30 / 100 * 5.40540540541 ,
-                     c2: width - 30 / 100 * 27.027027027,
-                     c3: width - 30 / 100 * 16.2162162162,
-                     c4: width - 30 / 100 * 18.9189189189,
-                     c5: width - 30 / 100 * 18.9189189189,
-                     c6: width - 30 / 100 * 13.5135135135,
-                  };
-                  autoTable(doc, {
-                     // html: '#my-table',
-                     head: [
-                        ['#', 'Name', 'Country', 'Authority', 'Programs', 'Latest Update']
-                     ],
-                     body: sanctionsTableBody,
-                     startY: 130,
-                     columnStyles: {
-                        0: {
-                              cellWidth: 10,
-                              cellPadding: 0,
-                              fillColor: '#F7FAFF',
-                              textColor: '#373941',
-                              halign: 'center',
-                              valign: 'middle',
-                              lineColor: '#373941',
-                              lineWidth: 0.1,
-                              fontStyle: 'bold'
-                        },
-                        1: {
-                              cellWidth: 50,
-                              cellPadding: 3,
-                              fillColor: '#F7FAFF',
-                              textColor: '#373941',
-                              halign: 'center',
-                              valign: 'middle',
-                              lineColor: '#373941',
-                              lineWidth: 0.1,
-                              fontStyle: 'italic'
-                        },
-                        2: {
-                              cellWidth: 30,
-                              cellPadding: 5,
-                              fillColor: '#F7FAFF',
-                              textColor: '#373941',
-                              halign: 'center',
-                              valign: 'middle',
-                              lineColor: '#373941',
-                              lineWidth: 0.1,
-                        },
-                        3: {
-                              cellWidth: 31.7793333,
-                              cellPadding: 5,
-                              fillColor: '#F7FAFF',
-                              textColor: '#373941',
-                              halign: 'center',
-                              valign: 'middle',
-                              lineColor: '#373941',
-                              lineWidth: 0.1,
-                        },
-                        4: {
-                              cellWidth: 35,
-                              cellPadding: 5,
-                              textColor: '#373941',
-                              fillColor: '#F8FAFF',
-                              halign: 'center',
-                              valign: 'middle',
-                              lineColor: '#373941',
-                              lineWidth: 0.1,
-                        },
-                        5: {
-                              cellWidth: 25,
-                              cellPadding: 0,
-                              fillColor: '#F7FAFF',
-                              textColor: '#373941',
-                              halign: 'center',
-                              valign: 'middle',
-                              lineColor: '#373941',
-                              lineWidth: 0.1,
-                        },
-                     },
-                     didParseCell: (data) => {
-                        if (data.section === 'head') {
-                              data.cell.styles.fillColor = '#2653ff';
-                              data.cell.styles.textColor = '#f8f8f8';
-                              data.cell.styles.fontStyle = 'bold';
-                              data.cell.styles.lineColor = '#2553ff';
-                              data.cell.styles.halign = 'center';
-                        }
-                     },
-                     didDrawPage: (data) => {
-
-                        const width = doc.internal.pageSize.getWidth(),
-                              height = doc.internal.pageSize.getHeight();
-                        doc.setFillColor('#2653ff')
-                        doc.rect(0, height - 10, 300, 10, 'F');
-                        doc.setTextColor('#f8f8f8')
-                        doc.setFontSize(8)
-                        doc.setFont('Montserrat', 'bold')
-                        doc.text('Screening Partners © 2022 All right reserved', width / 2, height - 4, {
-                              align: "center"
-                        })
-                     }
-                  })
-               }
-
+               
                if(newsTableBody){
+                  doc.setTextColor('#000')
+                  doc.setFont('Montserrat', 'bold');
+                  doc.text(`Potential Adverse Media: ${this.allNews.length}`, width / 2, 130, {
+                     align: "center"
+                  });
                   // // News table
                   autoTable(doc, {
                      // html: '#my-table',
@@ -1006,6 +913,7 @@
                         ['#', 'Source', 'Date', 'Description', 'Link']
                      ],
                      body: newsTableBody,
+                     startY: 140,
                      // startY: 130,
                      columnStyles: {
                         0: {
@@ -1098,6 +1006,121 @@
                   })
                }
 
+               
+               if(sanctionsTableBody.length){
+                  let finalY = doc.previousAutoTable.finalY;
+                  doc.setTextColor('#000');
+                  doc.setFont('Montserrat', 'bold');
+                  doc.text(`Potential Sanctions Matches: ${tableSanctions.length}`, width / 2, finalY + 20, {
+                     align: "center"
+                  });
+                  // Sanctions table
+                  const columnSizes = {
+                     c1: width - 30 / 100 * 5.40540540541 ,
+                     c2: width - 30 / 100 * 27.027027027,
+                     c3: width - 30 / 100 * 16.2162162162,
+                     c4: width - 30 / 100 * 18.9189189189,
+                     c5: width - 30 / 100 * 18.9189189189,
+                     c6: width - 30 / 100 * 13.5135135135,
+                  };
+                  autoTable(doc, {
+                     // html: '#my-table',
+                     head: [
+                        ['#', 'Name', 'Country', 'Authority', 'Programs', 'Latest Update']
+                     ],
+                     startY: finalY + 30,
+                     body: sanctionsTableBody,
+                     columnStyles: {
+                        0: {
+                              cellWidth: 10,
+                              cellPadding: 0,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                              fontStyle: 'bold'
+                        },
+                        1: {
+                              cellWidth: 50,
+                              cellPadding: 3,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                              fontStyle: 'italic'
+                        },
+                        2: {
+                              cellWidth: 30,
+                              cellPadding: 5,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                        3: {
+                              cellWidth: 31.7793333,
+                              cellPadding: 5,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                        4: {
+                              cellWidth: 35,
+                              cellPadding: 5,
+                              textColor: '#373941',
+                              fillColor: '#F8FAFF',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                        5: {
+                              cellWidth: 25,
+                              cellPadding: 0,
+                              fillColor: '#F7FAFF',
+                              textColor: '#373941',
+                              halign: 'center',
+                              valign: 'middle',
+                              lineColor: '#373941',
+                              lineWidth: 0.1,
+                        },
+                     },
+                     didParseCell: (data) => {
+                        if (data.section === 'head') {
+                              data.cell.styles.fillColor = '#2653ff';
+                              data.cell.styles.textColor = '#f8f8f8';
+                              data.cell.styles.fontStyle = 'bold';
+                              data.cell.styles.lineColor = '#2553ff';
+                              data.cell.styles.halign = 'center';
+                        }
+                     },
+                     didDrawPage: (data) => {
+
+                        const width = doc.internal.pageSize.getWidth(),
+                              height = doc.internal.pageSize.getHeight();
+                        doc.setFillColor('#2653ff')
+                        doc.rect(0, height - 10, 300, 10, 'F');
+                        doc.setTextColor('#f8f8f8')
+                        doc.setFontSize(8)
+                        doc.setFont('Montserrat', 'bold')
+                        doc.text('Screening Partners © 2022 All right reserved', width / 2, height - 4, {
+                              align: "center"
+                        })
+                     }
+                  })
+               }
+               
+               
+
                doc.save("ScreeningPartnersReport.pdf");
             })();
          }
@@ -1113,5 +1136,10 @@
 }
 .table-arrow.active {
    color: #ee6c4d !important;
+}
+.btn-pg.disabled {
+   background: #e3e6f7;
+   color: #000;
+   cursor: default;
 }
 </style>
