@@ -203,7 +203,7 @@
                </div>
                <div class="search__target-data">
                   <div class="search__target-name">
-                     {{getTargetName}} 
+                     {{getTargetName.replace(/[!@#$%'"`]/gi, '')}} 
                      <button class="tag" @click="reportIssues($event)">
                         <ion-icon name="alert-circle-outline" style="vertical-align: middle; font-size: 1.3rem; margin-right: 0.4rem; pointer-events: none;"></ion-icon>
                         <span style="vertical-align: middle; pointer-events: none;">Report issues with data</span>

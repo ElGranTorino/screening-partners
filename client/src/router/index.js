@@ -56,8 +56,8 @@ const router = createRouter({
   routes
 })
 router.beforeEach(async (to, from) => {
-  // const url = 'https://screeningpartners.net:9999/verify'
-  const url = 'http://localhost:3000/verify'
+  const url = 'https://screeningpartners.net:9999/verify'
+  // const url = 'http://localhost:3000/verify'
 
   if(to.name === 'Admin'){
     const access = await axios.get(url, {withCredentials: true})

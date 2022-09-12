@@ -183,7 +183,7 @@ export default class SanctionService {
     }
     async SELECT_SANCTIONS(query) {
         return new Promise((resolve, reject) => {
-            const re = /["';$#!@%^&}{)(*><]/gi;
+            const re = /["'`;$#!@%^&}{)(*><]/gi;
             const target = query.target.replace(re, '');
             console.log(target);
             SanctionEntity.findAll({
