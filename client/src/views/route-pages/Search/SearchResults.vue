@@ -548,7 +548,7 @@
             </div>
             <div class="search__controls d-flex">
                <router-link to="/" class="btn ghost" style="margin: 1.5rem 1rem " @click="clearBeforeRoute();">Back to search</router-link>
-               <button class="btn" style="margin: 1.5rem 1rem" @click="downloadPDF();">Download PDF</button>
+               <button class="btn" style="margin: 1.5rem 1rem" @click="downloadPDF($event);">Download PDF</button>
             </div>
          </div>
 
@@ -1403,8 +1403,10 @@
             callbacks[status]()
             
           },
-          downloadPDF() {
+          downloadPDF(e) {
               (async () => {
+                  e.target.setAttribute("disabled", "")
+                  e.target.textContent = 'Generating'
                   const tableDataList = await this.fetchOFACsanctions({
                       limit: 50
                   });
@@ -1893,6 +1895,8 @@
                   
                   // Saving file with filename
                   doc.save(reportFileName);
+                  e.target.removeAttribute("disabled")
+                  e.target.textContent = 'Download PDF'
               })();
           }
       }
