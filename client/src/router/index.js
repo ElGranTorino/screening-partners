@@ -1,4 +1,7 @@
 
+// Importing requirements
+import axios from 'axios';
+
 // Importing vue-router environment
 import { createRouter, createWebHistory } from 'vue-router'
 import helpers from '@/store/helpers';
@@ -10,10 +13,8 @@ import _403 from "@/views/status-pages/403.vue";
 // Importing route-pages
 import Search from "@/views/route-pages/Search/Search.vue";
 import SearchResults from "@/views/route-pages/Search/SearchResults.vue";
-import SearchEntity from "@/views/route-pages/Search/SearchEntity.vue";
 import Login from "@/views/route-pages/LoginView.vue";
 import Admin from "@/views/route-pages/AdminView.vue";
-import axios from 'axios';
 
 
 const routes = [
@@ -56,8 +57,8 @@ const router = createRouter({
   routes
 })
 router.beforeEach(async (to, from) => {
-  const url = 'https://screeningpartners.net:9999/verify'
-  // const url = 'http://localhost:3000/verify'
+  // const url = 'https://screeningpartners.net:9999/verify'
+  const url = 'http://localhost:3000/verify'
 
   if(to.name === 'Admin'){
     const access = await axios.get(url, {withCredentials: true})

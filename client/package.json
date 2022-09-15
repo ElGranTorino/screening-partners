@@ -13,6 +13,7 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.25",
     "moment": "^2.29.4",
+    "transliterate": "^1.0.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"

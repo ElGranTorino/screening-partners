@@ -61,6 +61,7 @@ const createValidDateOrFalse = (date: any): Date | false => {
  * This function is similar to createValidDateOrFalse function with the only difference that it check`s
  * if provided data is a string
  */
+
 const getStringOrFalse = (data: any): string | false => {
     if(typeof data !== "string") return false;
     return data

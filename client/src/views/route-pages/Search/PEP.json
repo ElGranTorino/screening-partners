@@ -1,0 +1,1562 @@
+{
+  "limit": 10,
+  "offset": 0,
+  "total": {
+    "value": 14,
+    "relation": "eq"
+  },
+  "results": [
+    {
+      "id": "Q27303716",
+      "caption": "Alexander Spiridonovich Putin",
+      "schema": "Person",
+      "properties": {
+        "wikidataId": [
+          "Q27303716"
+        ],
+        "name": [
+          "Alexander Spiridonovich Putin"
+        ],
+        "alias": [
+          "アレクサンドル・スピリドノヴィッチ・プーチン",
+          "Александр Спиридонович Путин",
+          "Путин, Александр Спиридонович",
+          "アレクサンドル・スピリドノヴィチ・プーチン",
+          "Александр Путин"
+        ],
+        "gender": [
+          "male"
+        ],
+        "firstName": [
+          "Aleksandr"
+        ],
+        "lastName": [
+          "Putin"
+        ],
+        "nationality": [
+          "suhh"
+        ],
+        "modifiedAt": [
+          "2022-07-25"
+        ],
+        "birthDate": [
+          "1920-03"
+        ]
+      },
+      "datasets": [
+        "wikidata"
+      ],
+      "referents": [],
+      "target": false,
+      "first_seen": "2022-09-14T07:01:21",
+      "last_seen": "2022-09-14T07:01:21"
+    },
+    {
+      "id": "Q1833348",
+      "caption": "Igor Alexandrovich PUTIN",
+      "schema": "Person",
+      "properties": {
+        "wikidataId": [
+          "Q1833348"
+        ],
+        "name": [
+          "Igor Alexandrovich PUTIN",
+          "PUTIN Igor Aleksandrovich",
+          "Igor Aleksandrovich Putin",
+          "Putin Igor Alexandrovich",
+          "Igor Putin",
+          "Игорь Александрович Путин"
+        ],
+        "notes": [
+          "Игорь ПУТИН участвует или участвовал в получении выгоды или поддержке Правительства России в качестве директора ОАО «Международный морской порт Печенга». Международный морской порт Печенга является юридическим лицом, осуществляющим деятельность в отрасли, имеющей стратегическое значение для Правительства России, а именно в транспортной сфере.",
+          "Is or has been involved in obtaining a benefit from or supporting the Government of Russia as a director of OJSC International Sea Port of Pechenga. International Sea Port of Pechenga is an entity operating in a sector of strategic significance to the Government of Russia, namely, the transport sector.",
+          "Director of Pechenga International Sea Port, and relative of President Putin",
+          "Igor PUTIN participated or participated in obtaining the benefit or support of representatives of Russia in his capacity as director of OAO Pechenga International Sea Port. The Pechenga International Seaport is a legal entity, is in the field of activity, is of strategic importance for the Russian government, namely in the transport sector.",
+          "Russian politician (1953-)",
+          "Ігор ПУТІН брав участь чи брав участь у отриманні вигоди чи підтримці представників Росії як директор ВАТ «Міжнародний морський порт Печенга». Міжнародний морський порт Печенга є юридичною особою, що знаходиться у сфері діяльності, має стратегічне значення для уряду Росії, саме у транспортній сфері."
+        ],
+        "alias": [
+          "Igor Poetin",
+          "イーゴリ・アレクサンドロヴィチ・プーチン",
+          "Игор Александрович Путин",
+          "إيغور بوتين",
+          "伊戈尔·普京",
+          "игорь александрович путин",
+          "イーゴリ・プーチン",
+          "Путин, Игорь Александрович",
+          "Igor Alexandrowitsch Putin",
+          "Putin Igor Aleksandrovich",
+          "Игорь Путин",
+          "Putin Igor′ Aleksandrovich",
+          "Putin Igor' Aleksandrovich",
+          "ПУТІН Ігор Олександрович",
+          "ايجور بوتين",
+          "イーゴリ・アレクサンドロヴィッチ・プーチン",
+          "إيڭور پوتين",
+          "Путин Игорь Александрович",
+          "Putin Igor Alexandrovich",
+          "Putin Igor′ Aleksandrovič",
+          "Игорь Александрович Путин",
+          "Igor Alexandrovich Putin",
+          "Путін Ігор Олександрович",
+          "Igor Alexandrovič Putin",
+          "И. А. Путин",
+          "Igor Aleksandrovitx Putin",
+          "ایگور پوٹن",
+          "Igor Aleksandrowicz Putin",
+          "ПУТИН Игорь Александрович"
+        ],
+        "topics": [
+          "role.rca",
+          "sanction"
+        ],
+        "sourceUrl": [
+          "https://rupep.org/en/person/3409",
+          "https://sanctions.nazk.gov.ua/sanction-person/2282/"
+        ],
+        "secondName": [
+          "Alexandrovich"
+        ],
+        "gender": [
+          "male"
+        ],
+        "firstName": [
+          "Igor",
+          "Игорь"
+        ],
+        "lastName": [
+          "Putin",
+          "Путин",
+          "PUTIN"
+        ],
+        "nationality": [
+          "suhh",
+          "ru"
+        ],
+        "birthPlace": [
+          "Leningrad",
+          "St Petersburg, Russia",
+          "Saint Petersburg",
+          "г. Ленинград, РФ",
+          "Ленинград",
+          "м. Ленінград, РФ",
+          "Saint Petersburg (formerly known as Leningrad), Russia"
+        ],
+        "education": [
+          "Nizhny Novgorod Management University"
+        ],
+        "position": [
+          "Cousin of Russian President Vladimir Putin. Director of the International Seaport \"Pechenga\"",
+          "Двоюрідний брат президента РФ Володимира Путіна. Директор Міжнародного морського порту \"Печенга\"",
+          "Marine Board at the Government of the Russian Federation (board member (by agreement))",
+          "Individuals involved in corruption",
+          "ACF investigations subjects",
+          "Двоюродный брат президента РФ Владимира Путина. Директор Международного морского порта «Печенга»",
+          "Морская коллегия при Правительстве РФ (член коллегии (по согласованию))"
+        ],
+        "country": [
+          "ru"
+        ],
+        "innCode": [
+          "622801184200"
+        ],
+        "fatherName": [
+          "Александрович",
+          "Aleksandrovich"
+        ],
+        "status": [
+          "Close associate"
+        ],
+        "modifiedAt": [
+          "2022-05-20"
+        ],
+        "birthDate": [
+          "1953-03-30"
+        ],
+        "createdAt": [
+          "2022-05-13"
+        ]
+      },
+      "datasets": [
+        "au_dfat_sanctions",
+        "ru_acf_bribetakers",
+        "ru_rupep",
+        "wikidata",
+        "gb_hmt_sanctions",
+        "ua_nabc_sanctions"
+      ],
+      "referents": [
+        "gb-hmt-15386",
+        "acf-4a6bae07372df8bd13f289dfec89010ff970d6a5",
+        "ua-nabc-person-2282-putin-igor-aleksandrovich",
+        "au-dfat-7243-igor-alexandrovich-putin"
+      ],
+      "target": true,
+      "first_seen": "2022-03-16T16:28:46",
+      "last_seen": "2022-09-14T07:01:21"
+    },
+    {
+      "id": "Q15087614",
+      "caption": "Roman Igorevich PUTIN",
+      "schema": "Person",
+      "properties": {
+        "topics": [
+          "role.rca",
+          "sanction",
+          "role.pep"
+        ],
+        "sourceUrl": [
+          "https://sanctions.nazk.gov.ua/sanction-person/15425/",
+          "https://rupep.org/en/person/3410"
+        ],
+        "position": [
+          "Партия \"Народ против коррупции\" (председатель)",
+          "Голова ради директорів ТОВ \"АРТ ГРУП компаній\"",
+          "People Against Corruption Party (the chairman)",
+          "Chair of the Board of Directors of the ART Group of Companies LLC",
+          "Председатель Совета директоров ООО \"АРТ Групп компаний\"",
+          "Individuals involved in corruption",
+          "ACF investigations subjects"
+        ],
+        "gender": [
+          "male"
+        ],
+        "nationality": [
+          "suhh",
+          "ru"
+        ],
+        "name": [
+          "Roman Putin",
+          "Putin Roman Igorevich",
+          "PUTIN Roman Igorevich",
+          "Roman Igorevich Putin",
+          "Roman Igorevich PUTIN",
+          "Роман Игоревич Путин"
+        ],
+        "alias": [
+          "Путин Роман Игоревич",
+          "Roman Igorewitsch Putin",
+          "罗曼·伊戈列维奇·普京",
+          "رومان پوتين",
+          "رومن پوٹن",
+          "ПУТИН Роман Игоревич",
+          "Putin Roman Igorevich",
+          "Путин Роман",
+          "Roman Ígorevitx Putin",
+          "ПУТІН Роман Ігорович",
+          "רומן פוטין",
+          "Roman Igorevich Putin",
+          "Putin Roman Igorevič",
+          "Roman Igorevitsj Putin",
+          "Roman Igorevič Putin",
+          "ロシアテコンドー連盟",
+          "Roman Poutine",
+          "Роман Путин",
+          "Путін Роман Ігорович",
+          "Роман Игоревич Путин",
+          "Путин, Роман Игоревич"
+        ],
+        "wikidataId": [
+          "Q15087614"
+        ],
+        "notes": [
+          "Roman PUTIN is involved in obtaining a benefit from or supporting the Government of Russia by working as the Chair of the Board of Directors of the MRT Group of Companies LLC, which carries on business in the Russian transport sector, a sector of strategic significance to the Government of Russia.",
+          "Роман Путін бере участь в отриманні вигоди або підтримки Уряду Росії, працюючи головою Ради директорів ТОВ \"ГРУПА КОМПАНІЙ MRT\", яка веде бізнес в російському транспортному секторі, секторі, що має стратегічне значення для Уряду Росії.",
+          "Роман ПУТИН участвует в получении выгоды или поддержке Правительства России, работая председателем Совета директоров ООО \"Группа компаний MRT\", которая ведет бизнес в российском транспортном секторе, секторе, имеющем стратегическое значение для Правительства России.",
+          "Chair of the board of directors of the MRT Group of Companies LLC, and relative of President Putin",
+          "Russian businessman and politician",
+          "Involved in obtaining a benefit from or supporting the Government of Russia by working as the Chair of the Board of Directors of the LLC MRT Group of Companies, which operates in the Russian transport sector, a sector of strategic significance to the Government of Russia."
+        ],
+        "birthPlace": [
+          "Ryazan, Russia",
+          "Рязань, Россия",
+          "Рязань",
+          "Рязань, Росія",
+          "Ryazan"
+        ],
+        "lastName": [
+          "Putin",
+          "Путин",
+          "PUTIN"
+        ],
+        "firstName": [
+          "Roman",
+          "Роман"
+        ],
+        "education": [
+          "Military Academy for Logistics (-2001)"
+        ],
+        "secondName": [
+          "Igorevich"
+        ],
+        "country": [
+          "ru"
+        ],
+        "innCode": [
+          "623410123434"
+        ],
+        "fatherName": [
+          "Игоревич",
+          "Igorevich"
+        ],
+        "status": [
+          "Domestic Politically Exposed Person"
+        ],
+        "modifiedAt": [
+          "2022-06-28"
+        ],
+        "birthDate": [
+          "1977-11-10"
+        ],
+        "createdAt": [
+          "2022-05-13"
+        ]
+      },
+      "datasets": [
+        "au_dfat_sanctions",
+        "ru_acf_bribetakers",
+        "ru_rupep",
+        "wikidata",
+        "gb_hmt_sanctions",
+        "ua_nabc_sanctions"
+      ],
+      "referents": [
+        "acf-5405f96bac54089719fcab61daff12060ade9a4c",
+        "ua-nabc-person-15425-putin-roman-igorevich",
+        "au-dfat-7245-roman-igorevich-putin",
+        "gb-hmt-15392"
+      ],
+      "target": true,
+      "first_seen": "2022-03-16T16:28:46",
+      "last_seen": "2022-09-14T07:01:21"
+    },
+    {
+      "id": "NK-AfDe2FAxgFbyepJFn6JXFc",
+      "caption": "PUTIN Mikhail Evgenevich",
+      "schema": "Person",
+      "properties": {
+        "notes": [
+          "Member of PJSC Gazprom's collegial executive body Involved in corruption schemes of PJSC Gazprom and its subsidiaries. Participated in the formation of corrupt sources of income for Vladimir Putin and his closest associates.",
+          "Таким чином, Михайло Путін є членом або пов'язаний з компанією, яка: залучена в дестабілізацію України або підрив або загрозу територіальній цілісності, суверенітету або незалежності України і залучена у ведення бізнесу в секторі, що має стратегічне значення для Уряду Росії, а саме в російському секторі фінансових послуг. Путін також є заступником голови правління \"Газпрому\". Отже, він є членом або пов'язаний з організацією, яка веде бізнес як організація, афілійована з урядом Росії.",
+          "Mikhail PUTIN is therefore a member of, or associated with, a company that is: involved in destabilising Ukraine or undermining or threatening the territorial integrity, sovereignty or independence of Ukraine and involved in carrying on business in a sector of strategic significance to the Government of Russia, namely, the Russian financial services sector. PUTIN is also Deputy Chairman of the Management Board of Gazprom. He is therefore a member of, or associated with, an entity that is carrying on business as a Government of Russia-affiliated entity.",
+          "Таким образом, Михаил ПУТИН является членом или связан с компанией, которая: вовлечена в дестабилизацию Украины или подрыв или угрозу территориальной целостности, суверенитету или независимости Украины и вовлечена в ведение бизнеса в секторе, имеющем стратегическое значение для Правительства России, а именно в российском секторе финансовых услуг. ПУТИН также является заместителем председателя правления \"Газпрома\". Следовательно, он является членом или связан с организацией, которая ведет бизнес как организация, аффилированная с Правительством России.",
+          "Deputy Chairman of the Management Board of Sogaz Insurance and Gazprom, and relative of President Putin"
+        ],
+        "position": [
+          "Російський бізнесмен і родич президента Володимира Путіна. Заступник голови правління страхової компанії \"СОГАЗ\" і заступник Голови Правління ВАТ \"Газпром\"",
+          "ПАО \"Газпром\" (заместитель председателя правления)",
+          "Russian businessman and relative of President Vladimir Putin. Deputy Chairman of the Management Board of SOGAZ Insurance and Deputy Chairman of the Management Board of Gazprom",
+          "Individuals involved in corruption",
+          "ACF investigations subjects",
+          "Top Management of State Owned Companies",
+          "Public Joint-Stock Company Gazprom (deputy chairman)",
+          "Российский бизнесмен и родственник президента Владимира Путина. Заместитель председателя Правления страховой компании \"СОГАЗ\" и заместитель Председателя Правления ОАО \"Газпром\""
+        ],
+        "gender": [
+          "male"
+        ],
+        "birthPlace": [
+          "Ivanovo",
+          "г. Иваново, Россия",
+          "м. Іваново, Росія",
+          "Иваново",
+          "Ivanovo, Russia"
+        ],
+        "country": [
+          "ru"
+        ],
+        "nationality": [
+          "ru"
+        ],
+        "name": [
+          "Putin Mikhail Evgenyevich",
+          "Михаил Евгеньевич Путин",
+          "Mikhail Evgenievich PUTIN",
+          "PUTIN Mikhail Evgenevich",
+          "Mikhail Evgen'yevich Putin"
+        ],
+        "firstName": [
+          "Михаил",
+          "Mikhail"
+        ],
+        "alias": [
+          "михаил евгеньевич путин",
+          "Putin Mihail Evgen'evich",
+          "Putin Mixail Evgen'evich",
+          "Putin Mihail Evgenevich",
+          "ПУТІН Михайло Євгенійович",
+          "Putin Mikhail Evgenevich",
+          "Putin Mikhail Yevgen'yevich",
+          "ПУТИН Михаил Евгеньевич",
+          "Putin Mikhail Evgen′evich",
+          "Putin Mihail Evgen′evič",
+          "Putin Mikhail Evgen'yevich",
+          "Путин Михаил Евгеньевич"
+        ],
+        "sourceUrl": [
+          "https://rupep.org/en/person/3411",
+          "https://sanctions.nazk.gov.ua/sanction-person/6469/"
+        ],
+        "topics": [
+          "sanction",
+          "role.pep"
+        ],
+        "status": [
+          "Domestic Politically Exposed Person"
+        ],
+        "innCode": [
+          "331000068907"
+        ],
+        "secondName": [
+          "Evgenievich"
+        ],
+        "lastName": [
+          "Putin",
+          "Путин",
+          "PUTIN"
+        ],
+        "fatherName": [
+          "Евгеньевич",
+          "Evgen'yevich"
+        ],
+        "birthDate": [
+          "1967-07-02",
+          "1967-02-07"
+        ],
+        "createdAt": [
+          "2022-05-13"
+        ],
+        "modifiedAt": [
+          "2022-05-13"
+        ]
+      },
+      "datasets": [
+        "au_dfat_sanctions",
+        "ru_acf_bribetakers",
+        "ru_rupep",
+        "gb_hmt_sanctions",
+        "ua_nabc_sanctions"
+      ],
+      "referents": [
+        "gb-hmt-15388",
+        "rupep-person-3411",
+        "ua-nabc-person-6469-evgenevich-putin-mikhail",
+        "au-dfat-7244-mikhail-evgenievich-putin",
+        "ua-nabc-person-6469-putin-mikhail-evgenevich",
+        "acf-4699353bf6554a0454aa6bfc7e42ba979468e525",
+        "acf-c73a13818011d4a9944a57c99311c8e249b85129"
+      ],
+      "target": true,
+      "first_seen": "2022-02-25T13:00:27",
+      "last_seen": "2022-09-14T06:50:08"
+    },
+    {
+      "id": "rupep-person-16786",
+      "caption": "Денис Михайлович Путин",
+      "schema": "Person",
+      "properties": {
+        "sourceUrl": [
+          "https://rupep.org/en/person/16786"
+        ],
+        "alias": [
+          "Путин Денис Михайлович",
+          "Putin Denis Mikhailovich",
+          "Putin Denis Mikhajjlovich",
+          "Putin Denis Mihajlovich",
+          "Putin Denis Mikhaylovich",
+          "Putin Denis Mihailovich",
+          "Putin Denis Mihajlovič",
+          "Putin Denis Mixajlovich"
+        ],
+        "innCode": [
+          "771978757806"
+        ],
+        "firstName": [
+          "Denis",
+          "Денис"
+        ],
+        "fatherName": [
+          "Михайлович",
+          "Mikhaylovich"
+        ],
+        "lastName": [
+          "Putin",
+          "Путин"
+        ],
+        "position": [
+          "ООО \"Итерра\" (генеральный директор)"
+        ],
+        "nationality": [
+          "ru"
+        ],
+        "topics": [
+          "role.rca"
+        ],
+        "status": [
+          "Family member"
+        ],
+        "name": [
+          "Денис Михайлович Путин",
+          "Denis Mikhaylovich Putin"
+        ],
+        "modifiedAt": [
+          "2022-04-06"
+        ],
+        "birthDate": [
+          "1996-12-22"
+        ]
+      },
+      "datasets": [
+        "ru_rupep"
+      ],
+      "referents": [],
+      "target": false,
+      "first_seen": "2022-04-07T06:23:06",
+      "last_seen": "2022-09-14T06:49:50"
+    },
+    {
+      "id": "rupep-person-16147",
+      "caption": "Евгений Михайлович Путин",
+      "schema": "Person",
+      "properties": {
+        "topics": [
+          "role.rca"
+        ],
+        "name": [
+          "Evgeniy Mikhaylovich Putin",
+          "Евгений Михайлович Путин"
+        ],
+        "alias": [
+          "Putin Evgenii Mikhailovich",
+          "Путин Евгений Михайлович",
+          "Putin Evgenij Mixajlovich",
+          "Putin Evgenij Mihajlovič",
+          "Putin Evgeni Mikhaylovich",
+          "Putin Evgenij Mihajlovich",
+          "Putin Evgenii Mihailovich",
+          "Putin Evgenijj Mikhajjlovich",
+          "Putin Yevgeniy Mikhaylovich",
+          "Putin Evgeniy Mikhaylovich",
+          "Putin Evgeny Mikhaylovich"
+        ],
+        "status": [
+          "Family member"
+        ],
+        "firstName": [
+          "Евгений",
+          "Evgeniy"
+        ],
+        "fatherName": [
+          "Михайлович",
+          "Mikhaylovich"
+        ],
+        "nationality": [
+          "ru"
+        ],
+        "lastName": [
+          "Putin",
+          "Путин"
+        ],
+        "sourceUrl": [
+          "https://rupep.org/en/person/16147"
+        ],
+        "birthDate": [
+          "1933-02-26"
+        ],
+        "modifiedAt": [
+          "2022-01-22"
+        ]
+      },
+      "datasets": [
+        "ru_rupep"
+      ],
+      "referents": [],
+      "target": false,
+      "first_seen": "2022-02-25T13:00:27",
+      "last_seen": "2022-09-14T06:49:50"
+    },
+    {
+      "id": "Q7747",
+      "caption": "Vladimir Vladimirovitj PUTIN",
+      "schema": "Person",
+      "properties": {
+        "notes": [
+          "NOT SUBJECT TO TRAVEL RESTRICTIONS ACCORDING TO ARTICLE 29(1)",
+          "On 22 Feb 2022, he signed a decree recognising the \"independence and sovereignty\" of the non-government-controlled areas of the Donetsk and Luhansk oblasts of Ukraine, and ordered the Russian armed forces into those areas.",
+          "As the President of Russia, he shapes the policy of the Russian government, which threatens the territorial integrity, sovereignty and independence of Ukraine. President of the Russian Federation. Corruption.",
+          "President of Russia (1999–2008, 2012–present)",
+          "22 февраля 2022 года он подписал указ о признании «независимости и суверенитета» неподконтрольных правительству территорий Донецкой и Луганской областей Украины и приказал российским вооруженным силам войти в эти районы.  24 февраля 2022 г. он отдал приказ о военной операции в Украине, и российские вооруженные силы начали атаку на Украину.  Это нападение является грубым нарушением территориальной целостности, суверенитета и независимости Украины.  Владимир Путин несет ответственность и активно поддерживает действия, подрывающие территориальную целостность, суверенитет и независимость Украины, а также стабильность и безопасность в Украине.",
+          "On 22 February 2022, he signed a decree recognising the \"independence and sovereignty\" of the non-government-controlled areas of the Donetsk and Luhansk oblasts of Ukraine, and ordered the Russian armed forces into those areas.\n On 24 February 2022, he ordered a military operation in Ukraine and Russian armed forces began an attack on Ukraine. That attack is a blatant violation of the territorial integrity, sovereignty and independence of Ukraine.\n Vladimir Putin is responsible for and actively supporting actions undermining the territorial integrity, sovereignty and independence of Ukraine, as well as stability and security in Ukraine.",
+          "Function: President of the Russian Federation",
+          "22 лютого 2022 року він підписав указ про визнання «незалежності та суверенітету» непідконтрольних уряду територій Донецької та Луганської областей України та наказав російським збройним силам увійти в ці райони. 24 лютого 2022 року він віддав наказ про військову операцію в Україні, і російські збройні сили почали атаку на Україну. Цей напад є грубим порушенням територіальної цілісності, суверенітету та незалежності України. Володимир Путін несе відповідальність і активно підтримує дії, що підривають територіальну цілісність, суверенітет і незалежність України, а також стабільність і безпеку в Україні.",
+          "President of the Russian Federation",
+          "On 24 Feb 2022, he ordered a military operation in Ukraine and Russian armed forces began an attack on Ukraine. That attack is a blatant violation of the territorial integrity, sovereignty and independence of Ukraine.",
+          "Vladimir Poutine est le président de la Fédération de Russie. Le 22 février 2022, il a signé un décret reconnaissant l'\"indépendance et la souveraineté\" des zones des oblasts ukrainiens de Donetsk et de Louhansk non contrôlées par le gouvernement, et a ordonné le déploiement des forces armées russes dans ces zones. Le 24 février 2022, il a ordonné le lancement d'une opération militaire en Ukraine et les forces armées russes ont commencé à attaquer l'Ukraine. Cette attaque est une violation flagrante de l'intégrité territoriale, de la souveraineté et de l'indépendance de l'Ukraine. Vladimir Poutine est responsable d'actions compromettant l'intégrité territoriale, la souveraineté et l'indépendance de l'Ukraine, ou la stabilité ou la sécurité en Ukraine, et soutient activement ces actions.",
+          "Vladimir Putin is responsible for and actively supporting actions undermining the territorial integrity, sovereignty and independence of Ukraine, as well as stability and security in Ukraine.",
+          "Vladimir Putin is the President of the Russian Federation."
+        ],
+        "alias": [
+          "Tổng thống Nga Putin",
+          "Władimir Władimirowicz Putin",
+          "Bladimir Putin",
+          "ວະລາດິເມຍ ປູຕິນ",
+          "Vladimir Vladimirovitsj Putin",
+          "Wladimir Wladimirowitsch Putin",
+          "Putin V. V.",
+          "فلاديمير فلاديميروفيتش بوتين",
+          "블라디미르 푸틴",
+          "ПУТІН Володимир Володимирович",
+          "भ्लादिमिर पुटिन",
+          "ヴラジーミル・ヴラジーミロヴィチ・プーチン",
+          "ဗလာဒီမီယာ ပူတင်",
+          "弗拉基米尔·普京",
+          "ଭ୍ଲାଡ଼ିମିର ପୁଟିନ",
+          "Vladimir Putin",
+          "ਵਲਾਦੀਮੀਰ ਪੂਤਿਨ",
+          "ᱵᱷᱞᱟᱫᱤᱢᱤᱨ ᱯᱩᱛᱤᱱ",
+          "普廷",
+          "Präsident Putin",
+          "Уладзімір Уладзіміравіч Пуцін",
+          "Vladímír Pútín",
+          "ვლადიმერ პუტინი",
+          "ולדימיר פוטין",
+          "普丁",
+          "Vladimir Vladimir ulı Putin",
+          "Russische president Poetin",
+          "ウラジーミル・ウラジーミロヴィチ・プーチン",
+          "Владимир Путин",
+          "వ్లాదిమిర్ పుతిన్",
+          "Уладзімір Пуцін",
+          "普京",
+          "弗拉基米尔·弗拉基米罗维奇·普京",
+          "ولادیمیر پوتین",
+          "วลาดิเมียร์ ปูติน",
+          "Vladimirs Putins",
+          "Vladimir Vladimirovici Putin",
+          "পুতিন",
+          "Путин, Владимир Владимиры фырт",
+          "Vladimir Pûtin",
+          "ڤلادیمیر پوتین",
+          "Predsjednik Putin",
+          "ウラジーミル・プーチン",
+          "В.Путин",
+          "ᨓᨒᨉᨗᨆᨗᨑ ᨄᨘᨈᨗᨊ",
+          "ولاديمير پيوتن",
+          "Wladimir Poetin",
+          "ヴラジーミル・プーチン",
+          "弗拉基米爾·弗拉基米羅維奇·普京",
+          "ᏩᎳᏗᎻᎠ ᏊᏘᏂ",
+          "ПУТИН Владимир Владимирович",
+          "Βλαντίμιρ Πούτιν",
+          "วลาดีมีร์ ปูติน",
+          "Путин, Владимир",
+          "Putin",
+          "व्लादिमीर पुतिन",
+          "ލަޑިމިއަރ ޕޫޓިން",
+          "Путинэнь",
+          "Poutine",
+          "Vladimir Vladimirowiç Putin",
+          "Владимиръ Поутинъ",
+          "וולאדימיר פוטין",
+          "Vladímir Vladímirovitx Putin",
+          "Vladimir Vladimirovitch Poutin",
+          "President Putin",
+          "Վլադիմիր Պուտին",
+          "व्लादिमिर पुतिन",
+          "Путин, Владимир Владимирович,",
+          "Vlagyimir Vlagyimirovics Putyin",
+          "Vladimiro Putin",
+          "Βλαντίμιρ Βλαντίμιροβιτς Πούτιν",
+          "ڤلاديمير پوتين",
+          "Vladimiras Putinas",
+          "Владимир Владимир улы Путин",
+          "Путин В. В.",
+          "블라디미르 블라디미로비치 푸틴",
+          "ولادمير پوتين",
+          "விளாதிமிர் பூட்டின்",
+          "Vladimir Vladimirovitj Putin",
+          "Vladimir Vladimirovitch Putin",
+          "Wladimir Wladimirowič Putin",
+          "Putin Vladimir Vladimirovich",
+          "ۏلاديمير ڤوتين",
+          "Władimir Putin",
+          "弗拉迪米爾·弗拉迪米羅維奇·普丁",
+          "president Poetin",
+          "Vladimir Poutine",
+          "Vladimir Poutin",
+          "Putin Vladimir Vladimirovič",
+          "ᕝᓛᑎᒥᕐ ᐴᑎᓐ",
+          "ߝ߭ߌߟߊߘߡߌߙ ߔߎߕߌ߲",
+          "蒲亭",
+          "Vladimir Poetin",
+          "PUTIN, Vladimir",
+          "뿌찐",
+          "വ്ലാദിമിർ പുടിൻ",
+          "Faladimir Putin",
+          "Vladimir Vladimirovitch Poutine",
+          "ولادیمیر پوٹن",
+          "Vladimirus Vladimiri filius Putin",
+          "Уладзімер Уладзімеравіч Пуцін",
+          "ۋىلادىمىر پۇتىن",
+          "ڤئلادیمیر پوٙتین",
+          "ᏩᎳᏗᎻᎠ ᏩᎳᏗᎻᎶᏫᏥ ᏊᏘᏂ",
+          "ولادیمیر پوتن",
+          "Уладзімер Пуцін",
+          "Путин, Владимир Владимир оглу",
+          "Putini Vladimir",
+          "Վլատիմիր Փութին",
+          "Vladímir Putin",
+          "भ्लडिमिर पुटिन",
+          "弗拉基米爾·普丁",
+          "V. V. Putin",
+          "व्लाडिमिर पुटिन",
+          "𐌱𐌻𐌰𐌳𐌴𐌹𐌼𐌴𐌹𐍂 𐍀𐌿𐍄𐌴𐌹𐌽",
+          "Poetin",
+          "蒲廷",
+          "Putin Vladimir",
+          "ولادِیمِیر پُیوتِن",
+          "ව්ලැඩිමියර් පූටින්",
+          "بوتين",
+          "ヴラジーミル・ヴラジーミロヴィッチ・プーチン",
+          "Путин Владимир Владимирович",
+          "Wladimir Putin",
+          "ভ্লাদিমির পুতিন",
+          "Vladîmîr Putîn",
+          "Владимир Владимирович Путин",
+          "Vladimir Vladimirovič Putin",
+          "푸틴",
+          "Vladimirus Putin",
+          "Путін Володимир Володимирович",
+          "Wladimir Wladimirowitsj Poetin",
+          "普欽",
+          "普亭",
+          "弗拉迪米爾·普丁",
+          "វ៉្លាឌីមៀរ ពូទីន",
+          "Путин",
+          "Vladimir Vladimirovich Putin",
+          "Vladimir Vladimirovitx Putin",
+          "В. В. Путин",
+          "Путин, Владимир Владимирович",
+          "ቭላዲሚር ፑቲን",
+          "فلاديمير بوتين",
+          "ವ್ಲಾದಿಮಿರ್ ಪುತಿನ್"
+        ],
+        "topics": [
+          "role.spy",
+          "sanction",
+          "role.pep"
+        ],
+        "country": [
+          "ru"
+        ],
+        "name": [
+          "Vladimir Vladimirovitj PUTIN",
+          "Putin Vladimir Vladimirovich",
+          "Vladimir Vladimirovich Putin",
+          "PUTIN, Vladimir Vladimirovich",
+          "Владимир Владимирович Путин",
+          "Vladimir Vladimirovich POUTINE",
+          "PUTIN Vladimir Vladimirovich",
+          "Влади́мир Влади́мирович ПУ́ТИН",
+          "Vladimir Putin",
+          "Vladimir Vladimirovich PUTIN"
+        ],
+        "position": [
+          "President of Russia (2012-)",
+          "постоянный член Совета безопасности Российской Федерации",
+          "party leader",
+          "Президент Российской Федерации",
+          "chairperson (2012-)",
+          "Supreme Commander-in-Chief of the Armed Forces of the Russian Federation (1999-2008)",
+          "President of the Russian Federation",
+          "ロシア連邦大統領",
+          "Prime Minister of Russia (1999-2000)",
+          "председатель Совета безопасности Российской Федерации",
+          "Chairman of the Council of CIS Heads of State (2017-2017)",
+          "Prime Minister of Russia (2008-2012)",
+          "Security council members",
+          "War Arrangers",
+          "Военно-промышленная комиссия России (председатель)",
+          "Chairman of the Council of CIS Heads of State (2000-2003)",
+          "chairperson",
+          "Individuals involved in corruption",
+          "Acting President of Russia (1999-2000)",
+          "Director of the Federal Security Service (1998-1999)",
+          "Президент Російської Федерації",
+          "Chairman of the Council of CIS Heads of State (2004-2006)",
+          "Military Industrial Commission of Russia (the chairman)",
+          "party leader (1995-1997)",
+          "Deputy Chairman of the Government of the Russian Federation",
+          "Secretary of the Security Council of Russia (1999-1999)",
+          "président de la Fédération de Russie",
+          "Supreme Commander-in-Chief of the Armed Forces of the Russian Federation (2012-)",
+          "ACF investigations subjects",
+          "Pres.",
+          "President of Russia (2000-2008)"
+        ],
+        "sourceUrl": [
+          "https://www.cia.gov/resources/government/russia/",
+          "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=35096",
+          "https://sanctions.nazk.gov.ua/sanction-person/880/",
+          "https://rupep.org/en/person/2084"
+        ],
+        "birthPlace": [
+          "Léningrad, aujourd'hui Saint-Pétersbourg",
+          "Saint Petersburg, Russia",
+          "Leningrad (now Saint-Petersburg)",
+          "Saint-Petersburg",
+          "レニングラード（現サンクトペテルブルク）（ロシア）",
+          "Leningrad, Russia",
+          "Saint Petersburg",
+          "г. Москва, Украина",
+          "Санкт-Петербург",
+          "V.F. Snegiryov Maternity Hospital No.6",
+          "St. Petersburg",
+          "м. Санкт-Петербург, Росія",
+          "Moscow, Russia"
+        ],
+        "education": [
+          "School 281 (1968-1970)",
+          "FSB Academy",
+          "Saint Petersburg State University",
+          "Saint Petersburg Mining University (-1997)",
+          "School 193 (1960-1968)",
+          "Academy of Foreign Intelligence",
+          "Candidate of Economic Sciences",
+          "St. Petersburg Institute of the FSB of Russia",
+          "Faculty of Law, Saint Petersburg State University (1970-1975)"
+        ],
+        "nationality": [
+          "suhh",
+          "ru"
+        ],
+        "religion": [
+          "Eastern Orthodoxy"
+        ],
+        "website": [
+          "http://putin.kremlin.ru/",
+          "http://eng.putin.kremlin.ru/"
+        ],
+        "firstName": [
+          "Владимир",
+          "Vladimir",
+          "Влади́мир",
+          "Vladimir Vladimirovich"
+        ],
+        "lastName": [
+          "Putin",
+          "Путин",
+          "ПУ́ТИН",
+          "POUTINE",
+          "PUTIN"
+        ],
+        "ethnicity": [
+          "Russians"
+        ],
+        "weakAlias": [
+          "ߔߑߟߊߕߐߝ߭",
+          "Платов",
+          "Platov"
+        ],
+        "fatherName": [
+          "Vladimirovich",
+          "Владимирович",
+          "Влади́мирович"
+        ],
+        "gender": [
+          "male"
+        ],
+        "secondName": [
+          "Vladimirovich"
+        ],
+        "wikidataId": [
+          "Q7747"
+        ],
+        "status": [
+          "Domestic Politically Exposed Person"
+        ],
+        "addressEntity": [
+          "addr-9d0ce22ded1694139fd3db05a0279052f72fc902",
+          "addr-f661389e33e6d655cdc7f4818037a1d918046adc",
+          "addr-6197199049abdcc8f1c35e74a0336756e52bef2c",
+          "addr-e012b39510f87bd87e5317f418308fa2baf6d90a",
+          "NK-3Kw6ZCXo8SddN8PJ58uuvE"
+        ],
+        "birthDate": [
+          "1952-10-07"
+        ],
+        "createdAt": [
+          "2022-02-25"
+        ],
+        "modifiedAt": [
+          "2022-07-19"
+        ]
+      },
+      "datasets": [
+        "au_dfat_sanctions",
+        "be_fod_sanctions",
+        "jp_mof_sanctions",
+        "ca_dfatd_sema_sanctions",
+        "ru_acf_bribetakers",
+        "fr_tresor_gels_avoir",
+        "ch_seco_sanctions",
+        "us_trade_csl",
+        "wd_curated",
+        "wd_peppercat_leaders",
+        "ru_rupep",
+        "wikidata",
+        "us_cia_world_leaders",
+        "gb_hmt_sanctions",
+        "ua_nabc_sanctions",
+        "us_ofac_sdn",
+        "eu_fsf"
+      ],
+      "referents": [
+        "acf-bc8959bdee968cc4047e0c19c7d7ada16f9aa9fd",
+        "ofac-35096",
+        "eu-fsf-eu-7510-16",
+        "ua-nabc-person-880-putin-vladimir-vladimirovich",
+        "ca-sema-russia-1-503",
+        "fr-ga-4271",
+        "ca-sema-1-503-ru-vladimir-vladimirovich-putin",
+        "eu-tb-logical-135909",
+        "gb-hmt-14196",
+        "ja-mof-1e45d73d4aefd473f51cc8bb96061a16984b96c0",
+        "NK-A2ng9aNQPTjrkkd84Ew9Ww",
+        "us-cia-russia-vladimir-vladimirovich-putin-pres",
+        "acf-d027c6bb07387ac41f485a471ba90ba2cee703e7",
+        "ch-seco-49812",
+        "NK-b32TGfwW8Yk82mdxvaXt3C",
+        "au-dfat-6678-vladimir-vladimirovich-putin"
+      ],
+      "target": true,
+      "first_seen": "2021-07-26T11:55:45",
+      "last_seen": "2022-09-14T07:01:21"
+    },
+    {
+      "id": "Q438839",
+      "caption": "Aleksandr DUGIN",
+      "schema": "Person",
+      "properties": {
+        "wikidataId": [
+          "Q438839"
+        ],
+        "name": [
+          "Дугін Олександр Гелійович",
+          "DUGIN, Aleksandr",
+          "Дугин Александр Гелиевич",
+          "Aleksandr DUGIN",
+          "DUGIN Alexander Gelyevich",
+          "Aleksandr Dugin",
+          "Dugin Alexander Gelyevich"
+        ],
+        "notes": [
+          "Dugin was a leader of the Eurasian Youth Union, which actively recruited individuals with military and combat experience to fight on behalf of the self-proclaimed Donetsk People’s Republic and has stated that it has a covert presence in Ukraine.",
+          "Дугин был лидером Евразийского союза молодежи, который активно вербовал людей с военным и боевым опытом для борьбы на стороне самопровозглашенной Донецкой Народной Республики и заявлял о своем тайном присутствии в Украине.",
+          "Russian propagandist: chauvinist politician, propagandist, Ukrainophobe, founder and leader of the International Eurasian Movement, one of the main ideologists of “imperial Russia,” one of the authors of the concept of the “Russian world” and the so-called “Novorossiya,” one of the key ideologists of the Kremlin’s foreign policy. Was the editor-in-chief of Tsargrad TV propaganda channel from 2016 to 2017 and member of the ultranationalist Izborsk Club Member of the Izborsk Club, which unites the ideologists of modern Russian authoritarianism and the war in Ukraine",
+          "Russian political scientist",
+          "Ukraine-/Russia-Related Sanctions Regulations, 31 CFR 589.201 and/or 589.209",
+          "Дугін був лідером Євразійського союзу молоді, який активно вербував людей з військовим та бойовим досвідом для боротьби на боці самопроголошеної Донецької Народної Республіки та заявляв про свою таємну присутність в Україні."
+        ],
+        "alias": [
+          "アレクサンドル・ドゥーギン",
+          "Aleksandar Dugin",
+          "Аляксандр Гельевіч Дугін",
+          "Alexander Dughin",
+          "알렉산드르 두긴",
+          "Дугін Олександр Гельйович",
+          "Aleksandr Doegin",
+          "Alexandr Dugin",
+          "Александр Дугин",
+          "آلکساندر گلییویچ دوگین",
+          "Ալեքսանդր Դուգին",
+          "Aleksandr Dughin",
+          "Aleksandr Gelyevich Dugin",
+          "Олександр Гелійович Дугін",
+          "Дугин, Александр",
+          "Aleksandr Gieljewicz Dugin",
+          "Dughin",
+          "ألكسندر دوغين",
+          "ДУГІН Олександр Гелійович",
+          "Александър Дугин",
+          "Aleksandr Geljeviĉ Dugin",
+          "אלכסנדר דוגין",
+          "ДУГИН Александр Гельевич",
+          "А. Дугін",
+          "Αλεξάντρ Ντούγκιν",
+          "𐌰𐌻𐌰𐌹𐌺𐍃𐌰𐌽𐌳𐍂𐌿𐍃 𐌳𐌿𐌲𐌴𐌹𐌽𐍃",
+          "Aleksandras Duginas",
+          "Aleksandr Gel'evič Dugin",
+          "Aleksandr Gelievici Dughin",
+          "Дугін Олександр Гелійович",
+          "アレクサンドル・ゲレヴィチ・デュギン",
+          "Aleksander Dugin",
+          "Александар Дугин",
+          "А.Г. Дугін",
+          "Дугін Олександр",
+          "Alexander Geljewitsch Dugin",
+          "Аляксандар Гельевіч Дугін",
+          "亞歷山大·杜金",
+          "Дугин А. Г.",
+          "Олександр Гельйович Дугін",
+          "Alexandre Douguine",
+          "Alexandr Gelievič Dugin",
+          "Александар Гелјевич Путин",
+          "আলেকসান্দ্র দুগিন",
+          "DUGIN, Aleksandr Gelyevich",
+          "الكسندر دوجين",
+          "Дугин А.",
+          "Duginus",
+          "الکساندر گئلیویچ دوگین",
+          "Дугин Александр Гельевич",
+          "Dugin",
+          "アレクサンドル・ドゥギン",
+          "Александр Гельевич Дугин",
+          "Дугин, Александр Гельевич",
+          "ალექსანდრე დუგინი",
+          "DUGIN, Alexander Gelyevich",
+          "Douguine",
+          "Аляксандар Дугін",
+          "Alexander Gelyevich Dugin",
+          "Alexandre Guelievitch Douguine",
+          "Олександр Дугін",
+          "Aleksandr Duqin",
+          "Дугін",
+          "Alexander Dugin",
+          "Aleksandr Gelevitj Dugin",
+          "Aleksandr Gelijevič Dugin",
+          "Aleksandr Duguin",
+          "Aleksandr Dóguin",
+          "Alexandr Geljevič Dugin",
+          "Aleksandr Geljevitj Dugin"
+        ],
+        "nationality": [
+          "suhh",
+          "ru"
+        ],
+        "topics": [
+          "sanction",
+          "role.pep"
+        ],
+        "website": [
+          "http://dugin.tv/"
+        ],
+        "firstName": [
+          "Aleksandr",
+          "Alexander"
+        ],
+        "education": [
+          "Doktor Nauk in Political Science",
+          "Moscow Aviation Institute (1978-1979)",
+          "Novocherkassk State Academy of Melioration",
+          "PhD in Philosophical Sciences",
+          "Doktor Nauk in Sociology"
+        ],
+        "gender": [
+          "male"
+        ],
+        "birthPlace": [
+          "Москва, Россия",
+          "Moscow",
+          "Москва, Росія",
+          "Moscow, Russia"
+        ],
+        "lastName": [
+          "Dugin"
+        ],
+        "position": [
+          "Лідер Євразійського союзу молоді",
+          "Federal media employees",
+          "Warmongers",
+          "Лидер Евразийского союза молодежи",
+          "Propagandists",
+          "антиукраїнський пропагандист",
+          "Ideologists of war",
+          "Leader of the Eurasian Youth Union"
+        ],
+        "country": [
+          "ru"
+        ],
+        "sourceUrl": [
+          "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=17760",
+          "https://sanctions.nazk.gov.ua/sanction-person/15616/"
+        ],
+        "modifiedAt": [
+          "2022-07-15"
+        ],
+        "birthDate": [
+          "1962-01-07"
+        ],
+        "createdAt": [
+          "2015-03-11"
+        ]
+      },
+      "datasets": [
+        "ru_acf_bribetakers",
+        "ca_dfatd_sema_sanctions",
+        "ua_nsdc_sanctions",
+        "wd_curated",
+        "us_trade_csl",
+        "wikidata",
+        "ua_nabc_sanctions",
+        "us_ofac_sdn"
+      ],
+      "referents": [
+        "acf-542e1c83931b89c449858b5d0889a16ba5acb31f",
+        "ua-nabc-person-15616-dugin-alexander-gelyevich",
+        "ca-sema-1-89-ru-aleksandr-dugin",
+        "acf-eb48a3954e99934ac0184521da5be855a49327ce",
+        "ua-nsdc-person-82-2019-2798",
+        "ca-sema-russia-1-89",
+        "ofac-17760",
+        "NK-CSnptF65LHeTWgzAiWibgt"
+      ],
+      "target": true,
+      "first_seen": "2021-09-30T11:39:21",
+      "last_seen": "2022-09-14T07:01:21"
+    },
+    {
+      "id": "Q4225536",
+      "caption": "KOVALCHUK Boris Yurievich",
+      "schema": "Person",
+      "properties": {
+        "wikidataId": [
+          "Q4225536"
+        ],
+        "name": [
+          "Борис Юрьевич Ковальчук",
+          "Boris Kovalchuk",
+          "KOVALCHUK Boris Yurievich",
+          "Kovalchuk Boris Yurievich",
+          "Boris Yurievich KOVALCHUK",
+          "Boris Yurievich Kovalchuk",
+          "Boris Yur'yevich Kovalchuk",
+          "KOVALCHUK, Boris Yurievich"
+        ],
+        "notes": [
+          "Син петербурзького мільярдера Юрія Ковальчука, який є близьким другом президента Росії Володимира Путіна.",
+          "Member of the Board of Directors of JSC System Operator of the Unified Energy System (SO UES) Member of the Board of Directors of PJSC INTER RAO, Member of the collegial executive body of PJSC INTER RAO. Person acting as the sole executive body (President) of PJSC INTER RAO",
+          "(Linked To: KOVALCHUK, Yuri Valentinovich)",
+          "The son of St. Petersburg billionaire Yuri Kovalchuk, who is a close friend of Russian President Vladimir Putin.",
+          "Russian politician",
+          "Син петербуржского миллиардера Юрия Ковальчука, який є близкий президент России Владимир Путин."
+        ],
+        "alias": [
+          "ボリス・コヴァリチュク",
+          "Ковальчук Борис Юрьевич",
+          "Ковальчук, Борис Юрьевич",
+          "Koval'chuk Boris Yur'evich",
+          "Борис Юрьевич Ковальчук",
+          "Boris Yuryevich Kovalchuk",
+          "Koval′čuk Boris Ûr′evič",
+          "Бори́с Ю́рьевич Ковальчу́к",
+          "Koval'chuk Boris Yur'yevich",
+          "بوريس كوفالتشوك",
+          "Kovalchuk Boris Yur'yevich",
+          "Kovalchuk Boris Iurevich",
+          "КОВАЛЬЧУК Борис Юрійович",
+          "Koval'chuk Boris Jur'evich",
+          "Boris Jurjewitsch Kowaltschuk",
+          "КОВАЛЬЧУК Борис Юрьевич",
+          "Koval′chuk Boris Jur′evich",
+          "Boris Kowaltschuk",
+          "Boris Jurevitsj Kovaltsjoek"
+        ],
+        "birthPlace": [
+          "St. Petersburg, Russia",
+          "サンクトペテルブルク（ロシア）",
+          "Saint Petersburg",
+          "Санкт-Петербург",
+          "St. Petersburg",
+          "м. Санкт-Петербург, Росія",
+          "г. Санкт-Петербург, Россия"
+        ],
+        "nationality": [
+          "ru"
+        ],
+        "topics": [
+          "role.rca",
+          "sanction",
+          "role.pep"
+        ],
+        "firstName": [
+          "Boris",
+          "Борис"
+        ],
+        "lastName": [
+          "KOVALCHUK",
+          "Kovalchuk",
+          "Ковальчук"
+        ],
+        "gender": [
+          "male"
+        ],
+        "status": [
+          "Close associate"
+        ],
+        "position": [
+          "Relation of Yuri Kovalchuk",
+          "ПАО \"ИНТЕР РАО\" (генеральный директор)",
+          "ユーリー・コバリチュクの親族",
+          "Російський менеджер та чиновник. Голова Правління ПАТ \"Інтер РАО\"",
+          "INTER RAO PJSC (CEO)",
+          "Russian manager and official. Chairman of the Board of PJSC Inter RAO",
+          "Российский менеджер и чиновник. Председатель правления ПАО \"Интер РАО\"",
+          "Top Management of State Owned Companies"
+        ],
+        "fatherName": [
+          "Yur'yevich",
+          "Юрьевич"
+        ],
+        "country": [
+          "ru"
+        ],
+        "taxNumber": [
+          "780150854932"
+        ],
+        "sourceUrl": [
+          "https://sanctionssearch.ofac.treas.gov/Details.aspx?id=35791",
+          "https://rupep.org/en/person/3512",
+          "https://sanctions.nazk.gov.ua/sanction-person/140/"
+        ],
+        "secondName": [
+          "Yurievich"
+        ],
+        "innCode": [
+          "780150854932"
+        ],
+        "modifiedAt": [
+          "2022-05-25"
+        ],
+        "birthDate": [
+          "1977-12-01"
+        ],
+        "createdAt": [
+          "2022-03-11"
+        ]
+      },
+      "datasets": [
+        "ru_acf_bribetakers",
+        "us_trade_csl",
+        "ru_rupep",
+        "wikidata",
+        "jp_mof_sanctions",
+        "gb_hmt_sanctions",
+        "ua_nabc_sanctions",
+        "us_ofac_sdn"
+      ],
+      "referents": [
+        "acf-ffdba69f0aa9239d47b7cf56f16f3a3f5cade49c",
+        "gb-hmt-14802",
+        "ja-mof-db49f3cc533b24e76b443dbcc5b8aa265729c9a3",
+        "ofac-35791",
+        "ua-nabc-person-140-kovalchuk-boris-yurievich"
+      ],
+      "target": true,
+      "first_seen": "2022-03-12T00:54:18",
+      "last_seen": "2022-09-14T07:01:21"
+    },
+    {
+      "id": "Q4297405",
+      "caption": "Sergei MIKHAILOV",
+      "schema": "Person",
+      "properties": {
+        "wikidataId": [
+          "Q4297405"
+        ],
+        "name": [
+          "Sergei MIKHAILOV",
+          "Mikhaylov Sergey Vladimirovich",
+          "Sergej Vladimirovič MIHAJLOV",
+          "СЕРГЕЙ ВЛАДИМИРОВИЧ МИХАЙЛОВ",
+          "Sergej MICHAJLOV",
+          "Михайлов Сергій Володимирович",
+          "MIKHAILOV Sergei Vladimirovich",
+          "Sergey Vladimirovich Mikhailov",
+          "Sergey Mikhailov",
+          "Sergey Vladimirovich MIKHAILOV",
+          "Сергей МИХАЙЛОВ"
+        ],
+        "notes": [
+          "He is therefore supporting actions or policies which undermine or threaten the territorial integrity, sovereignty and independence of Ukraine, as well as stability and security in Ukraine.",
+          "Sergey Mikhailov is the Director General of the News Agency TASS – the largest Russian news agency, which disseminates through its massive network of foreign representations (70 offices in the Commonwealth of Independent States and 68 bureaus around the world) distorted information on Ukraine, serving the interests of the political leadership of the Russian Federation.",
+          "Сергій Михайлов є генеральним директором Інформаційного агентства ТАСС – найбільшого російського інформаційного агентства, яке через свою розгалужену мережу іноземних представництв (70 представництв у СНД і 68 бюро по всьому світу) поширює викривлену інформацію про Україну. Президент Володимир Путін нагородив його орденом Дружби. Сергій Михайлов зарахований до кадрового резерву президента Росії. Тому він підтримує дії чи політику, які підривають або загрожують територіальній цілісності, суверенітету та незалежності України, а також стабільності та безпеці в Україні.",
+          "Director General of TASS",
+          "Function: Director General of the Russian News Agency TASS",
+          "Sergey Mikhailov is the Director General of the News Agency TASS – the largest Russian news agency, which disseminates through its massive network of foreign representations (70 offices in the Commonwealth of Independent States and 68 bureaus around the world) distorted information on Ukraine, serving the interests of the political leadership of the Russian Federation. President Vladimir Putin has awarded him with the Order of Friendship. Sergey Mikhailov is included in the personnel reserve of the President of Russia. He is therefore supporting actions or policies which undermine or threaten the territorial integrity, sovereignty and independence of Ukraine, as well as stability and security in Ukraine.",
+          "President Vladimir Putin has awarded him with the Order of Friendship. Sergey Mikhailov is included in the personnel reserve of the President of Russia.",
+          "Sergueï Mikhaïlov est le directeur général de l’agence de presse TASS, la plus grande agence de presse russe, qui diffuse, par l’intermédiaire de son vaste réseau de représentations étrangères (70 bureaux dans la Communauté des États indépendants et 68 bureaux dans le monde), de fausses informations sur l’Ukraine, au service des intérêts des dirigeants politiques de la Fédération de Russie. Le président Vladimir Poutine lui a décerné l’ordre de l’amitié. Sergueï Mikhaïlov figure dans la réserve de personnel du président de la Russie. Il soutient donc activement des actions ou des politiques qui compromettent ou menacent l’intégrité territoriale, la souveraineté et l’indépendance de l’Ukraine, ainsi que la stabilité et la sécurité en Ukraine.",
+          "Сергей Михайлов является генеральным директором Информационного агентства ТАСС – крупнейшего российского информационного агентства, через свою разветвленную сеть иностранных представительств (70 представительств в СНГ и 68 бюро по всему миру) распространяет искаженную информацию об Украине. Президент Владимир Путин наградил его орденом Дружбы. Сергей Михайлов причислен к кадровому резерву президента России. Поэтому он поддерживает действия или политику, которая подрывает или угрожает территориальной целостности, суверенитету и независимости Украины, а также стабильности и безопасности в Украине.",
+          "CEO of TASS"
+        ],
+        "alias": [
+          "Сергей Владимирович Михайлов",
+          "סרגיי מיכאילוב",
+          "Sergei MIKHAILOV",
+          "МИХАЙЛОВ Сергей Владимирович",
+          "Sergei Mikhailov",
+          "Михайлов Сергей Владимирович",
+          "Sergueï Mikhaïlov",
+          "Sergey Vladimirovitsj Michaylov",
+          "谢尔盖·米哈伊洛夫",
+          "Михайлов, Сергей Владимирович",
+          "МИХАЙЛОВ Сергій Володимирович",
+          "Сергей МИХАЙЛОВ",
+          "Szergej Vlagyimirovics Mihajlov"
+        ],
+        "birthPlace": [
+          "м. Архангельськ",
+          "Arkhangelsk",
+          "Arkhangelsk, Fédération de Russie",
+          "Arhangelsk, Russia"
+        ],
+        "nationality": [
+          "ru"
+        ],
+        "firstName": [
+          "Sergey",
+          "СЕРГЕЙ",
+          "Sergei",
+          "Sergey Vladimirovich"
+        ],
+        "education": [
+          "Moscow State Institute of International Relations"
+        ],
+        "lastName": [
+          "MIKHAILOV",
+          "МИХАЙЛОВ",
+          "Mikhailov",
+          "Mikhaylov"
+        ],
+        "position": [
+          "directeur général de l’agence de presse russe TASS",
+          "Director General of the Russian News Agency TASS",
+          "Federal media employees",
+          "chief executive officer (2012-)",
+          "Propagandists",
+          "Генеральний директор Російського інформаційного агентства ТАСС",
+          "генеральний директор інформаційного агентства «ТАСС»",
+          "Генеральный директор Российского информационного агентства ТАСС"
+        ],
+        "gender": [
+          "male"
+        ],
+        "fatherName": [
+          "Vladimirovich",
+          "ВЛАДИМИРОВИЧ"
+        ],
+        "innCode": [
+          "771200738979"
+        ],
+        "topics": [
+          "sanction"
+        ],
+        "country": [
+          "ru"
+        ],
+        "secondName": [
+          "Vladimirovich"
+        ],
+        "sourceUrl": [
+          "https://sanctions.nazk.gov.ua/sanction-person/2283/"
+        ],
+        "modifiedAt": [
+          "2022-06-24"
+        ],
+        "birthDate": [
+          "1971-03-17"
+        ],
+        "createdAt": [
+          "2022-04-08"
+        ]
+      },
+      "datasets": [
+        "ru_egrul",
+        "be_fod_sanctions",
+        "ru_acf_bribetakers",
+        "eu_travel_bans",
+        "ca_dfatd_sema_sanctions",
+        "fr_tresor_gels_avoir",
+        "ch_seco_sanctions",
+        "ua_nsdc_sanctions",
+        "wikidata",
+        "gb_hmt_sanctions",
+        "ua_nabc_sanctions",
+        "eu_fsf"
+      ],
+      "referents": [
+        "ua-nsdc-person-176-2018-1144",
+        "gb-hmt-15320",
+        "ch-seco-53033",
+        "ru-inn-771200738979",
+        "ua-nabc-person-2283-mikhailov-sergei-vladimirovich",
+        "eu-tb-logical-138132",
+        "eu-fsf-eu-7874-47",
+        "fr-ga-4622",
+        "acf-57292007aee062eba925284ffbadd2872a6ee1c1",
+        "NK-5ETESN7TFpA8A5uxZUc9dU",
+        "ca-sema-1-829-ru-sergey-vladimirovich-mikhailov"
+      ],
+      "target": true,
+      "first_seen": "2022-04-06T08:09:32",
+      "last_seen": "2022-09-14T07:01:22"
+    }
+  ],
+  "facets": {
+    "topics": {
+      "label": "Topics",
+      "values": [
+        {
+          "name": "sanction",
+          "label": "Sanctioned entity",
+          "count": 11
+        },
+        {
+          "name": "role.pep",
+          "label": "Politician",
+          "count": 7
+        },
+        {
+          "name": "role.rca",
+          "label": "Close Associate",
+          "count": 5
+        },
+        {
+          "name": "role.spy",
+          "label": "Spy",
+          "count": 1
+        }
+      ]
+    },
+    "datasets": {
+      "label": "Data sources",
+      "values": [
+        {
+          "name": "ua_nabc_sanctions",
+          "label": "Ukraine NABC Sanctions Tracker",
+          "count": 11
+        },
+        {
+          "name": "wikidata",
+          "label": "Wikidata",
+          "count": 11
+        },
+        {
+          "name": "gb_hmt_sanctions",
+          "label": "UK OFSI Consolidated List of Targets",
+          "count": 10
+        },
+        {
+          "name": "ru_acf_bribetakers",
+          "label": "ACF List of bribetakers and warmongers",
+          "count": 9
+        },
+        {
+          "name": "ru_rupep",
+          "label": "RuPEP Public Database of PEPs in Russia and Belarus",
+          "count": 9
+        },
+        {
+          "name": "au_dfat_sanctions",
+          "label": "Australian Sanctions Consolidated List",
+          "count": 7
+        },
+        {
+          "name": "ca_dfatd_sema_sanctions",
+          "label": "Canadian Special Economic Measures Act Sanctions",
+          "count": 7
+        },
+        {
+          "name": "be_fod_sanctions",
+          "label": "Belgian Financial Sanctions",
+          "count": 6
+        },
+        {
+          "name": "ch_seco_sanctions",
+          "label": "Swiss SECO Sanctions/Embargoes",
+          "count": 6
+        },
+        {
+          "name": "eu_fsf",
+          "label": "EU Financial Sanctions Files (FSF)",
+          "count": 6
+        },
+        {
+          "name": "fr_tresor_gels_avoir",
+          "label": "French Freezing of Assets",
+          "count": 6
+        },
+        {
+          "name": "eu_travel_bans",
+          "label": "EU Consolidated Travel Bans",
+          "count": 5
+        },
+        {
+          "name": "ua_nsdc_sanctions",
+          "label": "Ukraine National Security Sanctions",
+          "count": 4
+        },
+        {
+          "name": "us_ofac_sdn",
+          "label": "US OFAC Specially Designated Nationals (SDN) List",
+          "count": 4
+        },
+        {
+          "name": "us_trade_csl",
+          "label": "US Trade Consolidated Screening List (CSL)",
+          "count": 4
+        },
+        {
+          "name": "jp_mof_sanctions",
+          "label": "Japan Economic sanctions and list of eligible people",
+          "count": 2
+        },
+        {
+          "name": "wd_curated",
+          "label": "Wikidata Entities of Interest",
+          "count": 2
+        },
+        {
+          "name": "wd_peppercat_leaders",
+          "label": "Peppercat World Leaders",
+          "count": 2
+        },
+        {
+          "name": "ru_egrul",
+          "label": "Russian Unified State Register of Legal Entities (EGRUL)",
+          "count": 1
+        },
+        {
+          "name": "us_cia_world_leaders",
+          "label": "CIA World Leaders",
+          "count": 1
+        }
+      ]
+    },
+    "countries": {
+      "label": "Countries",
+      "values": [
+        {
+          "name": "ru",
+          "label": "Russia",
+          "count": 13
+        },
+        {
+          "name": "suhh",
+          "label": "Soviet Union",
+          "count": 8
+        },
+        {
+          "name": "kg",
+          "label": "Kyrgyzstan",
+          "count": 1
+        },
+        {
+          "name": "ua",
+          "label": "Ukraine",
+          "count": 1
+        }
+      ]
+    }
+  }
+}
