@@ -68,10 +68,12 @@ export default class BaseController {
 
   // Get scraping results
   public getGoogleNews(req: Request, res: Response): Promise<void>{
-    return s.scrapeGoogleNews(req.body.name)
+    return s.scrapeGoogleNews(`${req.query.q}`)
                   .then((data) => {
                   (Promise.all(data).then((resp) => {
+                    
                     res.json(resp.flat(2));
+                    
                   }))
                   }).catch((e) => {
                     res.status(400).json(e)

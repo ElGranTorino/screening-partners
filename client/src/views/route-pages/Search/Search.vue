@@ -65,11 +65,6 @@ export default {
   components: {
     Footer, SearchSteps
   },
-  data(){
-    return {
-
-    }
-  },
   mounted(){
     this.setFormState('active');
   },

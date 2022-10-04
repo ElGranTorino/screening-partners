@@ -86,7 +86,7 @@ export interface INewsParsingResult {
 }
 
 export interface ISelectSanctionsRequest {
-    page: number,
+    offset: number,
     target: string,
     limit: number
 }

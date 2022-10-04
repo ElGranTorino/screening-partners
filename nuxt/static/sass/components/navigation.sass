@@ -1,0 +1,107 @@
+.v-statusbar
+    @include box-shadow(4px, 4px, 25px, 5px, rgba(map-get($colors, blue), .05))
+    // width: 85%
+    // left: calc(15% / 2)
+    width: 100%
+    left: 0
+    top: 0
+    position: fixed
+    height: auto
+    // background: crimson
+    padding: calc(2.5rem + 20px) calc(15% / 2) 2.5rem
+    background: rgba(map-get($colors, body), 3)
+    border-bottom: solid 2px map-get($colors, blue)
+    z-index: 999
+    &__date
+        font-weight: 500
+        color: map-get($colors, black)
+        letter-spacing: 0.05rem
+        font-size: 0.98rem
+    &__search
+        &-input
+            @include no-appearance()
+            background: transparent
+            color: rgba(map-get($colors, black), .7)
+            font-style: regular
+            font-weight: 500
+            letter-spacing: 0.04rem
+            font-size: 0.98rem
+            border: none
+            outline: none
+            vertical-align: middle
+            &::placeholder, &::-moz-placeholder, &::-webkit-input-placeholder
+                font-style: italic
+                
+        &-icon
+            svg
+                vertical-align: middle
+                max-width: 26px
+                max-height: 26px
+                margin-right: 0.3rem
+                fill: rgba(70, 72, 79)
+                opacity: .75
+    &__show-targets-btn
+        @include no-appearance
+        background: transparent
+        position: relative
+        display: inline-block
+        border: none
+        outline: none
+    &__targets-count-chip
+        display: inline-block
+        position: absolute
+        top: 0
+        right: 0
+        transform: translate(20%, -20%)
+        background: map-get($colors, blue)
+        color: #fff
+        padding: 0.25rem
+        // border-radius: 0.2rem
+        font-size: 0.8rem
+        letter-spacing: 0.05rem
+        font-weight: 600
+        border-radius: 50%
+    &__targets
+    &__show-targets-btn
+        &:hover
+            svg 
+                fill: darken(map-get($colors, black), 20%)
+                transition: all .25s linear
+        svg
+            vertical-align: middle
+            max-width: 26px
+            fill: map-get($colors, black)
+            opacity: 0.65
+            max-height: 26px
+            transition: all .25s linear
+.dropdown
+    position: relative
+    &__card
+        position: absolute
+        right: 1rem
+        top: 1rem
+    &__item
+        &-name
+            font-weight: 600
+            margin-bottom: 0.5rem
+        &-wrap
+            display: flex
+            align-items: center
+            justify-content: space-between
+    &__item
+    &__head
+        display: flex
+        align-items: center
+        justify-content: space-between
+        &-title
+            font-size: 1rem
+        &-button
+            @include no-appearance()
+            border: none
+            outline: none
+            background: transparent 
+            text-decoration: underline
+            letter-spacing: 0.05rem
+            font-weight: 500
+            &:hover 
+                text-decoration: none

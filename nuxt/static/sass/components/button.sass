@@ -1,0 +1,228 @@
+/*TOGGLE BUTTON*/
+@keyframes toast-loader
+  0%
+    width: 100%
+    opacity: 1
+  100%
+    width: 0%
+@keyframes toast-visibility
+  0%
+    opacity: 1
+  100%
+    opacity: 0
+.toggle
+  border: none
+  outline: none
+  background: transparent
+  margin: 0
+  padding: 0
+  appearance: none
+  -moz-appearance: none
+  -webkit-appearance: none
+  -ms-progress-appearance: none
+  cursor: pointer
+  &__checkbox
+    display: none
+    &:checked + .toggle__label::after
+      left: 50px - 20px - 4px
+      background: #fff
+      transition: all .125s linear
+    &:checked + .toggle__label
+      background: map-get($colors, blue)
+      transition: all .125s linear
+  &__label
+    @include box-shadow(0px, 0px, 12px, 2px, rgba(map-get($colors, black), .2))
+    cursor: pointer
+    display: inline-block
+    width: 50px
+    height: 24px
+    background: #fff
+    border-radius: 24px
+    position: relative
+    transition: all .125s linear
+    &::after
+      background: map-get($colors, blue)
+      position: absolute
+      content: ''
+      display: block
+      width: 20px
+      height: 20px
+      left: 4px
+      top: 2px
+      border-radius: 50%
+      transition: all .125s linear
+
+      
+/*TOAST*/
+.toasts
+  position: fixed
+  right: 2.08333333%
+  bottom: 9.63081861958%
+  width: auto
+  height: calc(100vh - 9.63081861958%)
+  overflow: scroll
+  box-sizing: border-box
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+.toast
+  @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, black), .2))
+  background: map-get($colors, blue)
+  padding: calc(1rem + 2px) 2rem 1rem 2rem
+  color: #FFFFFF
+  width: auto
+  height: auto
+  cursor: default
+  z-index: 40
+  animation-name: toast-visibility
+  animation-duration: 1s
+  animation-play-state: paused
+  animation-delay: 2s
+  animation-iteration-count: 1
+  animation-timing-function: linear
+  animation-fill-mode: forwards
+  margin: 1rem 0 1rem 0
+  position: relative
+  text-align: center
+  // &--position-tl
+  //   left: 2.08333333%
+  //   top: 9.63081861958%
+  // &--position-tm
+  //   top: 9.63081861958%
+  //   left: 50%
+  //   transform: translateX(-50%)
+  // &--position-tr
+  //   right: 2.08333333%
+  //   top: 9.63081861958%
+  // &--position-ml
+  //   left: 2.08333333%
+  //   top: 50%
+  //   transform: translateY(-50%)
+  // &--position-mm
+  //   left: 50%
+  //   top: 50%
+  //   transform: translate(-50%, -50%)
+  // &--position-mr
+  //   right: 2.08333333%
+  //   top: 50%
+  //   transform: translateY(-50%)
+  // &--position-bl
+  //   left: 2.08333333%
+  //   bottom: 9.63081861958%
+  // &--position-bm
+  //   bottom: 9.63081861958%
+  //   left: 50%
+  //   transform: translateX(-50%)
+  // &--position-br
+  //   right: 2.08333333%
+  //   bottom: 9.63081861958%
+  &--running 
+    animation-play-state: running
+    .toast__progress
+      animation-play-state: running
+  &__progress
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 4px
+    background: #FFFFFF    
+    animation-name: toast-loader
+    animation-duration: 2s
+    animation-play-state: paused
+    animation-delay: 0
+    animation-iteration-count: 1
+    animation-timing-function: linear
+    animation-fill-mode: forwards
+  &:hover
+    animation-play-state: paused 
+    .toast__progress
+      animation-play-state: paused
+  
+  // &__wrap
+  &__body
+    @include font('Montserrat', 0.95rem,600, regular, auto, auto)
+
+  
+/*DEFAULT BUTTON*/
+.btn
+  @include font('Montserrat', 0.92rem, 700, normal, 1.1rem, 0.04rem)
+  border: none
+  outline: none
+  padding: 0.7rem 2.2rem
+  display: inline-block
+  color: #f8f8f8
+  border-radius: 6px
+  &--pagination
+    padding: 0.5rem 1.2rem
+    margin: 0 0.3rem 0
+  &--transparent
+    color: map-get($colors, black)
+    background: transparent
+    svg
+      fill: map-get($colors, black)
+  &--has-icon
+    padding: 0.3rem 1rem
+    svg
+      max-width: 20px !important
+      max-height: 20px !important
+  &--link
+    text-decoration: none
+  &:hover
+    color: map-get($colors, black)
+    background: #ccd0ed
+  &:disabled
+    background: map-get($colors, disabled)
+    color: map-get($colors, black)
+    &:active
+      box-shadow: none
+  &--bg
+    &-light-gray
+      background: map-get($colors, light-gray)
+      color: map-get($colors, black)
+      transition: all .2s linear
+      &:active
+        @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, light-gray), .2))
+        transition: all .2s linear
+    &-blue
+      background: map-get($colors, blue)
+      transition: all .2s linear
+      &:active
+        @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, blue), .2))
+        transition: all .2s linear
+    &-red
+      background: map-get($colors, red)
+      transition: all .2s linear
+      &:active
+        @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, red), .2))
+        transition: all .2s linear
+    &-black
+      background: map-get($colors, black)
+      transition: all .2s linear
+      &:active
+        @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, black), .2))
+        transition: all .2s linear
+    &-orange
+      background: map-get($colors, orange)
+      transition: all .2s linear
+      &:active
+        @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, orange), .2))
+        transition: all .2s linear
+    &-purple
+      background: map-get($colors, purple)
+      transition: all .2s linear
+      &:active
+        @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, purple), .2))
+        transition: all .2s linear
+    &-pink
+      background: map-get($colors, pink)
+      transition: all .2s linear
+      &:active
+        @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, pink), .2))
+        transition: all .2s linear
+    &-green
+      background: map-get($colors, green)
+      transition: all .2s linear
+      &:active
+        @include box-shadow(0px, 0px, 12px, 4px, rgba(map-get($colors, green), .2))
+        transition: all .2s linear

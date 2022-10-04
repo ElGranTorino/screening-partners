@@ -184,11 +184,11 @@ export default class SanctionService {
     async SELECT_SANCTIONS(query) {
         return new Promise((resolve, reject) => {
             const re = /["'`;$#!@%^&}{)(*><]/gi;
-            const target = query.target.replace(re, '');
+            const target = query.target.replace(re, '').toUpperCase();
             console.log(target);
             SanctionEntity.findAll({
                 limit: query.limit,
-                offset: ((query.page - 1) * query.limit),
+                offset: ((query.offset - 1) * query.limit),
                 where: {
                     fullName: {
                         [Op.like]: Sequelize.literal(`\'%${target}%\'`)
@@ -207,6 +207,7 @@ export default class SanctionService {
                     entities: data,
                     count: count
                 };
+                console.log(response);
                 resolve(response);
             }).catch((err) => {
                 console.log(err);

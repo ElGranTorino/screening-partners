@@ -1,0 +1,35 @@
+.v-table
+    max-width: 100%
+    overflow-x: hidden
+    &--responsive
+        overflow-x: auto
+    &--fullwidth
+        width: 100%
+    &__head
+        color: #fff
+        background: map-get($colors, blue)
+    // &__head-row
+    &__row
+        display: flex
+    &__cell
+        flex: 1
+    &__head-cell
+        display: table-cell
+        width: auto
+        text-transform: capitalize
+        padding: 1.3rem 0
+        font-weight: bold
+        letter-spacing: 0.03rem
+    // &__body
+    &__body-row
+        &:nth-of-type(odd)
+            background: map-get($colors, light-blue)
+    &__body-cell
+        padding: 1.8rem 0
+        font-weight: 500
+        letter-spacing: .025rem
+        display: flex
+        align-items: center
+        justify-content: center
+    // &__pagination
+        //

@@ -56,7 +56,7 @@ export default class BaseService {
     // Perform google scraping. Returns list of Promises<Articles>
     public async scrapeGoogleNews(reqData: string): Promise < any > {
         const keyWordsList = await this.getKeyWords();
-        const words = keyWordsList?.map((word: any) => word.name) || []; 
+        const words = keyWordsList?.map((word: any) => word.name) || [1]; 
         // const words = ['investigation', 'crime', 'corruption']
         const promises = words.reduce((acc: any, word: string, i: number, arr: any) => {
             const promise = new Promise((resolve, reject) => {

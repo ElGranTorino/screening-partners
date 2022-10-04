@@ -1,0 +1,506 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic)
+@for $i from 1 through 10
+    .mt-#{$i}
+        margin-top: #{$i}rem
+    .mb-#{$i}
+        margin-bottom: #{$i}rem
+    .mr-#{$i}
+        margin-right: #{$i}rem
+    .ml-#{$i}
+        margin-left: #{$i}rem
+    .pt-#{$i}
+        padding-top: #{$i}rem
+    .pb-#{$i}
+        padding-bottom: #{$i}rem
+    .pr-#{$i}
+        padding-right: #{$i}rem
+    .pl-#{$i}
+        padding-left: #{$i}rem
+    
+@mixin box-shadow($x, $y, $blur, $spread, $color)
+    box-shadow: $x $y $blur $spread $color
+    -webkit-box-shadow: $x $y $blur $spread $color
+    -moz-box-shadow: $x $y $blur $spread $color
+@mixin font($family: 'Montserrat', $size: 1rem, $weight: 500, $style: normal, $lh: 1.3rem, $letter-spacing)
+    font-size: $size
+    font-family: $family
+    font-weight: $weight
+    font-style: $style
+    line-height: $lh
+    letter-spacing: $letter-spacing
+@mixin no-appearance()
+    appearance: none
+    -moz-appearance: none
+    -webkit-appearance: none
+    -ms-progress-appearance: none
+@keyframes shadow
+  0%
+    text-shadow: 4px 4px 20px rgba(150, 150, 150, 0)
+  50%
+    text-shadow: 4px 4px 20px rgba(map-get($colors, black), .4)
+  100%
+    text-shadow: 4px 4px 20px rgba(150, 150, 150, 0)
+
+html, body
+    font-family: 'Montserrat'
+    // background: #f5f6fa
+    background: map-get($colors, body)
+img 
+    max-width: 100%
+*, *::before, *::after
+    -webkit-box-sizing: border-box !important
+    -moz-box-sizing: border-box !important
+    -ms-box-sizing: border-box !important
+    box-sizing: border-box !important
+*::-webkit-scrollbar
+    width: 0
+ul
+    list-style-type: none
+    margin: 0
+    padding: 0
+.container
+    margin: 0 auto
+    float: none !important
+    $columns: 12
+    @for $i from 1 through $columns
+        .col-#{$i}
+            padding: 0 .5rem 0
+            display: inline-block
+            width: calc( 100% / $columns * $i)
+            float: left
+            &:last-of-type
+                float: none
+.match
+    background: map-get($colors, pink)
+    color: #f8f8f8
+.hidden
+    display: none
+// .chart
+.preloader
+    width: 100%
+    height: 100vh
+    position: fixed
+    left: 0
+    top: 0
+    z-index: 999999
+    background: map-get($colors, body)
+    font-size: 3rem
+    &__letters
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
+        width: auto
+    span
+        display: inline-block
+        font-weight: 600
+        font-size: 2.5rem
+        font-family: 'Montserrat'
+        color: #f8f8f8
+        animation-name: shadow
+        animation-duration: 2s
+        animation-iteration-count: infinite
+        animation-timing-function: linear
+    .l2 
+        animation-delay: 0.2s
+    
+    .l3 
+        animation-delay: 0.4s
+    
+    .l4 
+        animation-delay: 0.6s
+    
+    .l5 
+        animation-delay: 0.8s
+    
+    .l6 
+        animation-delay: 1s
+    
+    .l7 
+        animation-delay: 1.2s
+        
+.card
+    @include box-shadow(4px, 4px, 25px, 5px, rgba(map-get($colors, blue), .05))
+    background: #FFFFFF
+    transition: all .3s linear
+    border-radius: 0.5rem
+    padding: 2rem
+    display: block
+    width: 100%
+    &--pro
+        display: flex
+        justify-content: center
+        flex-direction: column
+        align-items: center
+        min-height: 400px
+        img
+            max-height: 240px
+            margin: 0 auto
+            display: inline-block
+            margin-bottom: 1rem
+
+    &__row
+        &-key
+            font-weight: 600
+            letter-spacing: .03rem
+            color: #a6a7b4
+            font-size: .97rem
+            span::after
+                content: ':'
+        &-value
+            letter-spacing: .03rem
+            color: map-get($colors, black)
+            font-size: .97rem
+            font-style: italic
+            a
+                color: map-get($colors, black)
+                &:hover
+                    text-decoration: none
+   
+    &:hover
+        @include box-shadow(4px, 4px, 25px, 5px, rgba(map-get($colors, blue), .15))
+        // transform: scale(1.01)
+        transition: all .3s linear
+
+.v-generallcard
+    &__container
+    &__head
+        display: flex
+        align-items: flex-end
+        justify-content: space-between
+    &__head-data
+        max-width: 80%
+    &__row 
+        display: flex
+        justify-content: space-between
+        align-items: flex-start
+        margin-top: 1rem
+        &:first-of-type
+            margin-top: 4rem
+    &__key
+        color: map-get($colors, black)
+        font-style: regular
+        font-weight: 600
+        letter-spacing: 0.05rem
+        max-width: 50%
+    &__name
+        font-size: 1.3rem !important
+        max-width: 100%
+        text-overflow: ellipsis
+        overflow: hidden
+        white-space: nowrap
+    &__value
+        color: map-get($colors, black)
+        font-style: italic
+        font-weight: 500
+        letter-spacing: 0.05rem
+        max-width: 50%
+        text-align: right
+        text-overflow: ellipsis
+        overflow: hidden
+        white-space: nowrap
+    // // .v-generallcard__name
+
+    // &__name
+
+
+    // // .v-generallcard__country
+    &__details
+        width: 60%
+    &__country
+        color: map-get($colors, silver)
+        font-style: regular
+        font-weight: 500
+        letter-spacing: 0.05rem
+        max-width: 80%
+
+
+    &__head-managment
+        max-width: 20%
+
+
+    // // .v-generallcard__body
+
+    // &__body
+
+
+    // // .v-generallcard__footer
+
+    // &__footer
+
+
+
+.v-newscard
+    display: inline-block
+    cursor: default
+    &__date
+        color: map-get($colors, silver)
+        font-style: regular
+        font-weight: 500
+        letter-spacing: 0.05rem
+        margin-bottom: 1.5rem
+    &__title
+        margin-bottom: 2rem
+    &__body
+        color: map-get($colors, silver)
+        margin-bottom: 2.5rem
+        font-style: italic
+        line-height: 1.5rem
+    // &__details-wrap
+    &__footer
+        display: flex
+        justify-content: space-between
+        align-items: center
+    &__details-link
+        color: black
+        letter-spacing: 0.04rem
+
+.v-chartcard
+    // &__container
+    min-height: 400px !important
+    &__head
+        display: flex
+        justify-content: space-between
+        align-items: center
+    &__title
+        @include font('Montserrat', 0.98rem, bold, normal, 1.3rem, 0.04rem)
+        color: map-get($colors, black)
+    // &__dropdown
+    // &__body
+    &__chart
+        height: 240px
+
+
+.arrow-dropdown
+    @include font('Montserrat', 0.98rem, 500, normal, 1.3rem, 0.04rem)
+    color: map-get($colors, gray)
+
+.link
+    &:hover
+        text-decoration: none
+// Align text
+.title
+    color: map-get($colors, black)
+    font-size: 1.1rem
+    font-weight: bold
+    letter-spacing: 0.03rem
+.text
+    &-center
+        text-align: center
+    &-right
+        text-align: right
+    &-left
+        text-align: left
+
+
+    
+
+/*Search results*/    
+
+.inspection
+
+
+    &__content
+        margin: 35vh auto 0    
+        max-width: 1480px
+        width: 80%
+    &__head
+        display: flex
+        justify-content: space-between
+        align-items: center
+        padding: 0.5rem
+    // &__request-data
+
+
+
+    // &__target-name
+
+   
+    &__request-duration
+        font-style: italic
+        color: map-get($colors, silver)
+
+
+    // &__export-control
+
+
+
+    // &__charts
+
+    // &__body
+
+
+// .content
+
+// .title
+
+// .btn
+
+// .btn--bg-blue
+.btn
+    svg
+        max-width: 26px
+        max-height: 26px
+        vertical-align: middle
+        fill: #fff
+.v-modal
+    width: 100%
+    height: 100vh
+    position: fixed
+    left: 0
+    top: 0
+    z-index: 9999
+    
+    &__backdrop
+        width: 100%
+        height: 100%
+        background: rgba(map-get($colors, black), .5)
+        position: absolute
+        left: 0
+        top: 0
+    &__container
+        box-shadow: none
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
+        width: 50%
+        max-height: 500px
+        overflow-y: scroll
+    &__head
+        display: flex
+        justify-content: flex-end
+        button
+            padding: 0.2rem 0.5rem
+    &__body
+        padding: 2rem 0 2rem
+        
+    &__footer
+        display: flex
+        justify-content: space-between
+        align-items: center
+        // button:nth-of-type(1)
+        //     background: #eaeaea
+        //     color: map-get($colors, black)
+.radio-area
+    
+    &__label
+        // @include box-shadow(4px, 4px, 25px, 5px, rgba(map-get($colors, black), .05))
+        border: solid 2px rgba(map-get($colors, black), .2)
+        padding: 1.5rem
+        display: block
+        height: 150px
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        cursor: pointer
+        transition: all .2s linear
+        &:hover
+            background: rgba(map-get($colors, blue), .05)
+            transition: all .2s linear
+    &__input
+        display: none
+        &:checked + .radio-area__label 
+            border: solid 2px map-get($colors, blue)
+            background: rgba(map-get($colors, blue), .2)
+            transition: all .2s linear
+        &:checked + .radio-area__label  .radio-area__text
+            color: map-get($colors, blue) !important 
+        &:checked + .radio-area__label  .radio-area__box
+            border: solid 1px map-get($colors, blue)
+            &::after
+                background: map-get($colors, blue)
+    &__text
+        color: map-get($colors, black)
+    &__title
+        font-weight: 600
+        font-size: .98rem
+        margin-bottom: .5rem
+        letter-spacing: 0.05rem
+    &__body
+        font-size: 0.94rem
+        font-style: italic
+    &__box
+        border: solid 1px map-get($colors, black)
+        width: 16px
+        height: 16px
+        position: relative
+        border-radius: 50%
+        &::after
+            display: inline-block
+            content: ''
+            position: absolute
+            left: 50%
+            top: 50%
+            transform: translate(-50%, -50%)
+            width: 10px
+            height: 10px
+            background: rgba(map-get($colors, black), .8)
+            border-radius: 50%
+
+.v-footer
+    @include box-shadow(4px, 4px, 25px, 5px, rgba(map-get($colors, blue), .05))
+    width: 100%
+    height: auto
+    min-height: 250px
+    // background: map-get($colors, light-blue)
+    background: #fff
+.fullwidth
+    width: 100%
+.delimiter
+    height: 1px
+    width: 100%
+    background: rgba(#000, .1)
+.text-input
+    @include box-shadow(4px, 4px, 25px, 5px, rgba(map-get($colors, blue), .05))
+    @include no-appearance
+    background: #FFFFFF
+    border: none
+    outline: none
+    font-weight: 500
+    letter-spacing: .05rem
+    display: inline-block
+    padding: 1.5rem 2.5rem
+    border-radius: 10px
+    &--fullwidth
+        width: 100%
+    &--width-50
+        width: 50%
+.home
+    &__content
+        margin: 35vh auto 0    
+        max-width: 1480px
+        width: 80%
+    &__search
+        margin: 2rem auto
+        width: 100%
+    &__hero
+        &-title
+            max-width: 60%
+            margin: 0 auto
+            h1
+                font-size: 2rem
+        &-paragraph
+            max-width: 60%
+            margin: 3rem auto
+            font-weight: 500
+            letter-spacing: 0.07rem
+            line-height: 1.7rem
+            color: #b7b7bb
+.paragraph
+    font-weight: 500
+    letter-spacing: 0.07rem
+    line-height: 1.7rem
+    color: #b7b7bb
+.hidden
+    display: none !important
+.form-group
+    &--center
+        display: flex
+        justify-content: center
+.not-found
+    &__title
+        font-size: 1.6rem
+    &__paragraph
+        max-width: 50%
+        margin: 2rem auto 0
