@@ -1,60 +1,66 @@
 import helpers from "@/helpers/functions.js"
 export const state = () => ({
+    authenticated: false,
+    queryTarget: '',
     news: {
-        total: 3211,
-        entries: [
-            {id: 0, date: "Sep 26th 22", body: ".. but with his government and party battling corruption scandals. ... with McCarthy Tétrault LLP and was briefly a consultant for Huawei,...", title: "Jean Charest: Quick facts about the Conservative leadership", url: "https://www.google.com"},
-            {id: 1, date: "Sep 25th 22", body: "Corruption is sending shock waves through China's chipmaking industry ... But it wasn't until 2019, when the US cut off Huawei from...", title: "Corruption is sending shock waves through China’s chipmaking industry", url: "https://www.google.com"},
-            {id: 2, date: "Sep 23th 22", body: "... officials to beat out Huawei in the competition for a contract in Djibouti. Ericsson had previously admitted to engaging in bribery and...", title: "Former Ericsson executives acquitted of Djibouti bribery .", url: "https://www.google.com"},
-            {id: 3, date: "Sep 08th 22", body: ".. but with his government and party battling corruption scandals. ... with McCarthy Tétrault LLP and was briefly a consultant for Huawei,...", title: "Jean Charest: Quick facts about the Conservative leadership", url: "https://www.google.com"},
-            {id: 4, date: "Sep 01th 22", body: "Corruption is sending shock waves through China's chipmaking industry ... But it wasn't until 2019, when the US cut off Huawei from...", title: "Corruption is sending shock waves through China’s chipmaking industry", url: "https://www.google.com"},
-            {id: 5, date: "Aug 29th 22", body: "... officials to beat out Huawei in the competition for a contract in Djibouti. Ericsson had previously admitted to engaging in bribery and...", title: "Former Ericsson executives acquitted of Djibouti bribery .", url: "https://www.google.com"},
-            {id: 6, date: "Aug 21th 22", body: ".. but with his government and party battling corruption scandals. ... with McCarthy Tétrault LLP and was briefly a consultant for Huawei,...", title: "Jean Charest: Quick facts about the Conservative leadership", url: "https://www.google.com"},
-            {id: 7, date: "Aug 18th 22", body: "Corruption is sending shock waves through China's chipmaking industry ... But it wasn't until 2019, when the US cut off Huawei from...", title: "Corruption is sending shock waves through China’s chipmaking industry", url: "https://www.google.com"},
-            {id: 8, date: "Jun 13th 22", body: "... officials to beat out Huawei in the competition for a contract in Djibouti. Ericsson had previously admitted to engaging in bribery and...", title: "Former Ericsson executives acquitted of Djibouti bribery .", url: "https://www.google.com"},
-            {id: 9, date: "Jan 01th 22", body: "... sector supporting the Chinese communication giant Huawei and several corruption scandals linked to his Quebec provincial government.", title: "Poilievre will leave imprint on CPC – Winnipeg Free Press", url: "https://www.google.com"},
-            {id: 10, date: "Dec 18th 21", body: ".. but with his government and party battling corruption scandals. ... with McCarthy Tétrault LLP and was briefly a consultant for Huawei,...", title: "Jean Charest: Quick facts about the Conservative leadership", url: "https://www.google.com"},
-        ],
+        total: 0,
+        entries: [],
     },
     peps: {
         total: 423,
         entries: []
     },
     sanctions: {
-        total: 211,
+        total: 0,
         entries: []
     },
     charts: [],
+    keywords: [],
 });
 
 export const mutations = {
   updatePeps(state, newPepsData){
-    state.peps = newPepsData
+    const {total, entries } = newPepsData;
+    state.peps.total = total
+    state.peps.entries = entries
   },
   updateNews(state, newNewsData){
-    state.news = newNewsData
+    const {total, entries } = newNewsData;
+    state.news.total = total
+    state.news.entries = entries
   },
-  updateSanctions(state, newSanctionsData){
-    state.sanctions = newSanctionsData
+  updateSanctions(s, newSanctionsData){
+    s.sanctions = newSanctionsData
   },
+  updateQueryTarget(s, newTarget){
+    s.queryTarget = decodeURIComponent(newTarget)
+  },
+  updateAuthenticated(s, boolean){
+    s.authenticated = boolean
+  },
+  updateKeywords(s, newKeywords){
+    s.keywords = newKeywords
+  }
 };
 
 export const actions = {
 
-  async fetchNews({commit, dispatch, state}, options){
+  async fetchNews({commit, dispatch, getters}, options){
     const {
-      // limit,
-      // offset,
       target
     } = options;
     const url = `http://localhost:9999/scrape/news?q=${target}`;
     const news = await this.$axios.$get(url);
     const total = news.length;
     const entries = helpers.refactorNewsFetchedData(news);
-    commit("updateNews", {total, entries});
+    
+    commit("updateQueryTarget", target)
+    return {
+      total, entries
+    };
   },
 
-  async fetchPeps({commit, dispatch, state}, options){
+  async fetchPeps({commit, dispatch, getters}, options){
     const {
         limit,
         offset,
@@ -66,62 +72,74 @@ export const actions = {
     const total = peps.total.value;
     const entries = helpers.refactorPepsFetchedData(peps.results)
 
-    commit("updatePeps", {total, entries})
-  },
-
-  async fetchSanctions({commit, dispatch, state}, options){
-    const url = `http://localhost:9999/scrape/sanctions`;
-    const {
-        limit,
-        offset,
-        target,
-        update = true
-    } = options;
-
-    const sanctions = await this.$axios.$post(url, {
-      limit,
-      offset,
-      target
-    })
-    const updatedData = {
-      total: sanctions.count, 
-      entries: sanctions.entities
-    };
-
-    
-    if(update){
-      commit("updateSanctions", updatedData)
-    } else {
-      return updatedData
+    return {
+      total, entries
     }
   },
 
-  
+  async fetchSanctions({commit, getters}, options){
+    const url = `http://localhost:9999/scrape/sanctions`;
+    const {target ,limit,offset} = options;
+    
+    const sanctions = await this.$axios.$post(url, {limit,offset,target,})
+    commit("updateQueryTarget", target)
+    return {
+      total: sanctions.count, 
+      entries: sanctions.entries,
+    };
+  },
 
+  async fetchAndUPDSanctions({commit, dispatch, getters}, options){
+    const dataToUpdate = await dispatch("fetchSanctions", options);
+    commit("updateSanctions", dataToUpdate)
+  },
+  async fetchAndUPDPeps({commit, dispatch, getters}, options){
+    const dataToUpdate = await dispatch("fetchPeps", options);
+    commit("updatePeps", dataToUpdate)
+  },
+  async fetchAndUPDNews({commit, dispatch, getters}, options){
+    const dataToUpdate = await dispatch("fetchNews", options);
+    commit("updateNews", dataToUpdate)
+  },
+
+  async authenticate({commit, getters}, options){
+   
+    const url =  `http://localhost:9999/api/login`;
+    const {login, password} = options;
+    await this.$axios.$post(url, {
+        login, password
+    }, {withCredentials: true});
+  },
+  async isAuthenticated({commit}){
+    const url = 'http://localhost:9999/verify'
+
+    const isAuthenticated = await this.$axios.$get(url, {withCredentials: true})
+    return isAuthenticated.verified
+  },
+  async fetchKeywords({commit}){
+    const url = `http://localhost:9999/api/keyword`;
+    const res = await this.$axios.$get(url)
+    commit("updateKeywords", res)
+  },
+  async createKeyword({dispatch}, options){
+    const url = `http://localhost:9999/api/keyword`
+    await this.$axios.$post(url, {name: options.name})
+    dispatch('fetchKeywords')
+  },
+  async deleteKeyword({dispatch}, options){
+    const url = `http://localhost:9999/api/keyword`
+    console.log(options.id)
+    await this.$axios.$delete(url, {data: {id: options.id}})
+    dispatch('fetchKeywords')
+  }
 };
 
 export const getters = {
     news: s => s.news,
     peps: s => s.peps,
     sanctions: s => s.sanctions,
+    queryTarget: s => s.queryTarget,
+    authenticated: s => s.authenticated,
+    sanctionsPG: s => s.pagination.sanctions,
+    keywords: s => s.keywords
 };
-
-// {
-//   id: '1e64f9e4-2d78-4d3a-90c5-b660d1d50df1',
-//   authority: 'BIS',
-//   firstName: '',
-//   lastName: '',
-//   fullName: 'HUAWEI MACHINE CO., LTD.',
-//   type: '-',
-//   remarks: '',
-//   created: '2022-09-11T18:30:49.224Z',
-//   list: 'EL',
-//   website: 'http://www.bis.doc.gov/entities/default.htm',
-//   pubDate: '2022-09-11T18:30:47.136Z',
-//   SanctionPrograms: [],
-//   SanctionAddresses: [Array],
-//   SanctionInfos: [Array],
-//   SanctionAliases: [],
-//   SanctionDocuments: [],
-//   SanctionNationalities: []
-// },

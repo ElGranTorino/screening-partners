@@ -1,10 +1,8 @@
 import "express-session";
 import BaseService from "../services/Core.Service.js";
-import IssueService from "../services/Issue.Service.js";
 import Total from "../../models/TotalResults.js";
 // Creating new instance of BaseSerivce
 const s = new BaseService();
-const i = new IssueService();
 export default class BaseController {
     isVerified(req, res) {
         if (req.session.user) {
@@ -13,22 +11,6 @@ export default class BaseController {
         else {
             res.json({ verified: false });
         }
-    }
-    findAllDataIssues(req, res) {
-        return i.selectIssues(req.body)
-            .then((data) => {
-            res.json(data);
-        }).catch((e) => {
-            res.status(400).json(e);
-        });
-    }
-    createSearchDataIssue(req, res) {
-        return i.insertIssue(req.body)
-            .then((data) => {
-            res.json(data);
-        }).catch((e) => {
-            res.status(400).json(e);
-        });
     }
     // Get value of how many times searches have been performed on the website
     getTotalRequests(req, res) {
@@ -60,11 +42,7 @@ export default class BaseController {
     getGoogleNews(req, res) {
         return s.scrapeGoogleNews(`${req.query.q}`)
             .then((data) => {
-            (Promise.all(data).then((resp) => {
-                res.json(resp.flat(2));
-            }));
-        }).catch((e) => {
-            res.status(400).json(e);
+            res.json(data);
         });
     }
     // Login Admin on the website
@@ -101,6 +79,7 @@ export default class BaseController {
     }
     // Delete keyword from database
     deleteKeyWord(req, res) {
+        console.log(req.body);
         return new Promise((resolve, reject) => {
             s.deleteKeyWord(req.body.id)
                 .then((data) => {

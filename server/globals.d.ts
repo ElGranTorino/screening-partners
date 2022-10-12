@@ -4,5 +4,6 @@ declare module "search-engine-client";
 declare module "googlethis";
 declare module "google-news-scraper";
 declare module "jsonwebtoken";
-declare module "cherio"
-declare module "google-news-scraper.js"
+declare module "cherio";
+declare module "google-news-scraper.js";
+declare module "newspaperjs";

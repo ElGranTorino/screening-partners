@@ -44,11 +44,11 @@ import {
  * Creating sequelize operator aliases. It basicly means that now we can use
  * $or instead of Op.or and $like instead of  Op.like, etc.
  */
- const operatorsAliases = {
-    $eq: Op.eq,
-    $or: Op.or,
-    $like: Op.like,
-};
+//  const operatorsAliases = {
+//     $eq: Op.eq,
+//     $or: Op.or,
+//     $like: Op.like,
+// };
 
 
 export default class SanctionService {
@@ -248,15 +248,14 @@ export default class SanctionService {
     }
     public async SELECT_SANCTIONS(query: ISelectSanctionsRequest): Promise < any > {
         return new Promise((resolve, reject) => {
-            const re = /["'`;$#!@%^&}{)(*><]/gi;
-            const target = query.target.replace(re, '').toUpperCase();
-            console.log(target)
+            const target = query.target.toUpperCase();
+            console.log(target, query.limit, query.offset)
             SanctionEntity.findAll({
                 limit: query.limit,
                 offset: ((query.offset - 1) * query.limit),
                 where: {
                     fullName: {
-                        [Op.like]: Sequelize.literal(`\'%${target}%\'`)
+                        [Op.iLike]: `%${target}%`
                     }
                 },
                 include: [SanctionProgram, SanctionAddress, SanctionInfo, SanctionAlias, SanctionDocument, SanctionNationality]
@@ -264,18 +263,16 @@ export default class SanctionService {
                 const count = await SanctionEntity.count({
                     where: {
                         fullName: {
-                            [Op.like]: Sequelize.literal(`\'%${target}%\'`)
+                            [Op.iLike]: `%${target}%`
                         }
                     }
                 });
                 const response: ISelectSanctionsResponse = {
-                    entities: data,
+                    entries: data,
                     count: count
                 };
-                console.log(response)
                 resolve(response)
             }).catch((err) => {
-                console.log(err)
                 reject(err)
             })
         })

@@ -1,7 +1,6 @@
 import "express-session";
 import { Response, Request } from "express"
 import BaseService from "../services/Core.Service.js"
-import IssueService from "../services/Issue.Service.js";
 import Total from "../../models/TotalResults.js"
 // Updating SessionData interface by adding 'user' field in it
 declare module "express-session" {
@@ -12,7 +11,6 @@ declare module "express-session" {
 
 // Creating new instance of BaseSerivce
 const s =  new BaseService();
-const i = new IssueService();
 export default class BaseController {
   public isVerified(req: Request, res: Response): any {
     if(req.session.user) {
@@ -21,22 +19,7 @@ export default class BaseController {
         res.json({verified: false})
     }
   }
-  public findAllDataIssues(req: Request, res: Response): Promise<any> {
-    return i.selectIssues(req.body)
-                  .then((data) => {
-                    res.json(data);
-                  }).catch((e) => {
-                    res.status(400).json(e)
-                  })
-  }
-  public createSearchDataIssue(req: Request, res: Response): Promise<any> {
-    return i.insertIssue(req.body)
-                  .then((data) => {
-                    res.json(data);
-                  }).catch((e) => {
-                    res.status(400).json(e)
-                  })
-  }
+  
   // Get value of how many times searches have been performed on the website
   public getTotalRequests(req: Request, res: Response): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -70,13 +53,7 @@ export default class BaseController {
   public getGoogleNews(req: Request, res: Response): Promise<void>{
     return s.scrapeGoogleNews(`${req.query.q}`)
                   .then((data) => {
-                  (Promise.all(data).then((resp) => {
-                    
-                    res.json(resp.flat(2));
-                    
-                  }))
-                  }).catch((e) => {
-                    res.status(400).json(e)
+                    res.json(data);
                   })
   }
 
@@ -118,6 +95,7 @@ export default class BaseController {
   
   // Delete keyword from database
   public deleteKeyWord(req: Request, res: Response): Promise<void> {
+    console.log(req.body)
     return new Promise((resolve, reject) => {
       s.deleteKeyWord(req.body.id)
         .then((data) => {

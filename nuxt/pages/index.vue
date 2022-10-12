@@ -15,7 +15,7 @@
                 <div class="home__search-wrap">
                     <form @submit.prevent="initSearch()">
                         <div class="form-group text-center mb-2">
-                            <input type="text" class="text-input text-input--width-50" placeholder="ex: Alphabet group Inc." v-model="target">
+                            <input type="text" class="text-input text-input--width-50" placeholder="ex: Alphabet group Inc." v-model="target" required>
                         </div>
                         <div class="form-group">
                             <button class="btn btn--bg-blue">Inspect</button>
@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         initSearch(){
-            this.$router.push({path: 'inspect', query: { target: this.target }});
+            this.$router.push({path: 'inspect', query: { target: encodeURIComponent(this.target) }});
         }
     },
     

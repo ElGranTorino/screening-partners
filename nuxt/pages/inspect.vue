@@ -1,6 +1,9 @@
 <template>
  
   <main class="inspection">
+    <VStatusBar
+      @downloadPDF="downloadPDF"
+    />
     <!-- 
       <div class="preloader">
       <div class="preloader__letters">
@@ -16,9 +19,16 @@
     -->
     <VModal
     :_id="`4321`"
+    @downloadPDF="downloadPDF"
     />
     <VSanctionModal
     :_id="'0000'"
+    />
+    <VPepModal
+    :_id="`131313`"
+    />
+    <VNewsModal
+    :_id="`newsModal`"
     />
     <div class="toasts">
       <VToast
@@ -35,10 +45,10 @@
         <section class="inspection__head">
           <div class="inspection__request-data">
               <h1 class="inspection__target-name title">
-                Vladimir Putin
+                {{queryTarget}}
               </h1>
               <div class="inspection__request-duration">
-                request performed in 2.3 seconds
+                <!-- request performed in 2.3 seconds -->
               </div>
           </div>
           <div class="inspection__export-control">
@@ -55,9 +65,9 @@
         <!-- INSPECTION HEAD -->
 
         <!-- INSPECTION CHARTS -->
-        <section class="inspection__charts">
+        <section class="inspection__charts hidden">
           <section class="container">
-            <div class="col-4">
+            <div class="col-4 col-lg-6 col-md-12">
                 <VChartCard
                 :title="`Total requests made`"
                 :sortBy="`This week`"
@@ -68,7 +78,7 @@
                 class="mt-2"
                 />
               </div>
-              <div class="col-8">
+              <div class="col-8 col-lg-6 col-md-12">
                 <VChartCard
                 :title="`Other information`"
                 :sortBy="`This week`"
@@ -80,7 +90,7 @@
                 />
               </div>
                
-              <div class="col-8">
+              <div class="col-8 col-lg-12 col-md-12">
                 <VChartCard
                 :title="`Target searched`"
                 :sortBy="`This week`"
@@ -91,7 +101,7 @@
                 class="mt-2"
                 />
               </div>
-              <div class="col-4 mt-2" >
+              <div class="col-4 col-lg-12 col-md-12 mt-2" >
                 <div class="card card--pro">
                   <img src="@/static/img/pro.png"/>
                     <nuxt-link to="/about" class="btn btn--bg-orange btn--link">Try PRO For Free</nuxt-link>
@@ -114,23 +124,24 @@
                 <div class="inspection__related-news-title">
                   <h2 class="title mb-2">Adverse Media Search ({{news.total}})</h2>
                 </div>
-                <div class="container">
-                  <div v-for="article in news.entries" :key="article.id" class="col-4">
-                    <VNewsCard
+                <div class="container" style="display: flex; flex-wrap: wrap">
+                  <div v-for="article in news.entries" :key="article.id" class="col-4 col-lg-6 col-md-12"
+                  >
+                    <VNewsCard 
+                    style="display: -webkit-flex; display: -ms-flexbox; display: flex;"
                       :news="article"
                       class="mt-2"
                       />
                   </div>
                 </div>
 
-                <div class="inspection__more-related-news-pagination mt-2 mb-1 text-center">
+                <!-- <div class="inspection__more-related-news-pagination mt-2 mb-1 text-center">
                   <button class="btn btn--bg-blue">Show More</button>
-                </div>
+                </div> -->
               </div>
-
-              <div v-else class="inspection__else-related-news" >
-                No news found.
-It seems we can’t find any news based on your search.
+              <div v-else class="inspection__else-related-news not-found" >
+                <div class="title text-center not-found__title">No news found.</div>
+                <div class="paragraph text-center mt-1 not-found__paragraph">It seems we can’t find any news based on your search.</div>
               </div>
             </section>
             <!-- INSPECTION NEWS END -->
@@ -144,20 +155,21 @@ It seems we can’t find any news based on your search.
                 </div>
 
                 <div class="container">
-                  <div v-for="entry in sanctions.entries" :key="entry.id" class="col-6 mt-2">
+                  <div v-for="entry in sanctions.entries" :key="entry.id" class="col-4 col-lg-12 col-md-12 mt-2">
                     <VSanctionCard
                       
                       :data="entry"
                     />
                   </div>
                 </div>
-                <div class="inspection__related-sanctions-pagination pagination mt-3">
+                <Pagination :total="Math.ceil(sanctions.total / pagination.sanctions.limit)" :current="pagination.sanctions.page" @set="switchSanctionsPage"/>
+                <!-- <div class="inspection__related-sanctions-pagination pagination mt-3">
                   <div class="pagination__inner text-center">
                     <button class="btn btn--pagination btn--bg-blue" disabled>1</button>
                     <button class="btn btn--pagination btn--bg-blue" @click="switchPage('sanctions', 2)">2</button>
                     <button class="btn btn--pagination btn--bg-blue" @click="switchPage('sanctions', 3)">3</button>
                   </div>
-                </div>
+                </div> -->
               </div>
               
               <div v-else class="inspection__else-related-sanctions not-found" >
@@ -178,20 +190,13 @@ It seems we can’t find any news based on your search.
                 </div>
 
                 <div class="container">
-                  <div v-for="entry in peps.entries" :key="entry.id" class="col-4 mt-2">
+                  <div v-for="entry in peps.entries" :key="entry.id" class="col-6 mt-2">
                     <VPepCard
                       :data="entry"
                     />
                   </div>
                 </div>
-                <div class="inspection__related-peps-pagination mt-3">
-                  <div class="pagination__inner text-center">
-                    <!-- <button
-                    v-for="item in pagination.sanctions.items"
-                    :key="item.id"
-                    class="btn btn--pagination btn--bg-blue">{{item.value}}</button> -->
-                  </div>
-                </div>
+                <Pagination :total="Math.ceil(peps.total / pagination.peps.limit)" :current="pagination.peps.page" @set="switchPepPage"/>
               </div>
               
               <div v-else class="inspection__else-related-peps not-found">
@@ -209,59 +214,81 @@ It seems we can’t find any news based on your search.
 </template>
 <script>
 import {mapGetters, mapActions, mapMutations} from "vuex"
+import moment from "moment";
+import JSPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
+import fonts from "@/helpers/fonts";
 // Components
 import VToast from "@/components/generall/V-Toast.vue";
-// import VStatusBar from "@/components/navigation/V-StatusBar.vue";
+import VStatusBar from "@/components/navigation/V-StatusBar.vue";
 import VChartCard from "@/components/cards/V-ChartCard.vue";
 import VNewsCard from "@/components/cards/V-NewsCard.vue";
 import VPepCard from "@/components/cards/V-PepCard.vue";
 import VSanctionCard from "@/components/cards/V-SanctionCard.vue";
 import VModal from "@/components/modals/V-PdfModal.vue"
 import VSanctionModal from "@/components/modals/V-SanctionModal.vue";
-
+import VPepModal from "@/components/modals/V-PepModal.vue";
+import Pagination from "@/components/pagination/V-PaginationDefault.vue"
+import VNewsModal from "@/components/modals/V-NewsModal.vue";
 
 export default {
   name: "InspectionView",
   components: {
     VToast,
-    // VStatusBar,
+    VStatusBar,
     VChartCard,
     VNewsCard,
     VSanctionCard,
     VPepCard,
     VModal,
     VSanctionModal,
+    VPepModal,
+    Pagination,
+    VNewsModal
   },
   layout: "l-default",
-  // asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
-    
-  // },
+  validate({query, redirect}){
+    if(query.target.length < 3){
+      
+      redirect({ name: 'index' })
+    } else {
+      return true
+    }
+  },
   async fetch({store, query, params}){
-    const targetDecoded = query.target.split('+').join(' ')
-    // store.dispatch('api/setTarget', targetDecoded)
-    // await store.dispatch('api/fetchPeps', {
-    //   limit: 9,
+    const targetDecoded = decodeURIComponent(query.target);
+    await store.commit("report/removeSelectedItems");
+    // await store.dispatch('api/fetchAndUPDNews', {
+    //   target: targetDecoded,
+    // })
+    await store.dispatch('api/fetchAndUPDSanctions', {
+      limit: 6,
+      offset: 1,
+      target: targetDecoded,
+    })
+    // await store.dispatch('api/fetchAndUPDPeps', {
+    //   limit: 6,
     //   offset: 0,
     //   target: targetDecoded,
-    // });
-    
-    
-    await store.dispatch('api/fetchSanctions', {
-      target: targetDecoded,
-      limit: 10,
-      offset: 1,
-      update: true
-    });
-    // console.log(query.target)
-    // await store.dispatch('api/fetchNews', {
-    //   target: query.target,
-    // });
-
+    // })
   },
-
+  created(){
+    this.updateQueryTarget(this.$route.query.target)
+  },
+ 
   data(){
     return {
+      pagination: {
+        sanctions: {
+          limit: 6,
+          page: 1,
+        },
+        peps: {
+          limit: 6,
+          page: 1
+        }
+      },
       toasts: [],
       charts: [
           {
@@ -437,37 +464,519 @@ export default {
       "news",
       "peps",
       "sanctions",
+      "sanctionsPG",
+      "queryTarget"
     ]),
-    
+    ...mapGetters("report", [
+      "selectedSanctions",
+      "selectedNews",
+      "selectedPeps"
+    ]),
   },
+ 
   methods: {
     ...mapActions("api", [
       "fetchPeps",
       "fetchSanctions",
-      "fetchNews"
+      "fetchNews",
+      "fetchAndUPDSanctions",
+      "fetchAndUPDPeps"
+      
     ]),
-    ...mapMutations("", [
-      "updatePeps",
-      "updateNews",
-      "updateSanctions"
+    ...mapMutations("api", [
+      "updateQueryTarget"
+    ]),
+    ...mapMutations("report", [
+      "removeSelectedItems"
     ]),
     ...mapMutations("components-logic", [
       "addActiveModalWindow",
     ]),
+ 
+    async switchSanctionsPage(p){
+      this.pagination.sanctions.page = p
+      await this.fetchAndUPDSanctions({
+        target: this.queryTarget,
+        offset: p,
+        limit: this.pagination.sanctions.limit
+      })
+    },
+    async switchPepPage(p){
+      this.pagination.peps.page = p;
+      await this.fetchAndUPDPeps({
+        limit: this.pagination.peps.limit,
+        offset: (p - 1) * this.pagination.peps.limit,
+        target: this.queryTarget,
+      })
+    },
+    initPageBackDrop(el){
+      const $el = document.querySelector(el);
+      // const backDrop = document.querySelector('.page-backdrop')
+      $el.style.zIndex = 10000;
+    },
+    downloadPDF(type){
+      (async () => {
+          // Target`s name PEPs, Sanctions and News data which we are going to save in report
+          const targetName = this.queryTarget
+          let peps, sanctions, news;
 
-    async switchPage(entity, to){
-      if(entity === 'sanctions'){
-        await this.fetchSanctions({
-          offset: to,
-          limit: 10,
-          target: this.target,
-          update: true
-        })
-      }
+          if(type === 'detailed'){
+            peps = this.selectedPeps;
+            sanctions = this.selectedSanctions;
+            news = this.selectedNews
+          } else {
+            peps =  await this.fetchPeps({limit: 50,offset: 1,target: this.queryTarget,})
+            peps = peps.entries
+            sanctions = await this.fetchSanctions({limit: 50,offset: 1,target: this.queryTarget,})
+            sanctions = sanctions.entries
+            news = this.news.entries
+          }
+
+          // const peps = type === 'detailed' ? this.selectedPeps : await this.fetchSanctions({limit: 50,offset: 1,target: this.queryTarget,}).entries;
+          // const sanctions = type === 'detailed' ? this.selectedSanctions : await this.fetchPeps({limit: 50,offset: 1,target: this.queryTarget,}).entries;
+          // const news = type === 'detailed' ? this.selectedNews : this.news.entries;
+
+
+
+
+          // https://github.com/simonbengtsson/jsPDF-AutoTable
+          const doc = new JSPDF(); // DOCUMENTATION: https://www.npmjs.com/package/jspdf
+          const sheetWidth = doc.internal.pageSize.getWidth();
+          const sheetHeight = doc.internal.pageSize.getHeight();
+
+          // Importing fonts from JS files
+          const bold = fonts.Montserrat.bold;
+          const italic = fonts.Montserrat.italic;
+          const regular = fonts.Montserrat.regular;
+
+          // Creating pdf-readable fonts formats
+          doc.addFileToVFS('Montserrat-Bold-normal.ttf', bold);
+          doc.addFileToVFS('Montserrat-Italic-normal.ttf', italic);
+          doc.addFileToVFS('Montserrat-Regular-normal.ttf', regular);
+
+          doc.addFont('Montserrat-Bold-normal.ttf', 'Montserrat', 'bold');
+          doc.addFont('Montserrat-Italic-normal.ttf', 'Montserrat', 'italic');
+          doc.addFont('Montserrat-Regular-normal.ttf', 'Montserrat', 'regular');
+          
+          // Drawing big blue rect on the top of the first page
+          doc.setFillColor('#2653ff');
+          doc.rect(0, 0, 300, 20, 'F');
+
+          // Drawing first-page title
+          doc.setFont('Montserrat', 'bold');
+          doc.setFontSize(20);
+          doc.text('Screening Partners', sheetWidth - 25, 40, {align: "right"});
+
+          // Drawing report template
+          doc.setFontSize(10);
+          doc.text('Target Name:', 25, 90, {align: "left"});
+          doc.text('Date Of Search:', 25, 100, {align: "left"});
+          doc.text('Potential Adverse Media:', 25, 110, {align: "left"});
+          doc.text('Potential Sanctions Matches:', 25, 120, {align: "left"});
+          doc.text('Potential Politically Exposed Persons Matches:', 25, 130, {align: "left"});
+
+          // Drawing report information
+          // doc.setFont('Montserrat', 'bold');
+          doc.text(`${targetName}`, sheetWidth - 25, 90, {align: "right"});
+          doc.text(`${moment(Date.now()).format('DD/MM/YYYY')}`, sheetWidth - 25, 100, {align: "right"});
+          doc.text(`${news.length}`, sheetWidth - 25, 110, {align: "right"});
+          doc.text(`${sanctions.length}`, sheetWidth - 25, 120, {align: "right"});
+          doc.text(`${peps.length}`, sheetWidth - 25, 130, {align: "right"});
+
+          // Report warning
+          doc.setTextColor('#898989');
+          doc.setFont('Montserrat', 'italic');
+          doc.text('Our service does not guarantee the truthfulness', sheetWidth - 25, 55, {
+              align: "right"
+          });
+          doc.text('correctness and completeness of the results generated. ', sheetWidth - 25, 60, {
+              align: "right"
+          });
+          doc.text('All results are based on automatic searches of data from public sources.', sheetWidth - 25, 65, {
+              align: "right"
+          });
+
+          const sanctionsTableBody = () => {
+            if(!sanctions.length) return;
+            return sanctions.reduce((acc, item, i) => {
+              const id = i + 1;
+              const fullName = item.fullName;
+              const country = item.SanctionAddresses.map((c) => c.country).join(', ');
+              const authority = item.authority;
+              const programs = item.SanctionPrograms.map((p) => p.name).join(', ')
+              const pubDate = moment(item.pubDate).format('L')
+              acc.push([
+                id,
+                fullName,
+                country,
+                authority,
+                programs,
+                pubDate
+              ])
+
+              return acc
+            }, []);
+          };
+          const newsTableBody = () => {
+            if (!news.length) return;
+              return news.reduce((acc, article, i) => {
+                  acc.push([i + 1, article?.source, article?.date, article?.title, article?.url]);
+                  return acc;
+              }, []);
+          };
+          const pepsTableBody = () => {
+            if(!peps.length) return;
+            
+            return peps.reduce((acc, pep, i) => {
+              const country = pep.nationality ? pep.nationality.join(', ') : '-';
+              const gender = pep.gender ? pep.gender.join(', ') : '-';
+              const birthPlace = pep.birthPlace ? pep.birthPlace[0] : '-';
+              const birthDate = pep.birthDate ? pep.birthDate[0] : '-';
+              acc.push([
+                  `${i + 1}`,
+                  `${pep.fullName.toUpperCase()}`,
+                  country,
+                  gender,
+                  birthPlace,
+                  birthDate
+              ]);
+
+              return acc
+            }, [])
+          }
+          if (news.length) {
+            doc.setTextColor('#000')
+            doc.setFont('Montserrat', 'bold');
+            doc.text(`Potential Adverse Media: ${news.length}`, sheetWidth / 2, 150 , {
+                align: "center"
+            });
+            // // News table
+            autoTable(doc, {
+                // html: '#my-table',
+                head: [
+                    ['#', 'Source', 'Date', 'Description', 'Link']
+                ],
+                body: newsTableBody(),
+                startY: 160,
+                // startY: 130,
+                columnStyles: {
+                    0: {
+                        cellWidth: 10,
+                        cellPadding: 0,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                        fontStyle: 'bold'
+                    },
+                    1: {
+                        cellWidth: 25,
+                        cellPadding: 3,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                        fontStyle: 'italic'
+                    },
+                    2: {
+                        cellWidth: 40,
+                        cellPadding: 5,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                    },
+                    3: {
+                        cellWidth: 50,
+                        cellPadding: 5,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                    },
+                    4: {
+                        cellWidth: 56.7793333333,
+                        cellPadding: 5,
+                        overflow: 'ellipsize',
+                        textColor: '#373941',
+                        fillColor: '#F8FAFF',
+                        halign: 'center',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                        fontStyle: 'bold'
+                    }
+                },
+                didParseCell: (data) => {
+                    if (data.section === 'head') {
+                        data.cell.styles.fillColor = '#2653ff';
+                        data.cell.styles.textColor = '#f8f8f8';
+                        data.cell.styles.fontStyle = 'bold';
+                        data.cell.styles.lineColor = '#2553ff';
+                        data.cell.styles.halign = 'center';
+                    }
+                },
+                willDrawCell: (data) => {
+                    doc.setFont('Montserrat', 'regular')
+                    if (data.section === 'body' && data.column.index === 4) {
+                        if (data.row.index < 0) return
+                        doc.setFont('Montserrat', 'bold')
+                        doc.textWithLink('________________________________', data.cell.x, data.cell.y + 7, {
+                            url: newsTableBody()[data.row.index][4],
+                            overflow: 'ellipsize'
+                        })
+                    }
+                },
+                didDrawPage: (data) => {
+                    doc.setFillColor('#2653ff')
+                    doc.rect(0, sheetHeight - 10, 300, 10, 'F');
+                    doc.setTextColor('#f8f8f8')
+                    doc.setFontSize(8)
+                    doc.setFont('Montserrat', 'bold')
+                    doc.text('Screening Partners © 2022 All right reserved', sheetWidth / 2, sheetHeight - 4, {
+                        align: "center"
+                    })
+                }
+            })
+          }
+          if (sanctions.length) {
+              const finalY = doc.previousAutoTable.finalY || 150;
+              doc.setTextColor('#000');
+              doc.setFont('Montserrat', 'bold');
+              doc.text(`Potential Sanctions Matches: ${sanctions.length}`, sheetWidth / 2, finalY + 20, {
+                  align: "center"
+              });
+
+              autoTable(doc, {
+                  // html: '#my-table',
+                  head: [
+                      ['#', 'Name', 'Country', 'Authority', 'Programs', 'Latest Update']
+                  ],
+                  startY: finalY + 30,
+                  body: sanctionsTableBody(),
+                  columnStyles: {
+                      0: {
+                          cellWidth: 10,
+                          cellPadding: 0,
+                          fillColor: '#F7FAFF',
+                          textColor: '#373941',
+                          halign: 'center',
+                          valign: 'middle',
+                          lineColor: '#373941',
+                          lineWidth: 0.1,
+                          fontStyle: 'bold'
+                      },
+                      1: {
+                          cellWidth: 50,
+                          cellPadding: 3,
+                          fillColor: '#F7FAFF',
+                          textColor: '#373941',
+                          halign: 'center',
+                          valign: 'middle',
+                          lineColor: '#373941',
+                          lineWidth: 0.1,
+                          fontStyle: 'italic'
+                      },
+                      2: {
+                          cellWidth: 30,
+                          cellPadding: 5,
+                          fillColor: '#F7FAFF',
+                          textColor: '#373941',
+                          halign: 'center',
+                          valign: 'middle',
+                          lineColor: '#373941',
+                          lineWidth: 0.1,
+                      },
+                      3: {
+                          cellWidth: 31.7793333,
+                          cellPadding: 5,
+                          fillColor: '#F7FAFF',
+                          textColor: '#373941',
+                          halign: 'center',
+                          valign: 'middle',
+                          lineColor: '#373941',
+                          lineWidth: 0.1,
+                      },
+                      4: {
+                          cellWidth: 35,
+                          cellPadding: 5,
+                          textColor: '#373941',
+                          fillColor: '#F8FAFF',
+                          halign: 'center',
+                          valign: 'middle',
+                          lineColor: '#373941',
+                          lineWidth: 0.1,
+                      },
+                      5: {
+                          cellWidth: 25,
+                          cellPadding: 0,
+                          fillColor: '#F7FAFF',
+                          textColor: '#373941',
+                          halign: 'center',
+                          valign: 'middle',
+                          lineColor: '#373941',
+                          lineWidth: 0.1,
+                      },
+                  },
+                  willDrawCell(data) {
+                    doc.setFont('Montserrat', 'regular')
+                  },
+                  didParseCell: (data) => {
+                      if (data.section === 'head') {
+                          data.cell.styles.fillColor = '#2653ff';
+                          data.cell.styles.textColor = '#f8f8f8';
+                          data.cell.styles.fontStyle = 'bold';
+                          data.cell.styles.lineColor = '#2553ff';
+                          data.cell.styles.halign = 'center';
+                      }
+                  },
+                  didDrawPage: (data) => {
+                      doc.setFillColor('#2653ff')
+                      doc.rect(0, sheetHeight - 10, 300, 10, 'F');
+                      doc.setTextColor('#f8f8f8')
+                      doc.setFontSize(8)
+                      doc.setFont('Montserrat', 'bold')
+                      doc.text('Screening Partners © 2022 All right reserved', sheetWidth / 2, sheetHeight - 4, {
+                          align: "center"
+                      })
+                  }
+              })
+          }
+          if (peps.length) {
+            const finalY = doc.previousAutoTable.finalY || 140;
+            doc.setTextColor('#000');
+            doc.setFont('Montserrat', 'bold');
+            doc.text(`Potential Politically Exposed Persons Matches: ${peps.length}`, sheetWidth / 2, finalY + 20, {
+                align: "center"
+            });
+            autoTable(doc, {
+                // html: '#my-table',
+                head: [
+                    ['#', 'Full Name', 'Nationality', 'Gender', 'Birth Place', 'Birth Date']
+                ],
+                startY: finalY + 30,
+                body: pepsTableBody(),
+                columnStyles: {
+                    0: {
+                        cellWidth: 10,
+                        cellPadding: 0,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                        fontStyle: 'bold'
+                    },
+                    1: {
+                        cellWidth: 40,
+                        cellPadding: 8,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                        fontStyle: 'italic'
+                    },
+                    2: {
+                        cellWidth: 25,
+                        cellPadding: 5,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                    },
+                    3: {
+                        cellWidth: 26.7793333,
+                        cellPadding: 5,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                    },
+                    4: {
+                        cellWidth: 55,
+                        cellPadding: 5,
+                        textColor: '#373941',
+                        fillColor: '#F8FAFF',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                    },
+                    5: {
+                        cellWidth: 25,
+                        cellPadding: 0,
+                        fillColor: '#F7FAFF',
+                        textColor: '#373941',
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: '#373941',
+                        lineWidth: 0.1,
+                    },
+                },
+                willDrawCell(data) {
+                  doc.setFont('Montserrat', 'regular')
+                },
+                didParseCell: (data) => {
+                    if (data.section === 'head') {
+                        data.cell.styles.fillColor = '#2653ff';
+                        data.cell.styles.textColor = '#f8f8f8';
+                        data.cell.styles.fontStyle = 'bold';
+                        data.cell.styles.lineColor = '#2553ff';
+                        data.cell.styles.halign = 'center';
+                    }
+                },
+                didDrawPage: (data) => {
+                    doc.setFillColor('#2653ff')
+                    doc.rect(0, sheetHeight - 10, 300, 10, 'F');
+                    doc.setTextColor('#f8f8f8')
+                    doc.setFontSize(8)
+                    doc.setFont('Montserrat', 'bold')
+                    doc.text('Screening Partners © 2022 All right reserved', sheetWidth / 2, sheetHeight - 4, {
+                        align: "center"
+                    })
+                }
+            })
+          }
+          
+          
+         
+          const reportTargetName = this.queryTarget.split(/\s/gi).join('_');
+          const reportDate = moment(new Date()).format('MM-DD-YYYY')
+          const reportFileName = `report_${reportTargetName}_${reportDate}.pdf`;
+
+          // Saving document with specified name
+          await doc.save(reportFileName);
+          this.removeSelectedItems();
+      })();
     },
   }
 }
 </script>
 <style lang="sass">
 @import '@/static/sass/styles.sass'
+.highlighted
+  background: map-get($colors, pink)
+  color: #fff
+.page-backdrop
+  position: fixed
+  left: 0
+  top: 0
+  width: 100%
+  height: 100vh
+  z-index: 9999
+  background: rgba(#000, .5)
 </style>

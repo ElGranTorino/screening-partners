@@ -7,8 +7,6 @@ const router = Router();
 
 //
 router.post('/login', c.login);
-router.post('/issue', c.createSearchDataIssue);
-router.get('/issue', c.findAllDataIssues);
 //
 router.delete('/keyword', c.deleteKeyWord);
 router.get('/keyword', c.getAllKeyWords);

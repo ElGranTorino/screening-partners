@@ -10,7 +10,7 @@ export const getPageContent = async (url) => {
             '--disable-gpu',
             '--window-size=1920x1080'
         ],
-        headless: true
+        headless: false
     };
     const PAGE_PUPPETEER_OPTS = {
         networkIdle2Timeout: 5000,

@@ -52,15 +52,15 @@
         position: absolute
         top: 0
         right: 0
-        transform: translate(20%, -20%)
+        transform: translate(80%, -80%)
         background: map-get($colors, blue)
         color: #fff
-        padding: 0.25rem
-        // border-radius: 0.2rem
+        padding: 0.15rem 0.25rem
+        border-radius: 0.2rem
         font-size: 0.8rem
         letter-spacing: 0.05rem
         font-weight: 600
-        border-radius: 50%
+        // border-radius: 50%
     &__targets
     &__show-targets-btn
         &:hover
@@ -76,10 +76,13 @@
             transition: all .25s linear
 .dropdown
     position: relative
+
     &__card
         position: absolute
         right: 1rem
         top: 1rem
+        max-height: 450px
+        overflow-y: auto
     &__item
         &-name
             font-weight: 600
@@ -90,6 +93,12 @@
             justify-content: space-between
     &__item
     &__head
+        background: #fff
+        padding: 2rem
+        width: 100%
+        position: absolute
+        left: 0
+        top: 0
         display: flex
         align-items: center
         justify-content: space-between
@@ -105,3 +114,15 @@
             font-weight: 500
             &:hover 
                 text-decoration: none
+    &__footer
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+
+
+
+
+
+
+

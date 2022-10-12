@@ -54,6 +54,30 @@
                   <span class="offcanvas__key">Remarks</span>
                   <span class="offcanvas__value" style="text-align: right">{{selectedSanction.remarks}}</span>
                </div>
+                <div class="offcanvas__entity-authority d-flex justify-between mt-1" v-if="selectedSanction.website">
+                  <span class="offcanvas__key">Source</span>
+                  <span class="offcanvas__value"><a :href="selectedSanction.website" style="text-decoration: underline" target="_blank">{{getOriginFromURL(selectedSanction.website)}}</a></span>
+               </div>
+               <div class="offcanvas__entity-authority d-flex justify-between mt-1">
+                  <span class="offcanvas__key">Latest updated</span>
+                  <span class="offcanvas__value">{{getFormatTimeString(selectedSanction.created, 'L')}}</span>
+               </div>
+               <div class="offcanvas__entity-authority d-flex justify-between mt-1" v-if="selectedSanction.remarks">
+                  <span class="offcanvas__key">Remarks</span>
+                  <span class="offcanvas__value" style="text-align: right">{{selectedSanction.remarks}}</span>
+               </div>
+                <div class="offcanvas__entity-authority d-flex justify-between mt-1" v-if="selectedSanction.website">
+                  <span class="offcanvas__key">Source</span>
+                  <span class="offcanvas__value"><a :href="selectedSanction.website" style="text-decoration: underline" target="_blank">{{getOriginFromURL(selectedSanction.website)}}</a></span>
+               </div>
+               <div class="offcanvas__entity-authority d-flex justify-between mt-1">
+                  <span class="offcanvas__key">Latest updated</span>
+                  <span class="offcanvas__value">{{getFormatTimeString(selectedSanction.created, 'L')}}</span>
+               </div>
+               <div class="offcanvas__entity-authority d-flex justify-between mt-1" v-if="selectedSanction.remarks">
+                  <span class="offcanvas__key">Remarks</span>
+                  <span class="offcanvas__value" style="text-align: right">{{selectedSanction.remarks}}</span>
+               </div>
                <div class="delimiter mt-2 mb-2"></div>
                <div class="offcanvas__tabs tabs">
                   <div class="tabs__container">

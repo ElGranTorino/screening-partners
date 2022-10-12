@@ -92,5 +92,5 @@ export interface ISelectSanctionsRequest {
 }
 export interface ISelectSanctionsResponse {
     count: number,
-    entities: object
+    entries: object
 }

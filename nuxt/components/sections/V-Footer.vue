@@ -45,7 +45,7 @@
         </div>
         <div class="footer__copy">
             <div class="footer__copyright">&copy; {{ this.getCurrentYear() }} All rights reserved </div>
-            <div class="footer__stat"><span>3 231 222</span>  searches performed</div>
+            <div class="footer__stat"><span>1k</span>  searches performed</div>
         </div>
     </div>
    </footer>

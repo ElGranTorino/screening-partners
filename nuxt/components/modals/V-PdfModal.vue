@@ -38,7 +38,7 @@
                 </div>
                 <div class="v-modal__footer">
                     <button class="btn btn--bg-light-gray" type="button" @click="removeActiveModalWindow(_id)">Cancel</button>
-                    <button class="btn btn--bg-blue" type="submit">Select Targets</button>
+                    <button class="btn btn--bg-blue" type="submit">Download</button>
                 </div>
             </form>
         </div>
@@ -49,9 +49,9 @@
 import {mapGetters, mapMutations} from "vuex";
 
 // Importing required dependencies
-import JSPDF from "jspdf";
+
 // import autoTable from "jspdf-autotable";
-import fonts from "@/helpers/fonts";
+
 
 export default {
     name: 'VModal',
@@ -76,75 +76,76 @@ export default {
         ]),
         
         initGenerallReport() {
-            this.downloadPDF('generall')
+            console.log('ooo')
+            this.$emit("downloadPDF", 'generall')
         },
         initDetailedReport() {
             this.updateTargetsToggles(true)
         },
-        downloadPDF(type){
-            (async () => {
+        // downloadPDF(type){
+        //     (async () => {
                 
-                // Target`s name PEPs, Sanctions and News data which we are going to save in report
-                const targetName = "Putin"
-                const peps = type === 'detailed' ? this.selectedPeps : [];
-                const sanctions = type === 'detailed' ? this.selectedSanctions : [];
-                const news = type === 'detailed' ? this.selectedNews : [];
-
-                
-                // https://github.com/simonbengtsson/jsPDF-AutoTable
-                const doc = new JSPDF(); // DOCUMENTATION: https://www.npmjs.com/package/jspdf
-                const sheetWidth = doc.internal.pageSize.getWidth();
-                // const sheetHeight = doc.internal.pageSize.getHeight();
-
-                // Importing fonts from JS files
-                const bold = fonts.Montserrat.bold;
-                const italic = fonts.Montserrat.italic;
-                const regular = fonts.Montserrat.regular;
-
-                // Creating pdf-readable fonts formats
-                doc.addFileToVFS('Montserrat-Bold-normal.ttf', bold);
-                doc.addFileToVFS('Montserrat-Italic-normal.ttf', italic);
-                doc.addFileToVFS('Montserrat-Regular-normal.ttf', regular);
-
-                doc.addFont('Montserrat-Bold-normal.ttf', 'Montserrat', 'bold');
-                doc.addFont('Montserrat-Italic-normal.ttf', 'Montserrat', 'italic');
-                doc.addFont('Montserrat-Regular-normal.ttf', 'Montserrat', 'regular');
-                
-                // Drawing big blue rect on the top of the first page
-                doc.setFillColor('#2653ff');
-                doc.rect(0, 0, 300, 20, 'F');
-
-                // Drawing first-page title
-                doc.setFont('Montserrat', 'bold');
-                doc.setFontSize(20);
-                doc.text('Screening Partners', sheetWidth - 25, 40, {align: "right"});
-
-                // Drawing report template
-                doc.setFontSize(10);
-                doc.text('Target Name:', 25, 90, {align: "left"});
-                doc.text('Date Of Search:', 25, 100, {align: "left"});
-                doc.text('Potential Adverse Media:', 25, 110, {align: "left"});
-                doc.text('Potential Sanctions Matches:', 25, 120, {align: "left"});
-                doc.text('Potential Politically Exposed Persons Matches:', 25, 130, {align: "left"});
-
-                // Drawing report information
-                // doc.setFont('Montserrat', 'bold');
-                doc.text(`${targetName}`, sheetWidth - 25, 90, {align: "right"});
-                doc.text(`${Date.now()}`, sheetWidth - 25, 100, {align: "right"});
-                doc.text(`${news.length}`, sheetWidth - 25, 110, {align: "right"});
-                doc.text(`${sanctions.length}`, sheetWidth - 25, 120, {align: "right"});
-                doc.text(`${peps.length}`, sheetWidth - 25, 130, {align: "right"});
+        //         // Target`s name PEPs, Sanctions and News data which we are going to save in report
+        //         const targetName = "Putin"
+        //         const peps = type === 'detailed' ? this.selectedPeps : [];
+        //         const sanctions = type === 'detailed' ? this.selectedSanctions : [];
+        //         const news = type === 'detailed' ? this.selectedNews : [];
 
                 
-                await doc.save('report.pdf');
-            })();
-        },
+        //         // https://github.com/simonbengtsson/jsPDF-AutoTable
+        //         const doc = new JSPDF(); // DOCUMENTATION: https://www.npmjs.com/package/jspdf
+        //         const sheetWidth = doc.internal.pageSize.getWidth();
+        //         // const sheetHeight = doc.internal.pageSize.getHeight();
+
+        //         // Importing fonts from JS files
+        //         const bold = fonts.Montserrat.bold;
+        //         const italic = fonts.Montserrat.italic;
+        //         const regular = fonts.Montserrat.regular;
+
+        //         // Creating pdf-readable fonts formats
+        //         doc.addFileToVFS('Montserrat-Bold-normal.ttf', bold);
+        //         doc.addFileToVFS('Montserrat-Italic-normal.ttf', italic);
+        //         doc.addFileToVFS('Montserrat-Regular-normal.ttf', regular);
+
+        //         doc.addFont('Montserrat-Bold-normal.ttf', 'Montserrat', 'bold');
+        //         doc.addFont('Montserrat-Italic-normal.ttf', 'Montserrat', 'italic');
+        //         doc.addFont('Montserrat-Regular-normal.ttf', 'Montserrat', 'regular');
+                
+        //         // Drawing big blue rect on the top of the first page
+        //         doc.setFillColor('#2653ff');
+        //         doc.rect(0, 0, 300, 20, 'F');
+
+        //         // Drawing first-page title
+        //         doc.setFont('Montserrat', 'bold');
+        //         doc.setFontSize(20);
+        //         doc.text('Screening Partners', sheetWidth - 25, 40, {align: "right"});
+
+        //         // Drawing report template
+        //         doc.setFontSize(10);
+        //         doc.text('Target Name:', 25, 90, {align: "left"});
+        //         doc.text('Date Of Search:', 25, 100, {align: "left"});
+        //         doc.text('Potential Adverse Media:', 25, 110, {align: "left"});
+        //         doc.text('Potential Sanctions Matches:', 25, 120, {align: "left"});
+        //         doc.text('Potential Politically Exposed Persons Matches:', 25, 130, {align: "left"});
+
+        //         // Drawing report information
+        //         // doc.setFont('Montserrat', 'bold');
+        //         doc.text(`${targetName}`, sheetWidth - 25, 90, {align: "right"});
+        //         doc.text(`${Date.now()}`, sheetWidth - 25, 100, {align: "right"});
+        //         doc.text(`${news.length}`, sheetWidth - 25, 110, {align: "right"});
+        //         doc.text(`${sanctions.length}`, sheetWidth - 25, 120, {align: "right"});
+        //         doc.text(`${peps.length}`, sheetWidth - 25, 130, {align: "right"});
+
+                
+        //         await doc.save('report.pdf');
+        //     })();
+        // },
         selectReportType(e){
             const generallReport = e.target.querySelector("#generall-report-radio").checked;
             const  detailedReport = e.target.querySelector("#detailed-report-radio").checked;
 
             this.removeActiveModalWindow(this._id);
-
+            
             if(generallReport) this.initGenerallReport();
             else if(detailedReport) this.initDetailedReport();
         }

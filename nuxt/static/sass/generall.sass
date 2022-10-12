@@ -70,6 +70,58 @@ ul
             float: left
             &:last-of-type
                 float: none
+@media screen and (max-width: 1280px)
+    .container
+        margin: 0 auto
+        float: none !important
+        $columns: 12
+        @for $i from 1 through $columns
+            .col-lg-#{$i}
+                padding: 0 .5rem 0
+                display: inline-block
+                width: calc( 100% / $columns * $i)
+                float: left
+                &:last-of-type
+                    float: none
+@media screen and (max-width: 980px)
+    .container
+        margin: 0 auto
+        float: none !important
+        $columns: 12
+        @for $i from 1 through $columns
+            .col-md-#{$i}
+                padding: 0 .5rem 0
+                display: inline-block
+                width: calc( 100% / $columns * $i)
+                float: left
+                &:last-of-type
+                    float: none
+@media screen and (max-width: 760px)
+    .container
+        margin: 0 auto
+        float: none !important
+        $columns: 12
+        @for $i from 1 through $columns
+            .col-sm-#{$i}
+                padding: 0 .5rem 0
+                display: inline-block
+                width: calc( 100% / $columns * $i)
+                float: left
+                &:last-of-type
+                    float: none
+@media screen and (max-width: 540px)
+    .container
+        margin: 0 auto
+        float: none !important
+        $columns: 12
+        @for $i from 1 through $columns
+            .col-xs-#{$i}
+                padding: 0 .5rem 0
+                display: inline-block
+                width: calc( 100% / $columns * $i)
+                float: left
+                &:last-of-type
+                    float: none
 .match
     background: map-get($colors, pink)
     color: #f8f8f8
@@ -140,6 +192,7 @@ ul
             margin-bottom: 1rem
 
     &__row
+        margin-top: 1rem
         &-key
             font-weight: 600
             letter-spacing: .03rem
@@ -166,7 +219,7 @@ ul
     &__container
     &__head
         display: flex
-        align-items: flex-end
+        align-items: flex-start
         justify-content: space-between
     &__head-data
         max-width: 80%
@@ -365,8 +418,9 @@ ul
         top: 50%
         transform: translate(-50%, -50%)
         width: 50%
-        max-height: 500px
-        overflow-y: scroll
+        height: auto
+        max-height: 90vh
+        overflow-y: auto
     &__head
         display: flex
         justify-content: flex-end
@@ -374,7 +428,7 @@ ul
             padding: 0.2rem 0.5rem
     &__body
         padding: 2rem 0 2rem
-        
+        overflow-y: scroll
     &__footer
         display: flex
         justify-content: space-between
@@ -504,3 +558,66 @@ ul
     &__paragraph
         max-width: 50%
         margin: 2rem auto 0
+.table
+    display: block
+    overflow-x: scroll
+    &__head
+        display: block
+        background: #222FE6
+        color: #f8f8f8
+        &-row
+            padding: 1.3rem 0
+            display: flex
+            justify-content: space-between
+            width: 100%
+        &-cell
+            display: inline-block
+            text-align: center
+            width: 100%
+
+            // &:nth-child(1)
+            //     width: calc(100% / 6) + 20%
+            // &:nth-child(4), &:nth-child(5)
+            //     width: 15%
+    &__body
+        display: block
+        width: 100%
+        &-row
+            font-weight: 500
+            display: block
+            padding: 1.3rem 0
+            display: flex
+            justify-content: space-between
+            &:nth-child(odd)
+                background: darken(#F7FAFF, 2%)
+            &:hover
+                * a
+                    text-decoration: underline
+        &-cell
+            display: inline-block
+            width: 100%
+            text-align: center
+            font-weight: 500
+            letter-spacing: 0.025rem
+            padding: 0rem 0.5rem
+            display: flex
+            align-items: center
+            justify-content: center
+            // &:nth-child(1)
+            //     width: calc(100% / 6) + 20%
+            // &:nth-child(4), &:nth-child(5)
+            //     width: 15%
+@media screen and (max-width: 1320px)
+    .home
+        &__hero-paragraph
+            max-width: 85%
+        &__hero-title
+            max-width: 85%
+@media screen and (max-width: 958px)
+    .home
+        &__hero-paragraph
+            max-width: 100%
+        &__hero-title
+            max-width: 100%
+    .text-input--width-50
+        width: 100%
