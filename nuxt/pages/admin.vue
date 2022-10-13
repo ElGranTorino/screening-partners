@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         ...mapActions('api', [
-            "fetchKeywords",
+            "fetchAndUpdateKeywords",
             "createKeyword",
             "deleteKeyword"
         ]),

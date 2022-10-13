@@ -1,7 +1,8 @@
 import newspaperjs from "newspaperjs";
 import puppeteer from "puppeteer";
-import jwt from "jsonwebtoken";
 import Keyword from "../../models/KeywordModel.js";
+import useProxy from "puppeteer-page-proxy";
+import jwt from "jsonwebtoken";
 export default class BaseService {
     // Get list of all keywords
     getKeyWords() {
@@ -88,9 +89,10 @@ class Google {
                 '--disable-dev-shm-usage',
                 '--disable-accelerated-2d-canvas',
                 '--disable-gpu',
-                '--window-size=1920x1080'
+                '--window-size=1920x1080',
+                // `--proxy-server=${proxy}`
             ],
-            headless: true
+            headless: false
         };
         this.PAGE_PUPPETEER_OPTS = {
             networkIdle2Timeout: 5000,
@@ -110,18 +112,23 @@ class Google {
         try {
             const scrapeResults = [];
             for (let k = 0; k < keywords.length; k++) {
-                console.log(k);
-                const QUERY_STRING = encodeURIComponent(`${keywords[k]} ${target}`);
+                const QUERY_STRING = encodeURIComponent(`"${keywords[k]} ${target}"`);
                 const START = 0;
                 const URL = `https://www.google.com/search?q=${QUERY_STRING}&tbm=nws&start=${START}&hl=en`;
-                this.PAGE = (await this.BROWSER.pages())[0];
-                await this.PAGE.setExtraHTTPHeaders({
+                const PAGE = (await this.BROWSER.pages())[0];
+                const USERNAME = 'newcomplianceproject';
+                const PASSWORD = 'm78DxmRQ6x';
+                const proxy = `http://${USERNAME}:${PASSWORD}@176.96.92.69:50100`;
+                await PAGE.setExtraHTTPHeaders({
                     'Accept-Language': 'en-US,en;q=0.9'
                 });
-                await this.PAGE.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36');
-                await this.PAGE.goto(URL, this.PAGE_PUPPETEER_OPTS);
-                await this.PAGE.waitForSelector('.CEMjEf.NUnG9d');
-                const googleParsingResults = await this.PAGE.evaluate(() => {
+                await useProxy(PAGE, proxy);
+                await PAGE.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36');
+                await PAGE.goto(URL, this.PAGE_PUPPETEER_OPTS);
+                await PAGE.waitForSelector('#yDmH0d');
+                await PAGE.click("#yDmH0d > c-wiz > div > div > div > div.NIoIEf > div.G4njw > div.AIC7ge > div.CxJub > div.VtwTSb > form:nth-child(2) > div > div > button");
+                await PAGE.waitForSelector('.CEMjEf.NUnG9d');
+                const googleParsingResults = await PAGE.evaluate(() => {
                     const $articles = Array.from(document.querySelectorAll('.SoaBEf.xuvV6b'));
                     return $articles.map(($article) => {
                         const source = $article.querySelector('.CEMjEf.NUnG9d').textContent;

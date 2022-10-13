@@ -248,6 +248,7 @@ export default {
     VNewsModal
   },
   layout: "l-default",
+
   validate({query, redirect}){
     if(query.target.length < 3){
       
@@ -256,27 +257,6 @@ export default {
       return true
     }
   },
-  async fetch({store, query, params}){
-    const targetDecoded = decodeURIComponent(query.target);
-    await store.commit("report/removeSelectedItems");
-    // await store.dispatch('api/fetchAndUPDNews', {
-    //   target: targetDecoded,
-    // })
-    await store.dispatch('api/fetchAndUPDSanctions', {
-      limit: 6,
-      offset: 1,
-      target: targetDecoded,
-    })
-    // await store.dispatch('api/fetchAndUPDPeps', {
-    //   limit: 6,
-    //   offset: 0,
-    //   target: targetDecoded,
-    // })
-  },
-  created(){
-    this.updateQueryTarget(this.$route.query.target)
-  },
- 
   data(){
     return {
       pagination: {
@@ -458,6 +438,33 @@ export default {
         ],
       }
   },
+  head(){
+    return {
+      title: this.title
+    }
+  },
+  async fetch({store, query, params}){
+    const targetDecoded = decodeURIComponent(query.target);
+    await store.commit("report/removeSelectedItems");
+    await store.dispatch('api/fetchAndUPDNews', {
+      target: targetDecoded,
+    })
+    await store.dispatch('api/fetchAndUPDSanctions', {
+      limit: 6,
+      offset: 1,
+      target: targetDecoded,
+    })
+    await store.dispatch('api/fetchAndUPDPeps', {
+      limit: 6,
+      offset: 0,
+      target: targetDecoded,
+    })
+  },
+  created(){
+    this.updateQueryTarget(this.$route.query.target)
+  },
+ 
+  
 
   computed: {
     ...mapGetters("api", [
@@ -472,6 +479,9 @@ export default {
       "selectedNews",
       "selectedPeps"
     ]),
+    title(){
+      return `Corruption, sanctions and money laundering risks about ${this.queryTarget}`
+    }
   },
  
   methods: {

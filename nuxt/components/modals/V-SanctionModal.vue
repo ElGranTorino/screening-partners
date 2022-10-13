@@ -29,7 +29,7 @@
                         </div> 
                         <div class="row container card__row" v-if="website">
                             <div class="col-6 text-left card__row-key"><span>Website</span></div>
-                            <div class="col-6 text-right card__row-value"><span>{{website}}</span></div>
+                            <div class="col-6 text-right card__row-value"><a :href="website.link" target="_blank">{{website.origin()}}</a></div>
                         </div> 
                         <div class="row container card__row">
                             <div class="col-6 text-left card__row-key"><span>Sanctioned since</span></div>
@@ -210,7 +210,15 @@ export default {
             }
         },
         list(){ return this.activeModalWindow.data.list },
-        website(){return this.activeModalWindow.data.website},
+        website(){
+            return {
+                link: this.activeModalWindow.data.website,
+                origin: () => {
+                    const url = new URL(this.activeModalWindow.data.website);
+                    return url.origin
+                }
+            }
+        },
         pubDate(){return this.activeModalWindow.data.pubDate},
         created(){return this.activeModalWindow.data.created},
         remarks(){return this.activeModalWindow.data.remarks},

@@ -15,7 +15,7 @@
     </div>
 </template>
 <script>
-import {mapGetters, mapMutations} from "vuex";
+import {mapGetters, mapMutations, mapActions} from "vuex";
 
 
 export default {
@@ -38,13 +38,23 @@ export default {
         ...mapMutations("components-logic", [
             "removeActiveModalWindow",
         ]),
-        highlightQueryTarget(){
+        ...mapActions("api", [
+            "fetchKeywords"
+        ]),
+        async highlightQueryTarget(){
+            const words = await this.fetchKeywords();
             const $body = document.querySelector('.newsmodal-body');
-            if(!$body) return;
-            const bodyText = $body.textContent;
-            const re = new RegExp(this.queryTarget, "gi")
-            const updatedText = bodyText.replace(re, `<span class="highlighted">${this.queryTarget}</span>`)
-            $body.innerHTML = updatedText
+            if(!$body || !words) return;
+
+            const text = $body.textContent;
+            
+            const updated = words.reduce((acc, word) => {
+                const targetRE = new RegExp(`${this.queryTarget}`, 'gi'); 
+                const keywordRE = new RegExp(`${word.name}`, 'gi'); 
+                return acc.replace(keywordRE, `<span class="highlighted">${word.name}</span>`).replace(targetRE, `<span class="highlighted">${this.queryTarget}</span>`);
+            }, text)
+            
+            $body.innerHTML = updated
         }
     }
 }
