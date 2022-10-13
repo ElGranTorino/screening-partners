@@ -116,26 +116,25 @@ export const actions = {
     const isAuthenticated = await this.$axios.$get(url, {withCredentials: true})
     return isAuthenticated.verified
   },
-  fetchAndUpdateKeywords({commit, dispatch}){
-    const keywords = dispatch("fetchKeywords");
+  async fetchAndUpdateKeywords({commit, dispatch}){
+    const keywords = await dispatch("fetchKeywords");
+    console.log(keywords)
     commit("updateKeywords", keywords)
   },
   async fetchKeywords({commit}){
     const url = `http://localhost:9999/api/keyword`;
     const res = await this.$axios.$get(url)
-
     return res
   },
   async createKeyword({dispatch}, options){
     const url = `http://localhost:9999/api/keyword`
     await this.$axios.$post(url, {name: options.name})
-    dispatch('fetchKeywords')
+    dispatch('fetchAndUpdateKeywords')
   },
   async deleteKeyword({dispatch}, options){
     const url = `http://localhost:9999/api/keyword`
-    console.log(options.id)
     await this.$axios.$delete(url, {data: {id: options.id}})
-    dispatch('fetchKeywords')
+    dispatch('fetchAndUpdateKeywords')
   }
 };
 
