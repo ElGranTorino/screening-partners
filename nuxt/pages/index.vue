@@ -15,10 +15,21 @@
                 <div class="home__search-wrap">
                     <form @submit.prevent="initSearch()">
                         <div class="form-group text-center mb-2">
-                            <input type="text" class="text-input text-input--width-50" placeholder="ex: Alphabet group Inc." v-model="target" required>
+                            <input 
+                            v-model="target"
+                            :disabled="formDisabled" 
+                            type="text" 
+                            class="text-input text-input--width-50" 
+                            placeholder="ex: Alphabet group Inc." 
+                            required
+                            >
                         </div>
                         <div class="form-group">
-                            <button class="btn btn--bg-blue">Inspect</button>
+                            <button
+
+                             :disabled="formDisabled" 
+                             class="btn btn--bg-blue"
+                             > Inspect </button>
                         </div>
                         <div class="form-group"></div>
                     </form>
@@ -32,16 +43,19 @@
 export default {
     name: "VHome",
     layout: "l-default",
+
     data(){
         return {
-            target: ''
+            target: '',
+            formDisabled: false,
         }
     },
     mounted(){
-        
+        this.formDisabled = false;    
     },
     methods: {
         initSearch(){
+            this.formDisabled = true;
             this.$router.push({path: 'inspect', query: { target: encodeURIComponent(this.target) }});
         }
     },

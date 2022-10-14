@@ -120,7 +120,7 @@
             <!-- INSPECTION NEWS -->
             <section class="inspection__related-news">
 
-              <div v-if="news.total" class="inspection__if-related-news" >
+              <div v-if="news.total && news.status === 'loaded'" class="inspection__if-related-news" >
                 <div class="inspection__related-news-title">
                   <h2 class="title mb-2">Adverse Media Search ({{news.total}})</h2>
                 </div>
@@ -132,6 +132,7 @@
                       :news="article"
                       class="mt-2"
                       />
+                      
                   </div>
                 </div>
 
@@ -139,9 +140,16 @@
                   <button class="btn btn--bg-blue">Show More</button>
                 </div> -->
               </div>
-              <div v-else class="inspection__else-related-news not-found" >
+              <div v-else-if="news.total < 1 && news.status === 'loaded'" class="inspection__else-related-news not-found" >
                 <div class="title text-center not-found__title">No news found.</div>
                 <div class="paragraph text-center mt-1 not-found__paragraph">It seems we can’t find any news based on your search.</div>
+              </div>
+              
+              <div v-else class="container" >
+                <div class="paragraph text-center mt-1 pb-1 not-found__paragraph">It takes 1-2 minutes to find potential adverse media related to <b>{{queryTarget}}</b></div>
+                <div v-for="i in 3" class="mt-1 col-4 col-lg-6 col-md-12" :key="i">
+                  <VSkeletonCard/>
+                </div>
               </div>
             </section>
             <!-- INSPECTION NEWS END -->
@@ -190,7 +198,7 @@
                 </div>
 
                 <div class="container">
-                  <div v-for="entry in peps.entries" :key="entry.id" class="col-6 mt-2">
+                  <div v-for="entry in peps.entries" :key="entry.id" class="col-4 col-lg-12 col-md-12 mt-2">
                     <VPepCard
                       :data="entry"
                     />
@@ -231,7 +239,7 @@ import VSanctionModal from "@/components/modals/V-SanctionModal.vue";
 import VPepModal from "@/components/modals/V-PepModal.vue";
 import Pagination from "@/components/pagination/V-PaginationDefault.vue"
 import VNewsModal from "@/components/modals/V-NewsModal.vue";
-
+import VSkeletonCard from "@/components/cards/V-SkeletonCard.vue";
 export default {
   name: "InspectionView",
   components: {
@@ -245,18 +253,10 @@ export default {
     VSanctionModal,
     VPepModal,
     Pagination,
-    VNewsModal
+    VNewsModal,
+    VSkeletonCard
   },
   layout: "l-default",
-
-  validate({query, redirect}){
-    if(query.target.length < 3){
-      
-      redirect({ name: 'index' })
-    } else {
-      return true
-    }
-  },
   data(){
     return {
       pagination: {
@@ -443,12 +443,12 @@ export default {
       title: this.title
     }
   },
+
+
   async fetch({store, query, params}){
     const targetDecoded = decodeURIComponent(query.target);
+    await store.commit("api/cleanNews")
     await store.commit("report/removeSelectedItems");
-    await store.dispatch('api/fetchAndUPDNews', {
-      target: targetDecoded,
-    })
     await store.dispatch('api/fetchAndUPDSanctions', {
       limit: 6,
       offset: 1,
@@ -461,9 +461,22 @@ export default {
     })
   },
   created(){
-    this.updateQueryTarget(this.$route.query.target)
+    this.cleanNews();
+    this.updateQueryTarget(this.$route.query.target);
+    
+    this.fetchAndUPDNews({
+      target: this.queryTarget
+    })
   },
- 
+  watch: {
+    $route(to, from) {
+      if (to.query.target !== from.query.target) {
+        this.fetchAndUPDNews({
+          target: this.queryTarget
+        })
+      }
+    },
+  },
   
 
   computed: {
@@ -490,11 +503,13 @@ export default {
       "fetchSanctions",
       "fetchNews",
       "fetchAndUPDSanctions",
-      "fetchAndUPDPeps"
+      "fetchAndUPDPeps",
+      "fetchAndUPDNews"
       
     ]),
     ...mapMutations("api", [
-      "updateQueryTarget"
+      "updateQueryTarget",
+      "cleanNews"
     ]),
     ...mapMutations("report", [
       "removeSelectedItems"
@@ -978,6 +993,12 @@ export default {
 </script>
 <style lang="sass">
 @import '@/static/sass/styles.sass'
+@keyframes skeleton
+  0%
+    background: darken(#F7F7FA, 6%)
+  100%
+    background: rgba(darken(#F7F7FA, 6%), 30%)
+
 .highlighted
   background: map-get($colors, pink)
   color: #fff
@@ -989,4 +1010,6 @@ export default {
   height: 100vh
   z-index: 9999
   background: rgba(#000, .5)
+
+
 </style>

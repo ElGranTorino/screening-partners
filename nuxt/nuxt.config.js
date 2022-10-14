@@ -1,5 +1,6 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
+	target: "server",
   head: {
     title: 'Check Your Business Partner',
     htmlAttrs: {
@@ -15,13 +16,18 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
-
+  css: [
+    '@/static/sass/transition.css'
+    // '@/assets/scss/theme/fonts/stylesheet.css',
+  ],
+  transition: { 
+    mode: 'in-out' 
+  },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src: '@/plugins/chart.js', mode: 'client'}
   ],
-
+  pageTransition: "fade",
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 

@@ -5,24 +5,23 @@
         <div class="admin__home mt-5">
             <div class="admin__keywords-form">
                 <form @submit.prevent="addKeyword()">
-                    <div class="form-group">
+                    <div class="form-group text-center">
                         <input type="text" class="text-input" placeholder="ex: Investigation" v-model="keyword" required>
                     </div>
                     <div class="form-group text-center mt-1 text-center">
                         <button class="btn btn--bg-blue" type="submit">Add</button>
                     </div>
-                    <div class="mt-2">
-                        <button 
-                        v-for="keyword,i in keywords"
-                        :key="i"
-                        @click="removeKeyWord(keyword._id)"
-                        class="btn btn--bg-light-gray chips"
-                        style="border-radius: 2rem; font-size: 0.85rem; padding: 0.5rem 1rem; margin: 0.5rem" 
-                        type="button"
-                        >{{keyword.name}}</button>
-                        
-                    </div>
                 </form>
+            </div>
+            <div class="text-center">
+                <button 
+                v-for="keyword,i in keywords"
+                :key="i"
+                @click="removeKeyWord(keyword._id)"
+                class="btn btn--bg-light-gray chips"
+                style="border-radius: 2rem; font-size: 0.85rem; padding: 0.5rem 1rem; margin: 0.5rem" 
+                type="button"
+                >{{keyword.name}}</button>
             </div>
         </div>
     </main>
@@ -54,11 +53,12 @@ export default {
     },
     name: 'VAdmin',
     layout: 'l-default',
-    async fetch({ store, error }) {
+    async asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
         const isAuth = await store.dispatch('api/isAuthenticated')
         if (!isAuth) {
             error({ statusCode: 401, message: 'Unauthorised' })
         }
+        return isAuth
     },
     mounted() {
         this.fetchAndUpdateKeywords()
@@ -84,10 +84,7 @@ export default {
 @import '@/static/sass/styles.sass'
 .admin
     min-height: 100vh
-    &__home
-        display: flex
-        justify-content: center
     &__keywords-form
         max-width: 60%
-        margin: 200px auto
+        margin: 350px auto 30px
 </style>

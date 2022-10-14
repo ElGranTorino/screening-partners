@@ -3,6 +3,7 @@ export const state = () => ({
     authenticated: false,
     queryTarget: '',
     news: {
+        status: 'loading',
         total: 0,
         entries: [],
     },
@@ -24,10 +25,16 @@ export const mutations = {
     state.peps.total = total
     state.peps.entries = entries
   },
+  cleanNews(state){
+    state.news.total = 0
+    state.news.entries = []
+    state.news.status = 'loading'
+  },
   updateNews(state, newNewsData){
-    const {total, entries } = newNewsData;
+    const {total, entries, status } = newNewsData;
     state.news.total = total
     state.news.entries = entries
+    state.news.status = status
   },
   updateSanctions(s, newSanctionsData){
     s.sanctions = newSanctionsData
@@ -56,7 +63,7 @@ export const actions = {
     
     commit("updateQueryTarget", target)
     return {
-      total, entries
+      total, entries, status: 'loaded'
     };
   },
 

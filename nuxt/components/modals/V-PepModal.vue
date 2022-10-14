@@ -96,7 +96,7 @@
                             <div class="col-6 text-right card__row-value"><span>{{ethnicity}}</span></div>
                         </div>
                    
-                        <div class="row card__row" v-if="position.length">
+                        <div class="row card__row" v-if="position">
                             <div class="title search__header mt-3" style="margin-bottom: 20px">Person`s Position</div>
                             <table class="table">
                                 <thead class="table__head">
@@ -115,7 +115,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row card__row" v-if="aliases.length">
+                        <div class="row card__row" v-if="aliases">
                             <div class="title search__header mt-3" style="margin-bottom: 20px">Person`s Name</div>
                             <table class="table">
                                 <thead class="table__head">

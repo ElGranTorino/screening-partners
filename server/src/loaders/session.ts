@@ -1,7 +1,7 @@
 // Importing dependencies
 import session from 'express-session'
 import Sequelize from 'sequelize';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import { Application } from 'express-serve-static-core';
 import connectSessionSequelize from "connect-session-sequelize";
 
