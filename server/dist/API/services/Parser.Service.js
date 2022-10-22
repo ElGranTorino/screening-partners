@@ -1,12 +1,13 @@
 import axios from "axios";
 import xmljs from "xml2js";
-import { uuid } from "uuidv4";
+import uuid from 'uuid';
 import path from "path";
 import fs from "fs";
 import https from "https";
 import cherio from "cherio";
 import puppeteer from "puppeteer";
 const __dirname = path.resolve();
+const { v4 } = uuid;
 /**
  * Validation functions
  */
@@ -203,7 +204,7 @@ export default class Parser {
             const placeOfBirth = sanction?.INDIVIDUAL_PLACE_OF_BIRTH;
             const document = sanction.INDIVIDUAL_DOCUMENT;
             const designation = sanction.DESIGNATION;
-            formattedSanction.id = uuid();
+            formattedSanction.id = v4();
             formattedSanction.website = 'https://scsanctions.un.org/resources/xml/en/consolidated.xml';
             formattedSanction.firstName = firstName ? firstName.slice(0, 254) : '';
             formattedSanction.lastName = `${secondName} ${thirdName} ${fourthName}`.slice(0, 254);
@@ -560,7 +561,7 @@ export default class Parser {
             const parentCompany = sanction.Entity_ParentCompany;
             const bussinessRegNumber = sanction.Entity_BusinessRegNumber;
             formattedSanction.website = "https://www.gov.uk/government/publications/the-uk-sanctions-list";
-            formattedSanction.id = uuid();
+            formattedSanction.id = v4();
             formattedSanction.type = type || 'Unknown';
             formattedSanction.authority = 'UK';
             formattedSanction.remarks = getStringOrFalse(remark) || '';
@@ -695,7 +696,7 @@ export default class Parser {
             const remark = isString(sanction.remark) ? sanction.remark : '';
             const document = sanction?.identification;
             const address = sanction?.address;
-            formattedSanction.id = uuid();
+            formattedSanction.id = v4();
             formattedSanction.type = type || 'Unknown';
             formattedSanction.authority = 'EU';
             formattedSanction.pubDate = createValidDateOrFalse(pubDate) || listPubDate;
@@ -1039,7 +1040,7 @@ export default class Parser {
             const alternateTypeVar = 'Alternate Type';
             const alternateNameVar = 'Alternate Name';
             const alternateRemarksVar = 'Alternate Remarks';
-            formattedSanction.id = uuid();
+            formattedSanction.id = v4();
             formattedSanction.type = sanction[sdnTypeVar] || '-';
             formattedSanction.authority = 'BIS';
             formattedSanction.pubDate = createValidDateOrFalse(sanction[pubDateVar]) || new Date();
@@ -1192,7 +1193,7 @@ export default class Parser {
                 formattedSanction.firstName = firstName;
                 formattedSanction.lastName = lastName;
                 formattedSanction.fullName = `${firstName} ${lastName}`;
-                formattedSanction.id = uuid();
+                formattedSanction.id = v4();
                 formattedSanction.authority = 'OFAC';
                 formattedSanction.type = type || 'Unknown';
                 formattedSanction.title = title || '';

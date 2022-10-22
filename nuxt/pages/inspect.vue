@@ -165,7 +165,7 @@
 
             <div class="delimiter mt-5 mb-5"></div>
             <!-- INSPECTION SANCTIONS -->
-            <section class="inspection__related-sanctions">
+            <section class="inspection__related-sanctions" v-if="1 === 0">
               <div v-if="sanctions.entries.length" class="inspection__if-related-sanctions" >
                 <div class="inspection__related-sanctions-title">
                   <h2 class="title mb-2">Potential Sanctions Matches ({{sanctions.total}})</h2>
@@ -195,8 +195,52 @@
               </div>
 
             </section>
-            <!-- INSPECTION SANCTIONS END -->
 
+
+            <section class="inspection__related-sanctions">
+              <div v-if="sanctions.entries.length" class="inspection__if-related-sanctions" >
+                <div class="inspection__related-sanctions-title">
+                  <h2 class="title mb-2">Potential Sanctions Matches ({{sanctions.total}})</h2>
+                </div>
+
+                <table class="table" v-if="sanctions.entries.length">
+                  <thead class="table__head">
+                      <tr class="table__head-row">
+                          <th class="table__head-cell">Position Name</th>
+                          <th class="table__head-cell">Position Name</th>
+                          <th class="table__head-cell">Position Name</th>
+                          <th class="table__head-cell">Position Name</th>
+                          <th class="table__head-cell">Position Name</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table__body">
+                      <tr class="table__body-row">
+                          <td class="table__body-cell">hello</td>
+                          <td class="table__body-cell">hello</td>
+                          <td class="table__body-cell">hello</td>
+                          <td class="table__body-cell">hello</td>
+                          <td class="table__body-cell">hello</td>
+                      </tr>
+                  </tbody>
+                </table>
+                <Pagination :total="Math.ceil(sanctions.total / pagination.sanctions.limit)" :current="pagination.sanctions.page" @set="switchSanctionsPage"/>
+                <!-- <div class="inspection__related-sanctions-pagination pagination mt-3">
+                  <div class="pagination__inner text-center">
+                    <button class="btn btn--pagination btn--bg-blue" disabled>1</button>
+                    <button class="btn btn--pagination btn--bg-blue" @click="switchPage('sanctions', 2)">2</button>
+                    <button class="btn btn--pagination btn--bg-blue" @click="switchPage('sanctions', 3)">3</button>
+                  </div>
+                </div> -->
+              </div>
+              
+              <div v-else class="inspection__else-related-sanctions not-found" >
+                <div class="title text-center not-found__title">No sanctions or export controls matches found.</div>
+                <div class="paragraph text-center mt-1 not-found__paragraph">It seems there are no matches against the EU, OFAC, BIS, UN, and UK OFSI sanctions or export controls lists.</div>
+              </div>
+
+            </section>
+            <!-- INSPECTION SANCTIONS END -->
+           
             <div class="delimiter mt-3 mb-5"></div>
 
             <!-- INSPECTION PEPs -->
@@ -220,6 +264,18 @@
                 <div class="title text-center not-found__title">No politicallly exposed persons matches found.</div>
                 <div class="paragraph text-center mt-1 not-found__paragraph">A search through a number of PEPs international databases has not identified any matches against the search target.</div>
               </div>
+              <table class="table" v-if="peps.entries.length">
+                  <thead class="table__head">
+                      <tr class="table__head-row">
+                          <th class="table__head-cell">Position Name</th>
+                      </tr>
+                  </thead>
+                  <tbody class="table__body">
+                      <tr>
+                          <td class="table__body-cell">{{p}}</td>
+                      </tr>
+                  </tbody>
+              </table>
             </section>
             <!-- INSPECTION PEPs END -->
 
@@ -471,23 +527,23 @@ export default {
     //   target: targetDecoded,
     // })
   },
-  created(){
+  mounted(){
     this.cleanNews();
     this.updateQueryTarget(this.$route.query.target);
     
-    this.fetchAndUPDNews({
-      target: this.queryTarget
-    })
+    // this.fetchAndUPDNews({
+    //   target: this.queryTarget
+    // })
   },
-  watch: {
-    $route(to, from) {
-      if (to.query.target !== from.query.target) {
-        this.fetchAndUPDNews({
-          target: this.queryTarget
-        })
-      }
-    },
-  },
+  // watch: {
+  //   $route(to, from) {
+  //     if (to.query.target !== from.query.target) {
+  //       this.fetchAndUPDNews({
+  //         target: this.queryTarget
+  //       })
+  //     }
+  //   },
+  // },
   
 
   computed: {
@@ -1013,6 +1069,9 @@ export default {
 
 .highlighted
   background: map-get($colors, pink)
+  color: #fff
+.target-highlighted
+  background: map-get($colors, blue)
   color: #fff
 .page-backdrop
   position: fixed

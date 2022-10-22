@@ -51,7 +51,7 @@ export default {
             const updated = words.reduce((acc, word) => {
                 const targetRE = new RegExp(`${this.queryTarget}`, 'gi'); 
                 const keywordRE = new RegExp(`${word.name}`, 'gi'); 
-                return acc.replace(keywordRE, `<span class="highlighted">${word.name}</span>`).replace(targetRE, `<span class="highlighted">${this.queryTarget}</span>`);
+                return acc.replace(keywordRE, `<span class="highlighted">${word.name}</span>`).replace(targetRE, `<span class="target-highlighted">${this.queryTarget}</span>`);
             }, text)
             
             $body.innerHTML = updated
@@ -60,5 +60,5 @@ export default {
 }
 </script>
 <style lang="">
-    
+
 </style>

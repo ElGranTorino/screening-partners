@@ -52,8 +52,8 @@ export default class BaseService {
     async scrapeGoogleNews(reqTarget) {
         const keyWordsList = await this.getKeyWords();
         const words = keyWordsList.map((w) => w.name);
+        console.log(words);
         const google = new Google();
-        await google.setup();
         const results = await google.scrape(words, reqTarget);
         return results;
     }
@@ -99,17 +99,10 @@ class Google {
             timeout: 60000
         };
     }
-    async setup() {
-        try {
-            this.BROWSER = await puppeteer.launch(this.LAUNCH_PUPPETEER_OPTS);
-        }
-        catch (err) {
-            throw new Error(err);
-        }
-    }
     async scrape(keywords, target) {
         try {
             const scrapeResults = [];
+            this.BROWSER = await puppeteer.launch(this.LAUNCH_PUPPETEER_OPTS);
             for (let k = 0; k < keywords.length; k++) {
                 console.log(keywords[k]);
                 const QUERY_STRING = encodeURIComponent(`"${keywords[k]} ${target}"`);
@@ -131,7 +124,7 @@ class Google {
                 }
                 await PAGE.waitForSelector('.CEMjEf.NUnG9d');
                 const googleParsingResults = await PAGE.evaluate(() => {
-                    const $articles = Array.from(document.querySelectorAll('.SoaBEf.xuvV6b'));
+                    const $articles = Array.from(document.querySelectorAll('.SoaBEf'));
                     return $articles.map(($article) => {
                         const source = $article.querySelector('.CEMjEf.NUnG9d').textContent;
                         const title = $article.querySelector('.mCBkyc.y355M.ynAwRc.MBeuO').textContent;
@@ -143,6 +136,7 @@ class Google {
                         };
                     });
                 });
+                console.log(googleParsingResults.length);
                 const response = [];
                 for (let a = 0; a < googleParsingResults.length; a++) {
                     try {

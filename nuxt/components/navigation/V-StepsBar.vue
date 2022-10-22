@@ -2,9 +2,9 @@
 	<nav class="nav">
 		<div class="nav__container">
 			<div class="nav__brand brand">
-				<router-link to="/" class="brand__link interact">
-					<img src="" style="max-width: 220px">
-				</router-link>
+				<NuxtLink to="/" class="brand__link interact">
+                    <img src="@/static/img/Brand.jpg" style="max-width: 220px">
+				</NuxtLink>
 			</div>
 			<div class="nav__steps">
 				<ul class="nav__list">

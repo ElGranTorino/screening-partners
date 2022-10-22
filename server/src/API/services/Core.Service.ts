@@ -62,8 +62,8 @@ export default class BaseService {
     public async scrapeGoogleNews(reqTarget: string): Promise < any > {
         const keyWordsList = await this.getKeyWords();
         const words = keyWordsList.map((w: any) => w.name);
+        console.log(words)
         const google = new Google();
-        await google.setup()
         const results = await google.scrape(words, reqTarget)
 
         
@@ -114,19 +114,12 @@ class Google {
             timeout: 60000
         }
     }
-
-    async setup(){
-        try {
-            this.BROWSER = await puppeteer.launch(this.LAUNCH_PUPPETEER_OPTS)
-        } catch (err) {
-            throw new Error(err)
-        }
-    }
     
     async scrape(keywords: any, target: any){
         
         try {
             const scrapeResults = [];
+            this.BROWSER = await puppeteer.launch(this.LAUNCH_PUPPETEER_OPTS)
             for(let k = 0; k < keywords.length; k++){
                 console.log(keywords[k])
                 const QUERY_STRING = encodeURIComponent(`"${keywords[k]} ${target}"`);
@@ -146,12 +139,11 @@ class Google {
                 if(k === 0){
                     await PAGE.waitForSelector('#yDmH0d')
                     await PAGE.click("#yDmH0d > c-wiz > div > div > div > div.NIoIEf > div.G4njw > div.AIC7ge > div.CxJub > div.VtwTSb > form:nth-child(2) > div > div > button")
-
                 }
 
                 await PAGE.waitForSelector('.CEMjEf.NUnG9d')
                 const googleParsingResults = await PAGE.evaluate(() => {
-                    const $articles = Array.from(document.querySelectorAll('.SoaBEf.xuvV6b'));
+                    const $articles = Array.from(document.querySelectorAll('.SoaBEf'));
                     return $articles.map(($article) => {
                         const source = $article.querySelector('.CEMjEf.NUnG9d').textContent;
                         const title = $article.querySelector('.mCBkyc.y355M.ynAwRc.MBeuO').textContent;
@@ -163,8 +155,10 @@ class Google {
                         }
                     })
                 });
+                console.log(googleParsingResults.length)
                 const response = [];
                 for(let a = 0; a < googleParsingResults.length; a++){
+
                     try {
                         const article = await this.NEWSCRAPER(googleParsingResults[a].url)
                         const responseItem = googleParsingResults[a]

@@ -1,5 +1,8 @@
 <template lang="">
     <main class="home">
+        <VStepsBar
+        :step="step"
+        />
         <div class="home__content">
             <div class="home__hero">
                 <div class="home__hero-title title text-center">
@@ -40,18 +43,23 @@
 </template>
 <script>
 // import {mapGetters} from "vuex";
+import VStepsBar from "@/components/navigation/V-StepsBar.vue";
 export default {
     name: "VHome",
     layout: "l-default",
-
+    components: {
+        VStepsBar
+    },
     data(){
         return {
             target: '',
             formDisabled: false,
+            step: 0
         }
     },
     mounted(){
-        this.formDisabled = false;    
+        this.formDisabled = false;   
+        this.step = 0; 
     },
     methods: {
         initSearch(){
