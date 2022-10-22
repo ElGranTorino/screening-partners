@@ -1,0 +1,56 @@
+{
+  "CardsVChartCard": {
+    "description": "Auto imported from components/cards/V-ChartCard.vue"
+  },
+  "CardsVNewsCard": {
+    "description": "Auto imported from components/cards/V-NewsCard.vue"
+  },
+  "CardsVPepCard": {
+    "description": "Auto imported from components/cards/V-PepCard.vue"
+  },
+  "CardsVSanctionCard": {
+    "description": "Auto imported from components/cards/V-SanctionCard.vue"
+  },
+  "CardsVSkeletonCard": {
+    "description": "Auto imported from components/cards/V-SkeletonCard.vue"
+  },
+  "GenerallVNavbar": {
+    "description": "Auto imported from components/generall/V-Navbar.vue"
+  },
+  "GenerallVToast": {
+    "description": "Auto imported from components/generall/V-Toast.vue"
+  },
+  "ModalsVNewsModal": {
+    "description": "Auto imported from components/modals/V-NewsModal.vue"
+  },
+  "ModalsVPdfModal": {
+    "description": "Auto imported from components/modals/V-PdfModal.vue"
+  },
+  "ModalsVPepModal": {
+    "description": "Auto imported from components/modals/V-PepModal.vue"
+  },
+  "ModalsVSanctionModal": {
+    "description": "Auto imported from components/modals/V-SanctionModal.vue"
+  },
+  "NavigationVStatusBar": {
+    "description": "Auto imported from components/navigation/V-StatusBar.vue"
+  },
+  "NavigationVStepsBar": {
+    "description": "Auto imported from components/navigation/V-StepsBar.vue"
+  },
+  "PaginationVPaginationDefault": {
+    "description": "Auto imported from components/pagination/V-PaginationDefault.vue"
+  },
+  "SectionsVFooter": {
+    "description": "Auto imported from components/sections/V-Footer.vue"
+  },
+  "SectionsVSteps": {
+    "description": "Auto imported from components/sections/V-Steps.vue"
+  },
+  "TablesVTable": {
+    "description": "Auto imported from components/tables/V-Table.vue"
+  },
+  "TablesVTableRow": {
+    "description": "Auto imported from components/tables/V-TableRow.vue"
+  }
+}

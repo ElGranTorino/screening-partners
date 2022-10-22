@@ -1,11 +1,13 @@
 // Importing dependencies
 import session from 'express-session';
-import { v4 as uuidv4 } from 'uuid';
+// import Sequelize from 'sequelize';
+import uuid from 'uuid';
 import connectSessionSequelize from "connect-session-sequelize";
 // Importing sequelize connection string
 import db from "./db.js";
 // Importing .env config
 import env from '../config/env.js';
+const { v4 } = uuid;
 export default class Session {
     SequelizeStore;
     SessionStore;
@@ -30,7 +32,7 @@ export default class Session {
         this.app.use(session({
             // Session id generation method1
             genid: () => {
-                return uuidv4();
+                return v4();
             },
             store: this.SessionStore,
             secret: this.secret,

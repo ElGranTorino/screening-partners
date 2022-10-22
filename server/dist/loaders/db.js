@@ -14,7 +14,7 @@ const connection = new Sequelize(`${env.db.name}`, `${env.db.login}`, `${env.db.
 (async function () {
     try {
         if (connection)
-            connection.authenticate();
+            await connection.authenticate();
         console.log('Connection has been established successfully.');
     }
     catch (error) {

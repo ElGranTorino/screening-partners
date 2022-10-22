@@ -1,0 +1,37 @@
+[
+  {
+    "name": "admin",
+    "path": "/admin",
+    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/admin.vue",
+    "chunkName": "pages/admin",
+    "_name": "_0801ec00"
+  },
+  {
+    "name": "inspect",
+    "path": "/inspect",
+    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/inspect.vue",
+    "chunkName": "pages/inspect",
+    "_name": "_0d7007f6"
+  },
+  {
+    "name": "login",
+    "path": "/login",
+    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/login.vue",
+    "chunkName": "pages/login",
+    "_name": "_d7914dcc"
+  },
+  {
+    "name": "pro",
+    "path": "/pro",
+    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/pro.vue",
+    "chunkName": "pages/pro",
+    "_name": "_2a6c26c4"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_6ae093fa"
+  }
+]

@@ -44,6 +44,8 @@ html, body
     font-family: 'Montserrat'
     // background: #f5f6fa
     background: map-get($colors, body)
+    // *::-webkit-scrollbar
+    //     width: 10px
 img 
     max-width: 100%
 *, *::before, *::after
@@ -51,8 +53,8 @@ img
     -moz-box-sizing: border-box !important
     -ms-box-sizing: border-box !important
     box-sizing: border-box !important
-*::-webkit-scrollbar
-    width: 0
+// *::-webkit-scrollbar
+//     width: 0
 ul
     list-style-type: none
     margin: 0
@@ -505,7 +507,7 @@ ul
     width: 100%
     background: rgba(#000, .1)
 .text-input
-    @include box-shadow(4px, 4px, 25px, 5px, rgba(map-get($colors, blue), .05))
+    @include box-shadow(4px, 4px, 25px, 5px, rgba(map-get($colors, blue), .1))
     @include no-appearance
     background: #FFFFFF
     border: none

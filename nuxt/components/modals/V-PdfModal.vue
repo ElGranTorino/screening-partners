@@ -8,9 +8,9 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><title>ionicons-v5-m</title><path d="M289.94,256l95-95A24,24,0,0,0,351,127l-95,95-95-95A24,24,0,0,0,127,161l95,95-95,95A24,24,0,1,0,161,385l95-95,95,95A24,24,0,0,0,385,351Z"/></svg>
                 </button> -->
                 </div>
-                <div class="v-modal__body">
+                <div class="v-modal__body overflow-y_hidden">
                     <div class="container">
-                        <div class="col-6">
+                        <div class="col-6" style="margin: 0 auto">
                             <div class="radio-area">
                                 <input id="generall-report-radio" class="radio-area__input" type="radio" name="report-type-radio" checked>
                                 <label for="generall-report-radio" class="radio-area__label">
@@ -22,7 +22,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 hidden">
                             <div class="radio-area">
                                 <input id="detailed-report-radio" class="radio-area__input" type="radio" name="report-type-radio">
                                 <label for="detailed-report-radio" class="radio-area__label">
@@ -76,7 +76,6 @@ export default {
         ]),
         
         initGenerallReport() {
-            console.log('ooo')
             this.$emit("downloadPDF", 'generall')
         },
         initDetailedReport() {
@@ -152,6 +151,7 @@ export default {
     }
 }
 </script>
-<style lang="">
-    
+<style scoped lang="sass">
+.overflow-y_hidden
+    overflow-y: hidden !important
 </style>

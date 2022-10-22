@@ -2,7 +2,11 @@
  
   <main class="inspection">
     <VStatusBar
+      v-if="0 === 1"
       @downloadPDF="downloadPDF"
+    />
+    <VStepsBar
+    :step="2"
     />
     <!-- 
       <div class="preloader">
@@ -30,7 +34,7 @@
     <VNewsModal
     :_id="`newsModal`"
     />
-    <div class="toasts">
+    <div class="toasts" style="overflow: hidden !important;">
       <VToast
       v-for="toast in toasts"
       :key="toast.id" 
@@ -52,7 +56,12 @@
               </div>
           </div>
           <div class="inspection__export-control">
-            <button class="btn btn--bg-blue" @click="addActiveModalWindow({id: '4321'})">
+            <button 
+            class="btn btn--bg-blue" 
+            
+            @click="downloadPDF()"
+            >
+            <!-- @click="addActiveModalWindow({id: '4321'})" -->
               <span>
                 <svg xmlns="http://www.w3.org/2000/svg" style="max-width: 26px; max-height: 26px; vertical-align: middle" fill="#fff" width="512" height="512" viewBox="0 0 512 512"> <path d="M428,224H288a48,48,0,0,1-48-48V36a4,4,0,0,0-4-4H144A64,64,0,0,0,80,96V416a64,64,0,0,0,64,64H368a64,64,0,0,0,64-64V228A4,4,0,0,0,428,224ZM336,384H176a16,16,0,0,1,0-32H336a16,16,0,0,1,0,32Zm0-80H176a16,16,0,0,1,0-32H336a16,16,0,0,1,0,32Z"/><path d="M419.22,188.59,275.41,44.78A2,2,0,0,0,272,46.19V176a16,16,0,0,0,16,16H417.81A2,2,0,0,0,419.22,188.59Z"/></svg>
               </span>
@@ -191,7 +200,7 @@
             <div class="delimiter mt-3 mb-5"></div>
 
             <!-- INSPECTION PEPs -->
-            <section class="related__peps">
+            <section class="related__peps" v-if="0 === 1">
               <div v-if="peps.entries.length" class="inspection__if-related-peps" >
                 <div class="inspection__related-peps-title">
                   <h2 class="title mb-2">Politicallly Exposed Persons Matches ({{peps.total}})</h2>
@@ -221,12 +230,12 @@
   </main>
 </template>
 <script>
-import {mapGetters, mapActions, mapMutations} from "vuex"
+import {mapGetters, mapActions, mapMutations} from "vuex";
 import moment from "moment";
 import JSPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-
 import fonts from "@/helpers/fonts";
+
 // Components
 import VToast from "@/components/generall/V-Toast.vue";
 import VStatusBar from "@/components/navigation/V-StatusBar.vue";
@@ -240,6 +249,7 @@ import VPepModal from "@/components/modals/V-PepModal.vue";
 import Pagination from "@/components/pagination/V-PaginationDefault.vue"
 import VNewsModal from "@/components/modals/V-NewsModal.vue";
 import VSkeletonCard from "@/components/cards/V-SkeletonCard.vue";
+import VStepsBar from "@/components/navigation/V-StepsBar.vue";
 export default {
   name: "InspectionView",
   components: {
@@ -254,7 +264,8 @@ export default {
     VPepModal,
     Pagination,
     VNewsModal,
-    VSkeletonCard
+    VSkeletonCard,
+    VStepsBar
   },
   layout: "l-default",
   data(){
@@ -454,11 +465,11 @@ export default {
       offset: 1,
       target: targetDecoded,
     })
-    await store.dispatch('api/fetchAndUPDPeps', {
-      limit: 6,
-      offset: 0,
-      target: targetDecoded,
-    })
+    // await store.dispatch('api/fetchAndUPDPeps', {
+    //   limit: 6,
+    //   offset: 0,
+    //   target: targetDecoded,
+    // })
   },
   created(){
     this.cleanNews();
@@ -550,8 +561,9 @@ export default {
             sanctions = this.selectedSanctions;
             news = this.selectedNews
           } else {
-            peps =  await this.fetchPeps({limit: 50,offset: 1,target: this.queryTarget,})
-            peps = peps.entries
+            peps = []
+            // peps =  await this.fetchPeps({limit: 50,offset: 1,target: this.queryTarget,})
+            // peps = peps.entries
             sanctions = await this.fetchSanctions({limit: 50,offset: 1,target: this.queryTarget,})
             sanctions = sanctions.entries
             news = this.news.entries
