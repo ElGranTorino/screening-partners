@@ -202,27 +202,10 @@
                 <div class="inspection__related-sanctions-title">
                   <h2 class="title mb-2">Potential Sanctions Matches ({{sanctions.total}})</h2>
                 </div>
-
-                <table class="table" v-if="sanctions.entries.length">
-                  <thead class="table__head">
-                      <tr class="table__head-row">
-                          <th class="table__head-cell">Position Name</th>
-                          <th class="table__head-cell">Position Name</th>
-                          <th class="table__head-cell">Position Name</th>
-                          <th class="table__head-cell">Position Name</th>
-                          <th class="table__head-cell">Position Name</th>
-                      </tr>
-                  </thead>
-                  <tbody class="table__body">
-                      <tr class="table__body-row">
-                          <td class="table__body-cell">hello</td>
-                          <td class="table__body-cell">hello</td>
-                          <td class="table__body-cell">hello</td>
-                          <td class="table__body-cell">hello</td>
-                          <td class="table__body-cell">hello</td>
-                      </tr>
-                  </tbody>
-                </table>
+                <VTableCard
+                  v-if="sanctions.entries.length"
+                  :data="sanctions.entries"
+                />
                 <Pagination :total="Math.ceil(sanctions.total / pagination.sanctions.limit)" :current="pagination.sanctions.page" @set="switchSanctionsPage"/>
                 <!-- <div class="inspection__related-sanctions-pagination pagination mt-3">
                   <div class="pagination__inner text-center">
@@ -264,18 +247,11 @@
                 <div class="title text-center not-found__title">No politicallly exposed persons matches found.</div>
                 <div class="paragraph text-center mt-1 not-found__paragraph">A search through a number of PEPs international databases has not identified any matches against the search target.</div>
               </div>
-              <table class="table" v-if="peps.entries.length">
-                  <thead class="table__head">
-                      <tr class="table__head-row">
-                          <th class="table__head-cell">Position Name</th>
-                      </tr>
-                  </thead>
-                  <tbody class="table__body">
-                      <tr>
-                          <td class="table__body-cell">{{p}}</td>
-                      </tr>
-                  </tbody>
-              </table>
+              <VTableCard
+                v-if="peps.entries.length"
+                :data="peps.entries"
+              />
+              
             </section>
             <!-- INSPECTION PEPs END -->
 
@@ -306,6 +282,7 @@ import Pagination from "@/components/pagination/V-PaginationDefault.vue"
 import VNewsModal from "@/components/modals/V-NewsModal.vue";
 import VSkeletonCard from "@/components/cards/V-SkeletonCard.vue";
 import VStepsBar from "@/components/navigation/V-StepsBar.vue";
+import VTableCard from  "@/components/cards/V-TableCard.vue"
 export default {
   name: "InspectionView",
   components: {
@@ -321,7 +298,8 @@ export default {
     Pagination,
     VNewsModal,
     VSkeletonCard,
-    VStepsBar
+    VStepsBar,
+    VTableCard
   },
   layout: "l-default",
   data(){
@@ -517,7 +495,7 @@ export default {
     await store.commit("api/cleanNews")
     await store.commit("report/removeSelectedItems");
     await store.dispatch('api/fetchAndUPDSanctions', {
-      limit: 6,
+      limit: 9,
       offset: 1,
       target: targetDecoded,
     })

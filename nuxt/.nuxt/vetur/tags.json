@@ -14,6 +14,9 @@
   "CardsVSkeletonCard": {
     "description": "Auto imported from components/cards/V-SkeletonCard.vue"
   },
+  "CardsVTableCard": {
+    "description": "Auto imported from components/cards/V-TableCard.vue"
+  },
   "GenerallVNavbar": {
     "description": "Auto imported from components/generall/V-Navbar.vue"
   },
@@ -41,16 +44,16 @@
   "PaginationVPaginationDefault": {
     "description": "Auto imported from components/pagination/V-PaginationDefault.vue"
   },
-  "SectionsVFooter": {
-    "description": "Auto imported from components/sections/V-Footer.vue"
-  },
-  "SectionsVSteps": {
-    "description": "Auto imported from components/sections/V-Steps.vue"
-  },
   "TablesVTable": {
     "description": "Auto imported from components/tables/V-Table.vue"
   },
   "TablesVTableRow": {
     "description": "Auto imported from components/tables/V-TableRow.vue"
+  },
+  "SectionsVFooter": {
+    "description": "Auto imported from components/sections/V-Footer.vue"
+  },
+  "SectionsVSteps": {
+    "description": "Auto imported from components/sections/V-Steps.vue"
   }
 }
