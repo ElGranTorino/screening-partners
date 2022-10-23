@@ -141,10 +141,7 @@ export default {
         ]),
         getFormattedDateString: helpers.getFormattedDateString,
         initSearch(){
-            this.$router.replace({ query: {target: encodeURIComponent(this.target)} }).then(() => {
-                this.$nuxt.refresh();
-                this.target = ''
-            });
+            this.$router.push({path: '/inspect', query: {target: encodeURIComponent(this.target)} })
             
         },
         downloadDetailedReport(){

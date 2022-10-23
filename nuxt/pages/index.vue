@@ -64,6 +64,7 @@ export default {
     methods: {
         initSearch(){
             this.formDisabled = true;
+            this.step = 1;
             this.$router.push({path: 'inspect', query: { target: encodeURIComponent(this.target) }});
         }
     },

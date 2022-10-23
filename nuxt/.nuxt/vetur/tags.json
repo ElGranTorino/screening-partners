@@ -23,6 +23,27 @@
   "GenerallVToast": {
     "description": "Auto imported from components/generall/V-Toast.vue"
   },
+  "NavigationVStatusBar": {
+    "description": "Auto imported from components/navigation/V-StatusBar.vue"
+  },
+  "NavigationVStepsBar": {
+    "description": "Auto imported from components/navigation/V-StepsBar.vue"
+  },
+  "PaginationVPaginationDefault": {
+    "description": "Auto imported from components/pagination/V-PaginationDefault.vue"
+  },
+  "SectionsVFooter": {
+    "description": "Auto imported from components/sections/V-Footer.vue"
+  },
+  "SectionsVSteps": {
+    "description": "Auto imported from components/sections/V-Steps.vue"
+  },
+  "TablesVTable": {
+    "description": "Auto imported from components/tables/V-Table.vue"
+  },
+  "TablesVTableRow": {
+    "description": "Auto imported from components/tables/V-TableRow.vue"
+  },
   "ModalsVNewsModal": {
     "description": "Auto imported from components/modals/V-NewsModal.vue"
   },
@@ -34,26 +55,5 @@
   },
   "ModalsVSanctionModal": {
     "description": "Auto imported from components/modals/V-SanctionModal.vue"
-  },
-  "NavigationVStatusBar": {
-    "description": "Auto imported from components/navigation/V-StatusBar.vue"
-  },
-  "NavigationVStepsBar": {
-    "description": "Auto imported from components/navigation/V-StepsBar.vue"
-  },
-  "PaginationVPaginationDefault": {
-    "description": "Auto imported from components/pagination/V-PaginationDefault.vue"
-  },
-  "TablesVTable": {
-    "description": "Auto imported from components/tables/V-Table.vue"
-  },
-  "TablesVTableRow": {
-    "description": "Auto imported from components/tables/V-TableRow.vue"
-  },
-  "SectionsVFooter": {
-    "description": "Auto imported from components/sections/V-Footer.vue"
-  },
-  "SectionsVSteps": {
-    "description": "Auto imported from components/sections/V-Steps.vue"
   }
 }

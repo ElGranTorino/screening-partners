@@ -96,10 +96,12 @@ class Google {
         this.PAGE_PUPPETEER_OPTS = {
             networkIdle2Timeout: 5000,
             waitUntil: 'networkidle2',
-            timeout: 60000
+            timeout: 20000
         };
     }
     async scrape(keywords, target) {
+        const d1 = new Date();
+        console.log(d1.toLocaleString('en-us'));
         try {
             const scrapeResults = [];
             this.BROWSER = await puppeteer.launch(this.LAUNCH_PUPPETEER_OPTS);
@@ -117,6 +119,7 @@ class Google {
                 });
                 await useProxy(PAGE, proxy);
                 await PAGE.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36');
+                await PAGE.setDefaultNavigationTimeout(0);
                 await PAGE.goto(URL, this.PAGE_PUPPETEER_OPTS);
                 if (k === 0) {
                     await PAGE.waitForSelector('#yDmH0d');
@@ -152,6 +155,8 @@ class Google {
                 }
                 scrapeResults.push(...response);
             }
+            const d2 = new Date();
+            console.log(d2.toLocaleString('en-us'));
             await this.BROWSER.close();
             return scrapeResults;
         }

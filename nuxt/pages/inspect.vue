@@ -125,6 +125,33 @@
         
         <!-- INSPECTION CONTENT -->
         <section class="inspection__body">
+            <section class="inspection__related-sanctions">
+              <div v-if="sanctions.entries.length" class="inspection__if-related-sanctions" >
+                <div class="inspection__related-sanctions-title">
+                  <h2 class="title mb-2">Potential Sanctions Matches ({{sanctions.total}})</h2>
+                </div>
+                <VTableCard
+                  v-if="sanctions.entries.length"
+                  :data="sanctions.entries"
+                />
+                <Pagination :total="Math.ceil(sanctions.total / pagination.sanctions.limit)" :current="pagination.sanctions.page" @set="switchSanctionsPage"/>
+                <!-- <div class="inspection__related-sanctions-pagination pagination mt-3">
+                  <div class="pagination__inner text-center">
+                    <button class="btn btn--pagination btn--bg-blue" disabled>1</button>
+                    <button class="btn btn--pagination btn--bg-blue" @click="switchPage('sanctions', 2)">2</button>
+                    <button class="btn btn--pagination btn--bg-blue" @click="switchPage('sanctions', 3)">3</button>
+                  </div>
+                </div> -->
+              </div>
+              
+              <div v-else class="inspection__else-related-sanctions not-found" >
+                <div class="title text-center not-found__title">No sanctions or export controls matches found.</div>
+                <div class="paragraph text-center mt-1 not-found__paragraph">It seems there are no matches against the EU, OFAC, BIS, UN, and UK OFSI sanctions or export controls lists.</div>
+              </div>
+
+            </section>
+
+            <div class="delimiter mt-5 mb-5"></div>
 
             <!-- INSPECTION NEWS -->
             <section class="inspection__related-news">
@@ -195,36 +222,8 @@
               </div>
 
             </section>
-
-
-            <section class="inspection__related-sanctions">
-              <div v-if="sanctions.entries.length" class="inspection__if-related-sanctions" >
-                <div class="inspection__related-sanctions-title">
-                  <h2 class="title mb-2">Potential Sanctions Matches ({{sanctions.total}})</h2>
-                </div>
-                <VTableCard
-                  v-if="sanctions.entries.length"
-                  :data="sanctions.entries"
-                />
-                <Pagination :total="Math.ceil(sanctions.total / pagination.sanctions.limit)" :current="pagination.sanctions.page" @set="switchSanctionsPage"/>
-                <!-- <div class="inspection__related-sanctions-pagination pagination mt-3">
-                  <div class="pagination__inner text-center">
-                    <button class="btn btn--pagination btn--bg-blue" disabled>1</button>
-                    <button class="btn btn--pagination btn--bg-blue" @click="switchPage('sanctions', 2)">2</button>
-                    <button class="btn btn--pagination btn--bg-blue" @click="switchPage('sanctions', 3)">3</button>
-                  </div>
-                </div> -->
-              </div>
-              
-              <div v-else class="inspection__else-related-sanctions not-found" >
-                <div class="title text-center not-found__title">No sanctions or export controls matches found.</div>
-                <div class="paragraph text-center mt-1 not-found__paragraph">It seems there are no matches against the EU, OFAC, BIS, UN, and UK OFSI sanctions or export controls lists.</div>
-              </div>
-
-            </section>
             <!-- INSPECTION SANCTIONS END -->
            
-            <div class="delimiter mt-3 mb-5"></div>
 
             <!-- INSPECTION PEPs -->
             <section class="related__peps" v-if="0 === 1">
@@ -306,7 +305,7 @@ export default {
     return {
       pagination: {
         sanctions: {
-          limit: 6,
+          limit: 9,
           page: 1,
         },
         peps: {
@@ -509,9 +508,9 @@ export default {
     this.cleanNews();
     this.updateQueryTarget(this.$route.query.target);
     
-    // this.fetchAndUPDNews({
-    //   target: this.queryTarget
-    // })
+    this.fetchAndUPDNews({
+      target: this.queryTarget
+    })
   },
   // watch: {
   //   $route(to, from) {
