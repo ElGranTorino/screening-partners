@@ -3,7 +3,7 @@ import SanctionService from "../services/Sanction.service.js";
 const s = new SanctionService();
 export default class BaseController {
     getSanctions(req, res) {
-        const { target, offset = 1, limit = 10 } = req.body;
+        const { target, offset = req.body.offset < 1 ? 1 : req.body.offset, limit = 10 } = req.body;
         return new Promise((resolve, reject) => {
             s.SELECT_SANCTIONS({
                 target, offset, limit
@@ -12,6 +12,16 @@ export default class BaseController {
             }).catch((err) => {
                 res.status(400).json({ err });
             });
+        });
+    }
+    async getPEPs(req, res) {
+        const query = req.body;
+        s.SELECT_PEPS(query)
+            .then((data) => {
+            res.json(data);
+        }).catch((err) => {
+            console.log(err);
+            res.status(400).json({ err });
         });
     }
 }

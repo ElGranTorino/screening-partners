@@ -75,10 +75,10 @@
                             <div class="col-6 text-left card__row-key"><span>Modified At</span></div>
                             <div class="col-6 text-right card__row-value"><span>{{modifiedAt}}</span></div>
                         </div>  
-                        <div class="row container card__row" v-if="createdAt">
+                        <!-- <div class="row container card__row" v-if="createdAt">
                             <div class="col-6 text-left card__row-key"><span>Created At</span></div>
                             <div class="col-6 text-right card__row-value"><span>{{createdAt}}</span></div>
-                        </div>
+                        </div> -->
                         <div class="row container card__row" v-if="nameVariations">
                             <div class="col-6 text-left card__row-key"><span>Name Variations</span></div>
                             <div class="col-6 text-right card__row-value"><span>{{nameVariations}}</span></div>
@@ -95,87 +95,24 @@
                             <div class="col-6 text-left card__row-key"><span>Ethnicity</span></div>
                             <div class="col-6 text-right card__row-value"><span>{{ethnicity}}</span></div>
                         </div>
-                   
-                        <div class="row card__row" v-if="position">
-                            <div class="title search__header mt-3" style="margin-bottom: 20px">Person`s Position</div>
-                            <table class="table">
-                                <thead class="table__head">
-                                    <tr class="table__head-row">
-                                        <th class="table__head-cell">Position Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table__body">
-                                    <tr 
-                                        v-for="p, i in position" 
-                                        :key="i"
-                                        class="table__body-row"
-                                    >
-                                        <td class="table__body-cell">{{p}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row card__row" v-if="aliases">
-                            <div class="title search__header mt-3" style="margin-bottom: 20px">Person`s Name</div>
-                            <table class="table">
-                                <thead class="table__head">
-                                    <tr class="table__head-row">
-                                        <th class="table__head-cell">Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table__body">
-                                    <tr 
-                                        v-for="alias, i in aliases" 
-                                        :key="i"
-                                        class="table__body-row"
-                                    >
-                                        <td class="table__body-cell">{{alias}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> 
-
-                        <div class="row card__row" v-if="weakAlias">
-                            <div class="title search__header mt-3" style="margin-bottom: 20px">Weak Aliases</div>
-                            <table class="table">
-                                <thead class="table__head">
-                                    <tr class="table__head-row">
-                                        <th class="table__head-cell">Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table__body">
-                                    <tr 
-                                        v-for="alias, i in weakAlias" 
-                                        :key="i"
-                                        class="table__body-row"
-                                    >
-                                        <td class="table__body-cell">{{alias}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> 
                         
-
-
-                        <div class="row card__row" v-if="notes">
-                            <div class="title search__header mt-3" style="margin-bottom: 20px">Notes</div>
-                            <table class="table">
-                                <thead class="table__head">
-                                    <tr class="table__head-row">
-                                        <th class="table__head-cell">Note</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table__body">
-                                    <tr 
-                                        v-for="note, i in notes" 
-                                        :key="i"
-                                        class="table__body-row"
-                                    >
-                                        <td class="table__body-cell">{{note}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> 
+                        <div class="row container card__row" v-if="position">
+                            <div class="col-6 text-left card__row-key"><span>Position</span></div>
+                            <div class="col-6 text-right card__row-value"><span>{{position}}</span></div>
+                        </div>
+                        <div class="row container card__row" v-if="aliases">
+                            <div class="col-6 text-left card__row-key"><span>Aliases</span></div>
+                            <div class="col-6 text-right card__row-value"><span>{{aliases}}</span></div>
+                        </div>
+                        <div class="row container card__row" v-if="weakAlias">
+                            <div class="col-6 text-left card__row-key"><span>Weak alias</span></div>
+                            <div class="col-6 text-right card__row-value"><span>{{ethniweakAliascity}}</span></div>
+                        </div>
+                        <div class="row container card__row" v-if="notes">
+                            <div class="col-6 text-left card__row-key"><span>Notes</span></div>
+                            <div class="col-6 text-right card__row-value"><span>{{notes}}</span></div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="v-modal__footer">
@@ -201,159 +138,33 @@ export default {
         ]),
         type(){return this.activeModalWindow.data.type},
         fullName(){return this.activeModalWindow.data.fullName},
-        firstName(){
-            if(this.activeModalWindow.data.firstName){
-                return this.activeModalWindow.data.firstName.join(', ')
-            } else {
-                return ''
-            }
-        },
-        secondName(){
-            if(this.activeModalWindow.data.secondName){
-                return this.activeModalWindow.data.secondName.join(', ')
-            } else {
-                return ''
-            }
-        },
-        lastName(){
-            if(this.activeModalWindow.data.lastName){
-                return this.activeModalWindow.data.lastName.join(', ')
-            } else {
-                return ''
-            }
-        },
+        firstName(){return this.activeModalWindow.data.firstName},
 
-        fatherName(){
-            if(this.activeModalWindow.data.fatherName){
-                return this.activeModalWindow.data.fatherName.join(', ')
-            } else {
-                return ''
-            }
-        },
+        secondName(){return this.activeModalWindow.data.secondName},
+        lastName(){return this.activeModalWindow.data.lastName},
+        fatherName(){return this.activeModalWindow.data.fatherName},
+        gender(){return this.activeModalWindow.data.gender},
+        nationality(){return this.activeModalWindow.data.nationality},
+        country(){return this.activeModalWindow.data.country},
+        birthDate(){return this.activeModalWindow.data.birthDate},
+        birthPlace(){return this.activeModalWindow.data.birthPlace},
+        deathDate(){return this.activeModalWindow.data.firstdeathDateName},
+        status(){return this.activeModalWindow.data.status},
+        religion(){return this.activeModalWindow.data.religion},
+        innCode(){return this.activeModalWindow.data.innCode},
+        website(){return this.activeModalWindow.data.website},
+        modifiedAt(){return this.activeModalWindow.data.modifiedAt},
+        nameVariations(){return this.activeModalWindow.data.nameVariations},
+        sourceUrl(){return this.activeModalWindow.data.sourceUrl},
+        education(){return this.activeModalWindow.data.education},
+        ethnicity(){return this.activeModalWindow.data.ethnicity},
 
-        gender(){
-            if(this.activeModalWindow.data.gender){
-                return this.activeModalWindow.data.gender.join(', ')
-            } else {
-                return ''
-            }
-        },
-        nationality(){
-            if(this.activeModalWindow.data.nationality){
-                return this.activeModalWindow.data.nationality.join(', ')
-            } else {
-                return ''
-            }
-        },
-        country(){
-            if(this.activeModalWindow.data.country){
-                return this.activeModalWindow.data.country.join(', ')
-            } else {
-                return ''
-            }
-        },
-        birthDate(){
-            if(this.activeModalWindow.data.birthDate){
-                return this.activeModalWindow.data.birthDate.join(', ')
-            } else {
-                return ''
-            }
-        },
-        birthPlace(){
-            if(this.activeModalWindow.data.birthPlace){
-                return this.activeModalWindow.data.birthPlace.join(', ')
-            } else {
-                return ''
-            }
-        },
-        deathDate(){
-            if(this.activeModalWindow.data.deathDate){
-                return this.activeModalWindow.data.deathDate.join(', ')
-            } else {
-                return ''
-            }
-        },
-        status(){
-            if(this.activeModalWindow.data.status){
-                return this.activeModalWindow.data.status.join(', ')
-            } else {
-                return ''
-            }
-        },
-        religion(){
-            if(this.activeModalWindow.data.religion){
-                return this.activeModalWindow.data.religion.join(', ')
-            } else {
-                return ''
-            }
-        },
-        innCode(){
-            if(this.activeModalWindow.data.innCode){
-                return this.activeModalWindow.data.innCode.join(', ')
-            } else {
-                return ''
-            }
-        },
-        website(){
-            if(this.activeModalWindow.data.website){
-                return this.activeModalWindow.data.website.join(', ')
-            } else {
-                return ''
-            }
-        },
-        modifiedAt(){
-            if(this.activeModalWindow.data.modifiedAt){
-                return this.activeModalWindow.data.modifiedAt.join(', ')
-            } else {
-                return ''
-            }
-        },
-        createdAt(){
-            if(this.activeModalWindow.data.createdAt){
-                return this.activeModalWindow.data.createdAt.join(', ')
-            } else {
-                return ''
-            }
-        },
-        nameVariations(){
-            if(this.activeModalWindow.data.nameVariations){
-                return this.activeModalWindow.data.nameVariations.join(', ')
-            } else {
-                return ''
-            }
-        },
-        sourceUrl(){
-            if(this.activeModalWindow.data.sourceUrl){
-                return this.activeModalWindow.data.sourceUrl.join(', ')
-            } else {
-                return ''
-            }
-        },
-        education(){
-            if(this.activeModalWindow.data.education){
-                return this.activeModalWindow.data.education.join(', ')
-            } else {
-                return ''
-            }
-        },
-        ethnicity(){
-            if(this.activeModalWindow.data.ethnicity){
-                return this.activeModalWindow.data.ethnicity.join(', ')
-            } else {
-                return ''
-            }
-        },
-        
         notes(){return this.activeModalWindow.data.notes},
         aliases(){return this.activeModalWindow.data.aliases},
         weakAlias(){return this.activeModalWindow.data.weakAlias},
         position(){return this.activeModalWindow.data.position},
 
-
-
         
-        
-
     },
     methods: {
         ...mapMutations("components-logic", [

@@ -2,36 +2,36 @@
   {
     "name": "admin",
     "path": "/admin",
-    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/admin.vue",
+    "component": "/home/sahara/Desktop/Public/screeningpartners.net/nuxt/pages/admin.vue",
     "chunkName": "pages/admin",
-    "_name": "_0801ec00"
+    "_name": "_0acbc9e0"
   },
   {
     "name": "inspect",
     "path": "/inspect",
-    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/inspect.vue",
+    "component": "/home/sahara/Desktop/Public/screeningpartners.net/nuxt/pages/inspect.vue",
     "chunkName": "pages/inspect",
-    "_name": "_0d7007f6"
+    "_name": "_f0377836"
   },
   {
     "name": "login",
     "path": "/login",
-    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/login.vue",
+    "component": "/home/sahara/Desktop/Public/screeningpartners.net/nuxt/pages/login.vue",
     "chunkName": "pages/login",
-    "_name": "_d7914dcc"
+    "_name": "_b9f7ce0c"
   },
   {
     "name": "pro",
     "path": "/pro",
-    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/pro.vue",
+    "component": "/home/sahara/Desktop/Public/screeningpartners.net/nuxt/pages/pro.vue",
     "chunkName": "pages/pro",
-    "_name": "_2a6c26c4"
+    "_name": "_3b85247e"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/home/sahara/Desktop/public/screeningpartners.net/nuxt/pages/index.vue",
+    "component": "/home/sahara/Desktop/Public/screeningpartners.net/nuxt/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_6ae093fa"
+    "_name": "_4d47143a"
   }
 ]

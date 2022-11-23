@@ -1,4 +1,28 @@
 {
+  "GenerallVNavbar": {
+    "description": "Auto imported from components/generall/V-Navbar.vue"
+  },
+  "GenerallVToast": {
+    "description": "Auto imported from components/generall/V-Toast.vue"
+  },
+  "ModalsVNewsModal": {
+    "description": "Auto imported from components/modals/V-NewsModal.vue"
+  },
+  "ModalsVPdfModal": {
+    "description": "Auto imported from components/modals/V-PdfModal.vue"
+  },
+  "ModalsVPepModal": {
+    "description": "Auto imported from components/modals/V-PepModal.vue"
+  },
+  "ModalsVSanctionModal": {
+    "description": "Auto imported from components/modals/V-SanctionModal.vue"
+  },
+  "NavigationVStatusBar": {
+    "description": "Auto imported from components/navigation/V-StatusBar.vue"
+  },
+  "NavigationVStepsBar": {
+    "description": "Auto imported from components/navigation/V-StepsBar.vue"
+  },
   "CardsVChartCard": {
     "description": "Auto imported from components/cards/V-ChartCard.vue"
   },
@@ -17,18 +41,6 @@
   "CardsVTableCard": {
     "description": "Auto imported from components/cards/V-TableCard.vue"
   },
-  "GenerallVNavbar": {
-    "description": "Auto imported from components/generall/V-Navbar.vue"
-  },
-  "GenerallVToast": {
-    "description": "Auto imported from components/generall/V-Toast.vue"
-  },
-  "NavigationVStatusBar": {
-    "description": "Auto imported from components/navigation/V-StatusBar.vue"
-  },
-  "NavigationVStepsBar": {
-    "description": "Auto imported from components/navigation/V-StepsBar.vue"
-  },
   "PaginationVPaginationDefault": {
     "description": "Auto imported from components/pagination/V-PaginationDefault.vue"
   },
@@ -43,17 +55,5 @@
   },
   "TablesVTableRow": {
     "description": "Auto imported from components/tables/V-TableRow.vue"
-  },
-  "ModalsVNewsModal": {
-    "description": "Auto imported from components/modals/V-NewsModal.vue"
-  },
-  "ModalsVPdfModal": {
-    "description": "Auto imported from components/modals/V-PdfModal.vue"
-  },
-  "ModalsVPepModal": {
-    "description": "Auto imported from components/modals/V-PepModal.vue"
-  },
-  "ModalsVSanctionModal": {
-    "description": "Auto imported from components/modals/V-SanctionModal.vue"
   }
 }

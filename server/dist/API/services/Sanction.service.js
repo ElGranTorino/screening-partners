@@ -9,6 +9,8 @@ import SanctionInfo from "../../models/SanctionInfo.model.js";
 import SanctionProgram from "../../models/SanctionProgram.model.js";
 import SanctionDocument from "../../models/SanctionDocument.model.js";
 import SanctionNationality from "../../models/SanctionNationality.model.js";
+import PEP from "../../models/Pep.js";
+// import OpenDataPeps from "../../../files/peps.js";
 // Importing other services
 import Parser from "./Parser.Service.js";
 /**
@@ -121,6 +123,40 @@ export default class SanctionService {
             })();
         });
     }
+    // public async INSERT_PEPS(): Promise<any> {
+    //     const entries = OpenDataPeps;
+    //     console.log('Importing JSON...')
+    //     for(let i = 0; i < entries.length; i++){
+    //         const sqlData = {} as any;
+    //         const p = entries[i];
+    //         sqlData.fullName = p.caption || '';
+    //         sqlData.type = p.schema || 'person';
+    //         if(p.properties.firstName) sqlData.firstName = p.properties.firstName.join(' ');
+    //         if(p.properties.lastName) sqlData.lastName = p.properties.lastName.join(' ');
+    //         if(p.properties.fatherName) sqlData.fatherName = p.properties.fatherName.join(' ');
+    //         if(p.properties.nationality) sqlData.nationality = p.properties.nationality.join(', ');
+    //         if(p.properties.country) sqlData.country = p.properties.country.join(', ');
+    //         if(p.properties.birthDate) sqlData.birthDate = p.properties.birthDate.join(', ');
+    //         if(p.properties.birthPlace) sqlData.birthPlace = p.properties.birthPlace.join(', ');
+    //         if(p.properties.deathDate) sqlData.deathDate = p.properties.deathDate.join(', ');
+    //         if(p.properties.status) sqlData.status = p.properties.status.join(', ');
+    //         if(p.properties.gender) sqlData.gender = p.properties.gender.join(', ');
+    //         if(p.properties.position) sqlData.position = p.properties.position.join(', ');
+    //         if(p.properties.innCode) sqlData.innCode = p.properties.innCode.join(', ');
+    //         if(p.properties.religion) sqlData.religion = p.properties.religion.join(', ');
+    //         if(p.properties.modifiedAt) sqlData.modifiedAt = p.properties.modifiedAt.join(', ');
+    //         // if(p.properties.createdAt) sqlData.createdAt = p.properties.createdAt.join(', ');
+    //         if(p.properties.name) sqlData.nameVariations = p.properties.name.join(', ');
+    //         if(p.properties.sourceUrl) sqlData.sourceUrl = p.properties.sourceUrl.join(', ');
+    //         if(p.properties.education) sqlData.education = p.properties.education.join(', ');
+    //         if(p.properties.notes) sqlData.notes = p.properties.notes.join(', ');
+    //         if(p.properties.website) sqlData.website = p.properties.website.join(', ');
+    //         if(p.properties.ethnicity) sqlData.ethnicity = p.properties.ethnicity.join(', ');
+    //         if(p.properties.weakAlias) sqlData.weakAlias = p.properties.weakAlias.join(', ');
+    //         await PEP.create(sqlData)
+    //     }
+    //     console.log('All peps are loaded');
+    // }
     async INSERT_SANCTIONS() {
         const parser = new Parser();
         const OFAC = await parser.getOFACData();
@@ -180,10 +216,30 @@ export default class SanctionService {
             });
         }));
     }
+    async SELECT_PEPS(query) {
+        const entries = await PEP.findAll({
+            limit: query.limit,
+            offset: ((query.offset - 1) * query.limit),
+            where: {
+                fullName: {
+                    [Op.iLike]: `%${query.target}%`
+                }
+            },
+        });
+        const count = await PEP.count({
+            where: {
+                fullName: {
+                    [Op.iLike]: `%${query.target}%`
+                }
+            }
+        });
+        return {
+            entries, count
+        };
+    }
     async SELECT_SANCTIONS(query) {
         return new Promise((resolve, reject) => {
             const target = query.target.toUpperCase();
-            console.log(target, query.limit, query.offset);
             SanctionEntity.findAll({
                 limit: query.limit,
                 offset: ((query.offset - 1) * query.limit),

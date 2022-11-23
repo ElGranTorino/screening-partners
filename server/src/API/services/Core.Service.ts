@@ -3,7 +3,7 @@ import puppeteer from "puppeteer";
 import Keyword from "../../models/KeywordModel.js";
 import useProxy from "puppeteer-page-proxy";
 import jwt from "jsonwebtoken";
-
+import { extract } from 'article-parser'
 import {
     search
 } from "../../modules/google-news-scraper.js"
@@ -122,7 +122,6 @@ class Google {
             const scrapeResults = [];
             this.BROWSER = await puppeteer.launch(this.LAUNCH_PUPPETEER_OPTS)
             for(let k = 0; k < keywords.length; k++){
-                console.log(keywords[k])
                 const QUERY_STRING = encodeURIComponent(`"${keywords[k]} ${target}"`);
                 const START = 0;
                 const URL = `https://www.google.com/search?q=${QUERY_STRING}&tbm=nws&start=${START}&hl=en`;
@@ -130,25 +129,20 @@ class Google {
                 const PAGE = (await this.BROWSER.pages())[0];
                 const USERNAME = 'newcomplianceproject';
                 const PASSWORD = 'm78DxmRQ6x';
-                const proxy: String = `http://${USERNAME}:${PASSWORD}@176.96.92.69:50100`;
                 await PAGE.setExtraHTTPHeaders({
                     'Accept-Language': 'en-US,en;q=0.9'
                 }); 
-                await useProxy(PAGE, proxy);
                 await PAGE.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36');
                 await PAGE.setDefaultNavigationTimeout(0); 
                 await PAGE.goto(URL, this.PAGE_PUPPETEER_OPTS)
-                if(k === 0){
-                    await PAGE.waitForSelector('#yDmH0d')
-                    await PAGE.click("#yDmH0d > c-wiz > div > div > div > div.NIoIEf > div.G4njw > div.AIC7ge > div.CxJub > div.VtwTSb > form:nth-child(2) > div > div > button")
-                }
+               
 
                 await PAGE.waitForSelector('.CEMjEf.NUnG9d')
                 const googleParsingResults = await PAGE.evaluate(() => {
                     const $articles = Array.from(document.querySelectorAll('.SoaBEf'));
                     return $articles.map(($article) => {
                         const source = $article.querySelector('.CEMjEf.NUnG9d').textContent;
-                        const title = $article.querySelector('.mCBkyc.y355M.ynAwRc.MBeuO').textContent;
+                        const title = $article.querySelector('.mCBkyc').textContent;
                         const body = $article.querySelector('.GI74Re').textContent;
                         const url = $article.querySelector('.WlydOe').getAttribute('href');
                         const date = $article.querySelector('.OSrXXb.ZE0LJd').textContent;
@@ -157,25 +151,8 @@ class Google {
                         }
                     })
                 });
-                console.log(googleParsingResults.length)
-                const response = [];
-                for(let a = 0; a < googleParsingResults.length; a++){
-
-                    try {
-                        const article = await this.NEWSCRAPER(googleParsingResults[a].url)
-                        const responseItem = googleParsingResults[a]
-                        
-                        if(article) responseItem.article = article
-                        
-                        response.push(responseItem)
-                    } catch (error) {
-                        continue;
-                    }
-                }
-                scrapeResults.push(...response)
+                scrapeResults.push(...googleParsingResults)
             }
-            const d2 = new Date()
-            console.log(d2.toLocaleString('en-us'))
             await this.BROWSER.close()
             return scrapeResults
         } catch (err) {

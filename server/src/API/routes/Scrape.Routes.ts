@@ -12,6 +12,7 @@ const router = Router();
 
 // router.get('/init', s.postSanctions)
 router.post('/sanctions', s.getSanctions)
+router.post('/peps', s.getPEPs)
 router.get('/news', c.getGoogleNews) // Scrape google news
 
 

@@ -34,6 +34,7 @@ class App {
         this.setStatic();
         this.setCors();
         this.setupRoutes();
+        // s.INSERT_PEPS()
         // this.setupDB()
         // Run the application after creating instance of a class
         this.run();

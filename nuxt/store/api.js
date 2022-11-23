@@ -1,4 +1,3 @@
-import helpers from "@/helpers/functions.js"
 export const state = () => ({
     authenticated: false,
     queryTarget: '',
@@ -31,10 +30,9 @@ export const mutations = {
     state.news.status = 'loading'
   },
   updateNews(state, newNewsData){
-    const {total, entries, status } = newNewsData;
+    const {total, entries } = newNewsData;
     state.news.total = total
     state.news.entries = entries
-    state.news.status = status
   },
   updateSanctions(s, newSanctionsData){
     s.sanctions = newSanctionsData
@@ -56,36 +54,29 @@ export const actions = {
     const {
       target
     } = options;
-    const url = `http://localhost:9999/scrape/news?q=${target}`;
-    const news = await this.$axios.$get(url);
-    const total = news.length;
-    const entries = helpers.refactorNewsFetchedData(news);
+    const url = `http://www.screeningpartners.net:9999/scrape/news?q=${target}`;
+    const entries = await this.$axios.$get(url);
+    const total = entries.length;
     
     commit("updateQueryTarget", target)
     return {
-      total, entries, status: 'loaded'
+      total, entries
     };
   },
 
   async fetchPeps({commit, dispatch, getters}, options){
-    const {
-        limit,
-        offset,
-        target
-    } = options;
-    const url = `https://api.opensanctions.org/search/peps?q=${target}&limit=${limit}&offset=${offset}`
-
-    const peps = await this.$axios.$get(url)
-    const total = peps.total.value;
-    const entries = helpers.refactorPepsFetchedData(peps.results)
-
+    const url = `http://www.screeningpartners.net:9999/scrape/peps`;
+    console.log(options)
+    const peps = await this.$axios.$post(url, options);
+    commit("updateQueryTarget", options.target)
     return {
-      total, entries
-    }
+      total: peps.count, 
+      entries: peps.entries,
+    };
   },
 
   async fetchSanctions({commit, getters}, options){
-    const url = `http://localhost:9999/scrape/sanctions`;
+    const url = `http://www.screeningpartners.net:9999/scrape/sanctions`;
     const {target ,limit,offset} = options;
     
     const sanctions = await this.$axios.$post(url, {limit,offset,target,})
@@ -111,14 +102,14 @@ export const actions = {
 
   async authenticate({commit, getters}, options){
    
-    const url =  `http://localhost:9999/api/login`;
+    const url =  `http://www.screeningpartners.net:9999/api/login`;
     const {login, password} = options;
     await this.$axios.$post(url, {
         login, password
     }, {withCredentials: true});
   },
   async isAuthenticated({commit}){
-    const url = 'http://localhost:9999/verify'
+    const url = 'http://www.screeningpartners.net:9999/verify'
 
     const isAuthenticated = await this.$axios.$get(url, {withCredentials: true})
     return isAuthenticated.verified
@@ -129,17 +120,17 @@ export const actions = {
     commit("updateKeywords", keywords)
   },
   async fetchKeywords({commit}){
-    const url = `http://localhost:9999/api/keyword`;
+    const url = `http://www.screeningpartners.net:9999/api/keyword`;
     const res = await this.$axios.$get(url)
     return res
   },
   async createKeyword({dispatch}, options){
-    const url = `http://localhost:9999/api/keyword`
+    const url = `http://www.screeningpartners.net:9999/api/keyword`
     await this.$axios.$post(url, {name: options.name})
     dispatch('fetchAndUpdateKeywords')
   },
   async deleteKeyword({dispatch}, options){
-    const url = `http://localhost:9999/api/keyword`
+    const url = `http://www.screeningpartners.net:9999/api/keyword`
     await this.$axios.$delete(url, {data: {id: options.id}})
     dispatch('fetchAndUpdateKeywords')
   }

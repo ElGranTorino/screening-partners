@@ -10,7 +10,7 @@
                 <div class="v-newscard__details-wrap text-center">
                     <button class="btn btn--bg-blue" @click="showNewsDetails();" v-if="news?.details?.text">Details</button>
 
-                    <!-- <a :href="news.url" target="_blank" class="v-newscard__details-link link">Source</a> -->
+                    <a :href="news.url" target="_blank" class="btn btn--bg-blue" style="text-decoration: none">Source</a>
                 </div>
                 <div class="v-newscard__toggle-wrap">
                     <button v-if="showTargetsToggles" class="toggle report-toggle">
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   name: 'VNewsCard',
@@ -46,9 +46,12 @@ export default {
         "selectedNews",
         "checkIfSelected"
     ]),
-
+    
    
   },
+  mounted(){
+    this.highlightQueryTarget()
+    },
   methods: {
     ...mapMutations('report', [
         "addSelectedNews",
@@ -56,6 +59,9 @@ export default {
     ]),
     ...mapMutations("components-logic", [
         "addActiveModalWindow"
+    ]),
+    ...mapActions("api", [
+        "fetchKeywords"
     ]),
      showNewsDetails(){
       this.addActiveModalWindow({id: 'newsModal', data: this.news})
@@ -68,6 +74,24 @@ export default {
         } else {
             this.removeSelectedNews(this.news.id)
         }
+    },
+    async highlightQueryTarget(){
+        const words = await this.fetchKeywords();
+        const $body = document.querySelectorAll('.v-newscard__body');
+        console.log($body)
+        if(!$body || !words) return;
+        $body.forEach(element => {
+            const text = element.textContent;
+            const updated = words.reduce((acc, word) => {
+                const targetRE = new RegExp(`${this.queryTarget}`, 'gi'); 
+                const keywordRE = new RegExp(`${word.name}`, 'gi'); 
+                return acc.replace(keywordRE, `<span class="highlighted">${word.name}</span>`).replace(targetRE, `<span class="target-highlighted">${this.queryTarget}</span>`);
+            }, text)
+        
+            element.innerHTML = updated
+        });
+        
+       
     }
   }
 }
@@ -75,3 +99,25 @@ export default {
 
 <style lang="scss">
 </style>
+
+<!-- ...mapMutations("components-logic", [
+            "removeActiveModalWindow",
+        ]),
+        ...mapActions("api", [
+            "fetchKeywords"
+        ]),
+        async highlightQueryTarget(){
+            const words = await this.fetchKeywords();
+            const $body = document.querySelector('.newsmodal-body');
+            if(!$body || !words) return;
+
+            const text = $body.textContent;
+            
+            const updated = words.reduce((acc, word) => {
+                const targetRE = new RegExp(`${this.queryTarget}`, 'gi'); 
+                const keywordRE = new RegExp(`${word.name}`, 'gi'); 
+                return acc.replace(keywordRE, `<span class="highlighted">${word.name}</span>`).replace(targetRE, `<span class="target-highlighted">${this.queryTarget}</span>`);
+            }, text)
+            
+            $body.innerHTML = updated
+        } -->
