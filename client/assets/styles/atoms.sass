@@ -1,0 +1,18 @@
+.item-spinner::before
+    content: ''
+    box-sizing: border-box
+    position: absolute
+    top: 50%
+    left: 50%
+    width: 20px
+    height: 20px
+    margin-left: -10px
+    margin-top: -10px
+    border-radius: 50%
+    border-top: 4px solid #222fe6
+    border-right: 4px solid transparent
+    animation: spinnerRotate 600ms linear infinite
+    border-left: 4px solid #222fe6
+@keyframes spinnerRotate
+    to
+        transform: rotate(360deg)
