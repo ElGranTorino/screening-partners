@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "news_reports",
+  "info": {
+    "singularName": "news-report",
+    "pluralName": "news-reports",
+    "displayName": "NewsReport",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "pub_date": {
+      "type": "date"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "source": {
+      "type": "string"
+    },
+    "body": {
+      "type": "richtext"
+    }
+  }
+}

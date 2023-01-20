@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sanctions",
+  "info": {
+    "singularName": "sanction",
+    "pluralName": "sanctions",
+    "displayName": "Sanction"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "authority": {
+      "type": "enumeration",
+      "enum": [
+        "OFAC",
+        "BIS",
+        "EU",
+        "UK",
+        "UN"
+      ]
+    }
+  }
+}

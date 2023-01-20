@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "documents",
+  "info": {
+    "singularName": "document",
+    "pluralName": "documents",
+    "displayName": "Document"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "number": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "additional_type": {
+      "type": "string"
+    },
+    "issuing_country": {
+      "type": "string"
+    },
+    "issuing_city": {
+      "type": "string"
+    },
+    "note": {
+      "type": "richtext"
+    }
+  }
+}
