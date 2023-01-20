@@ -1,9 +1,38 @@
+@tailwind base
+@tailwind components
+@tailwind utilities
 @import ./atoms
-
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic')
 *
     margin: 0
     padding: 0
     box-sizing: border-box
 body
-    background: #fff
-
+    background: #f8f8f8
+.btn
+    font-size: .92rem
+    font-weight: 700
+    font-style: normal
+    line-height: 1.1rem
+    letter-spacing: .04rem
+    border: none
+    outline: none
+    padding: 0.7rem 2.2rem
+    display: inline-block
+    color: #f8f8f8
+    border-radius: 6px
+    cursor: pointer
+    transition: all .25s linear
+    &:disabled
+        cursor: default
+        background: #e3e6f7
+        color: #373941
+    &:hover
+        color: #373941
+        background: #ccd0ed
+        transition: all .25s linear
+    &--bg-blue
+        background-color: #222fe6
+    &--bg-black
+        background: #000
+    
