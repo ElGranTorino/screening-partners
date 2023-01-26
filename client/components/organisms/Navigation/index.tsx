@@ -1,5 +1,5 @@
 import { NuxtLink } from "#components";
-import BreadCrumbs from '@/components/molecules/Breadcrumbs/index.vue'
+import BreadCrumbs from '@/components/molecules/Breadcrumbs'
 export default defineComponent({
     setup() {
         const isMenuOpen = ref<boolean>(false);

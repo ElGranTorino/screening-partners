@@ -10,7 +10,7 @@ export default defineComponent({
     render() {
         return (
             <input 
-                class="w-full rounded-lg border-gray-200 px-4 text-base border-none outline-none"
+                class="w-full rounded-lg px-4 text-base outline-none"
                 value={this.text}
             />
         );

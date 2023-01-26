@@ -1,18 +1,18 @@
+import { useNotification } from "~~/composables/useNotification";
+
 export default defineComponent({
     name: 'ReportHeader',
     setup() {
-        const searchTargetName = ref('');
-
-
+        const searchTargetName = ref('huawei');
         return {
-            searchTarget: searchTargetName
+            searchTargetName,
         }
     },
     render() {
         return (
-            <header class='flex items-center justify-between max-w-7xl mt-40 mx-auto'>
+            <header class='flex items-center justify-between mt-40 mx-auto'>
                 <div class='target-name font-semibold'>
-                    { this.searchTarget }
+                    { this.searchTargetName }
                 </div>
                 <div class='target-report'>
                     <button class='btn bg-blue-700'>
