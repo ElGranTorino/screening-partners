@@ -8,5 +8,5 @@ export default defineComponent({
                 { slot }
             </p>
         );
-    }
-})
+    },
+});

@@ -3,5 +3,5 @@ export default defineComponent({
         return (
             <div class="item-spinner"></div>
         );
-    }
-})
+    },
+});

@@ -35,4 +35,12 @@ body
         background-color: #222fe6
     &--bg-black
         background: #000
-    
+.v-breadcrumb:not(:last-of-type)
+    &::after
+        position: relative
+        display: inline-block
+        content: ''
+        width: 20px
+        height: 2px
+        background: rgba(#000, .1)
+        margin: 0 15px

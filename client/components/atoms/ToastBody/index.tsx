@@ -7,14 +7,14 @@ export default defineComponent({
         message: {
             type: String,
             required: true,
-        }
+        },
     },
     setup(props) {
         const { title, message } = reactive(props);
 
         return {
-            title, message
-        }
+            title, message,
+        };
     },
     render() {
         return (
@@ -27,5 +27,5 @@ export default defineComponent({
                 </div>
             </div>
         );
-    }
+    },
 });

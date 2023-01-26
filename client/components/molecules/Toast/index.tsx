@@ -1,8 +1,7 @@
-import Icon from "~~/components/atoms/Icon";
+import Icon from '@/components/atoms/Icon';
 
 export default defineComponent({
     name: 'Toast',
-    setup() { },
     render() {
         const slot = useSlots()?.default?.();
         return (
@@ -29,5 +28,5 @@ export default defineComponent({
                 </div>
             </div>
         );
-    }
-})
+    },
+});

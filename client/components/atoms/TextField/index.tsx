@@ -1,11 +1,11 @@
 export default defineComponent({
     name: 'TextField',
-    setup(props){
+    setup(){
         const text = ref<string>('');
 
         return {
-            text: text.value
-        }
+            text,
+        };
     },
     render() {
         return (
@@ -14,5 +14,5 @@ export default defineComponent({
                 value={this.text}
             />
         );
-    }
-})
+    },
+});

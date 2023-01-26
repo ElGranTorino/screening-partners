@@ -2,6 +2,7 @@ export default defineComponent({
     name: 'Chips',
     render() {
         const slot = useSlots()?.default?.();
+        
         return (
             <div class="inline-block">
                 <div class="flex flex-wrap justify-center space-x-2">

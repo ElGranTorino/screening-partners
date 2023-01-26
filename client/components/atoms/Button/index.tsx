@@ -1,6 +1,6 @@
 
-import { ButtonHTMLAttributes, PropType } from "nuxt/dist/app/compat/capi";
-import Spinner from "../Spinner";
+import { ButtonHTMLAttributes, PropType } from 'nuxt/dist/app/compat/capi';
+import Spinner from '../Spinner';
 
 export default defineComponent({
     props: {

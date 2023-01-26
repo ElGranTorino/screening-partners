@@ -14,11 +14,11 @@ export default defineComponent({
         },
     },
     setup(props){
-        const crumbs = reactive<Array<Crumb>>(props.crumbs)
+        const crumbs = reactive<Array<Crumb>>(props.crumbs);
 
         return {
-            crumbs
-        }
+            crumbs,
+        };
     },
     render() {
         return (
@@ -37,4 +37,4 @@ export default defineComponent({
             </ul>
         );            
     },
-})
+});
