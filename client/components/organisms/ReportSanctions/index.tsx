@@ -1,3 +1,5 @@
+import ToggleButton from "~~/components/molecules/ToggleButton";
+
 export default defineComponent({
     name: 'ReportSanctions',
     render() {
@@ -36,8 +38,8 @@ export default defineComponent({
                                     <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
                                 </div>
                             </th>
-                            <th scope="col" class="px-6 py-5 ">
-                                <span class="">Add</span>
+                            <th scope="col" class="px-6 py-5">
+                                <span class="">Add to report</span>
                             </th>
                         </tr>
                     </thead>
@@ -59,10 +61,7 @@ export default defineComponent({
                                 $2999
                             </td>
                             <td class="px-8">
-                                <div class="flex items-center">
-                                    <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                </div>
+                                <ToggleButton isChecked={false}/>
                             </td>
                         </tr>
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -82,10 +81,7 @@ export default defineComponent({
                                 $2999
                             </td>
                             <td class="px-8">
-                                <div class="flex items-center">
-                                    <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                </div>
+                                <ToggleButton isChecked={false}/>
                             </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800">
@@ -105,10 +101,7 @@ export default defineComponent({
                                 $2999
                             </td>
                             <td class="px-8">
-                                <div class="flex items-center">
-                                    <input id="checkbox-table-search-1" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                    <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
-                                </div>
+                                <ToggleButton isChecked={true}/>
                             </td>
                         </tr>
                     </tbody>
